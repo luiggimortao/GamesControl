@@ -105,6 +105,7 @@
     <Property Name="usuarioEmail" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="usuarioNome" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="usuarioSenha" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="usuarioTelefone" Type="varchar" MaxLength="15" />
     <Property Name="usuarioStatusId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tbusuariostatus">

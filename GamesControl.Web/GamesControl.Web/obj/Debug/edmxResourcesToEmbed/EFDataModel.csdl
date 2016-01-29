@@ -117,6 +117,7 @@
     <NavigationProperty Name="tbarbitro" Relationship="Self.arbitrousuario" FromRole="tbusuario" ToRole="tbarbitro" />
     <NavigationProperty Name="tbjogador" Relationship="Self.jogadorusuario" FromRole="tbusuario" ToRole="tbjogador" />
     <NavigationProperty Name="tbusuariostatus" Relationship="Self.usuariousuariostatus" FromRole="tbusuario" ToRole="tbusuariostatus" />
+    <Property Name="usuarioTelefone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="tbusuariostatus">
     <Key>

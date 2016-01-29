@@ -101,6 +101,7 @@
     <EntitySetMapping Name="tbusuario">
       <EntityTypeMapping TypeName="dbGameModel.tbusuario">
         <MappingFragment StoreEntitySet="tbusuario">
+          <ScalarProperty Name="usuarioTelefone" ColumnName="usuarioTelefone" />
           <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
           <ScalarProperty Name="usuarioEmail" ColumnName="usuarioEmail" />
           <ScalarProperty Name="usuarioNome" ColumnName="usuarioNome" />
