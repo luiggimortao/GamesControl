@@ -10,48 +10,49 @@ using GamesControl.Web;
 
 namespace GamesControl.Web.Controllers
 {
-    public class CidadeController : Controller
+    public class JogoStatusController : Controller
     {
         private Contexto db = new Contexto();
 
-        // GET: Cidade
+        // GET: JogoStatus
         public ActionResult Index()
         {
-            return View(db.tbcidade.ToList().OrderBy(x => x.cidadeNome));
+            return View(db.tbjogostatus.ToList().OrderBy(x => x.jogoStatusId));
         }
 
-        // GET: Cidade/Details/5
+        // GET: JogoStatus/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbcidade tbcidade = db.tbcidade.Find(id);
-            if (tbcidade == null)
+            tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);
+            if (tbjogostatus == null)
             {
                 return HttpNotFound();
             }
-            return View(tbcidade);
+            return View(tbjogostatus);
         }
 
-        // GET: Cidade/Create
+        // GET: JogoStatus/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Cidade/Create
+        // POST: JogoStatus/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(string nome)
+        public ActionResult Create(int id, string descricao)
         {
             try
             {
-                tbcidade cidade = new tbcidade();
-                cidade.cidadeNome = nome;
-                db.tbcidade.Add(cidade);
+                tbjogostatus jogostatus = new tbjogostatus();
+                jogostatus.jogoStatusId = id;
+                jogostatus.jogoStatusDescricao = descricao;
+                db.tbjogostatus.Add(jogostatus);
                 db.SaveChanges();
                 return PartialView();
             }
@@ -61,37 +62,37 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // GET: Cidade/Edit/5
+        // GET: JogoStatus/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbcidade tbcidade = db.tbcidade.Find(id);
-            if (tbcidade == null)
+            tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);
+            if (tbjogostatus == null)
             {
                 return HttpNotFound();
             }
-            return View(tbcidade);
+            return View(tbjogostatus);
         }
 
-        // POST: Cidade/Edit/5
+        // POST: JogoStatus/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int id, string nome)
+        public ActionResult Edit(int id, string descricao)
         {
             try
             {
-                tbcidade tbcidade = db.tbcidade.Find(id);
+                tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);
                 
-                if (tbcidade == null)
+                if (tbjogostatus == null)
                 {
-                    throw new Exception(string.Format("|{0}|", "Cidade não encontrada!"));
+                    throw new Exception(string.Format("|{0}|", "Status não encontrado!"));
                 }
-                tbcidade.cidadeNome = nome;
-                db.Entry(tbcidade).State = EntityState.Modified;
+                tbjogostatus.jogoStatusDescricao = descricao;
+                db.Entry(tbjogostatus).State = EntityState.Modified;
                 db.SaveChanges();
                 return PartialView();
             }
@@ -101,12 +102,12 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // POST: Cidade/Delete/5
+        // POST: JogoStatus/Delete/5
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            tbcidade tbcidade = db.tbcidade.Find(id);
-            db.tbcidade.Remove(tbcidade);
+            tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);
+            db.tbjogostatus.Remove(tbjogostatus);
             db.SaveChanges();
             return PartialView();
         }

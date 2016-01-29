@@ -161,18 +161,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ArbitroController.cs" />
-    <Compile Include="Controllers\AtributoEstatisticaController.cs" />
-    <Compile Include="Controllers\CidadeController.cs" />
-    <Compile Include="Controllers\EstatisticaJogoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\JogadorController.cs" />
-    <Compile Include="Controllers\JogoController.cs" />
     <Compile Include="Controllers\JogoStatusController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TimeController.cs" />
-    <Compile Include="Controllers\UsuarioController.cs" />
-    <Compile Include="Controllers\UsuarioStatusController.cs" />
+    <Compile Include="Controllers\CidadeController.cs" />
     <Compile Include="EFDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -327,16 +318,20 @@
     <Content Include="Views\Cidade\Edit.cshtml" />
     <Content Include="Views\AtributoEstatistica\Delete.cshtml" />
     <Content Include="Views\Cidade\Delete.cshtml" />
+    <Content Include="Views\JogoStatus\Create.cshtml" />
+    <Content Include="Views\JogoStatus\Delete.cshtml" />
+    <Content Include="Views\JogoStatus\Edit.cshtml" />
+    <Content Include="Views\JogoStatus\Index.cshtml" />
+    <Content Include="Views\Jogador\Create.cshtml" />
+    <Content Include="Views\Jogador\Edit.cshtml" />
+    <Content Include="Views\UsuarioStatus\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Arbitro\" />
     <Folder Include="Views\EstatisticaJogo\" />
-    <Folder Include="Views\Jogador\" />
-    <Folder Include="Views\JogoStatus\" />
     <Folder Include="Views\Jogo\" />
     <Folder Include="Views\Time\" />
-    <Folder Include="Views\UsuarioStatus\" />
     <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <ItemGroup>
