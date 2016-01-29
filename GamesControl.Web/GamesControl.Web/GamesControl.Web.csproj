@@ -162,6 +162,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsuarioStatusController.cs" />
     <Compile Include="Controllers\JogoStatusController.cs" />
     <Compile Include="Controllers\CidadeController.cs" />
     <Compile Include="EFDataModel.Context.cs">
@@ -325,6 +326,9 @@
     <Content Include="Views\Jogador\Create.cshtml" />
     <Content Include="Views\Jogador\Edit.cshtml" />
     <Content Include="Views\UsuarioStatus\Edit.cshtml" />
+    <Content Include="Views\UsuarioStatus\Create.cshtml" />
+    <Content Include="Views\UsuarioStatus\Delete.cshtml" />
+    <Content Include="Views\UsuarioStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,11 +1,11 @@
 ﻿@model GamesControl.Web.tbusuariostatus
 
 @{
-    ViewBag.Title = "Editar Status de Usuários";
+    ViewBag.Title = "Incluir Status de Usuários";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Editar Status de Usuários</h2>
+<h2>Incluir Status de Usuários</h2>
 
 @using (Html.BeginForm())
 {
@@ -14,18 +14,17 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <div class="form-group">
             @Html.Label("Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.usuarioStatusId, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" }, maxLength = 200 })
+                @Html.EditorFor(model => model.usuarioStatusId, new { htmlAttributes = new { @class = "form-control" }, maxLength = 4, @type = "number" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Descrição", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.usuarioStatusDescricao, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+                @Html.EditorFor(model => model.usuarioStatusDescricao, new { htmlAttributes = new { @class = "form-control" }, maxLength = 45 })
             </div>
         </div>
 
@@ -34,6 +33,9 @@
                 <input id="btnSalvar" type="button" value="Salvar" class="btn btn-default" />
             </div>
         </div>
+    </div>
+    <div>
+        @Html.ActionLink("Voltar", "Index")
     </div>
 
     <script type="text/javascript">
@@ -45,13 +47,14 @@
                     return false;
                 }
 
-                $.post('@Url.Action("Edit","UsuarioStatus")',
+                $.post('@Url.Action("Create", "UsuarioStatus")',
                 {
                     id: $("#usuarioStatusId").val(),
                     descricao: $("#usuarioStatusDescricao").val()
                 }).done(function (data) {
 
-                    $.AlertDialog('Status de Usuário alterado com sucesso!', 'Mensagem', null, null);
+                    $.AlertDialog('Status de usuário incluído com sucesso!', 'Mensagem', null, null);
+                    Limpar();
 
                 }).error(function (XMLHttpRequest, textStatus, errorThrow) {
 
@@ -64,8 +67,12 @@
         });
 
         function Consistir() {
-            if ($.trim($("#usuarioStatusDescricao").val()).length <= 0) {
+            if ($.trim($("#usuarioStatusId").val()).length <= 0) {
+                $.AlertDialog("O campo 'Id' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
 
+            if ($.trim($("#usuarioStatusDescricao").val()).length <= 0) {
                 $.AlertDialog("O campo 'Descrição' é obrigatório", 'Mensagem', null, null);
                 return false;
             }
@@ -73,11 +80,11 @@
             return true;
         }
 
+        function Limpar() {
+            $("#usuarioStatusId").val('');
+            $("#usuarioStatusDescricao").val('');
+        }
+
     </script>
 }
-
-<div>
-    @Html.ActionLink("Voltar", "Index")
-</div>
-
 
