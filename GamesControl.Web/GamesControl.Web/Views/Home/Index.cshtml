@@ -28,4 +28,27 @@
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
+
+    <input id="Show" type="button" value="Show" class="btn btn-default" />
+    <input id="Hide" type="button" value="Hide" class="btn btn-default" />
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#Show').click(function () {
+
+                $.ConfirmDialog('Do you want to continue?', 'Continue Title', function () { alert('yes'); }, function () { alert('no'); }, null);
+
+
+            });
+
+            $('#Hide').click(function () {
+
+                $.AlertDialog('Opa', 'Continue Title', function () { alert('yes'); }, function () { alert('no'); }, null);
+
+            });
+        });
+
+    </script>
+
 </div>

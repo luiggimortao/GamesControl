@@ -26,7 +26,7 @@
             <tr>
                 <td align="center">
                     @Html.ActionLink("Editar", "Edit", new { id = item.cidadeId }) |
-                    @Html.ActionLink("Excluir", "Delete", new { id = item.cidadeId })
+                    <a onclick="Excluir(@item.cidadeId, '@item.cidadeNome');">Excluir</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.cidadeNome)
@@ -55,6 +55,30 @@
             },
 
         });
+
     });
+
+    function Excluir(id, nome) {
+        $.ConfirmDialog('Confirma a exclusão da cidade \'' + nome + '\' ?',
+                        'Confirmação',
+                        function () {
+
+                            $.post('@Url.Action("Delete", "Cidade")',
+                            {
+                                id: id
+                            }).done(function (data) {
+                                var url = '@Url.Action("Index", "Cidade")';
+                                window.location.href = url;
+                            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                                var erro = XMLHttpRequest.responseText.split('|');
+                                var erroTratado = erro[1];
+
+                                $.ErrorDialog(erroTratado, null, null);
+                            });
+                        },
+                        function () { return false; },
+                        null);
+    }
 
 </script>
