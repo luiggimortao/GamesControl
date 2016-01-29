@@ -1,0 +1,90 @@
+﻿@model GamesControl.Web.tbusuariostatus
+
+@{
+    ViewBag.Title = "Incluir Status de Usuários";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Incluir Status de Usuários</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.usuarioStatusId, new { htmlAttributes = new { @class = "form-control" }, maxLength = 4, @type = "number" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Descrição", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.usuarioStatusDescricao, new { htmlAttributes = new { @class = "form-control" }, maxLength = 45 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnSalvar" type="button" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <div>
+        @Html.ActionLink("Voltar", "Index")
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#btnSalvar').click(function () {
+
+                if (!Consistir()) {
+                    return false;
+                }
+
+                $.post('@Url.Action("Create", "UsuarioStatus")',
+                {
+                    id: $("#usuarioStatusId").val(),
+                    descricao: $("#usuarioStatusDescricao").val()
+                }).done(function (data) {
+
+                    $.AlertDialog('Status de usuário incluído com sucesso!', 'Mensagem', null, null);
+                    Limpar();
+
+                }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                    var erro = XMLHttpRequest.responseText.split('|');
+                    var erroTratado = erro[1];
+
+                    $.ErrorDialog(erroTratado, null, null);
+                });
+            });
+        });
+
+        function Consistir() {
+            if ($.trim($("#usuarioStatusId").val()).length <= 0) {
+                $.AlertDialog("O campo 'Id' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#usuarioStatusDescricao").val()).length <= 0) {
+                $.AlertDialog("O campo 'Descrição' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            return true;
+        }
+
+        function Limpar() {
+            $("#usuarioStatusId").val('');
+            $("#usuarioStatusDescricao").val('');
+        }
+
+    </script>
+}
+
