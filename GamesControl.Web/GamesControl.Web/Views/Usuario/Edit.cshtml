@@ -7,52 +7,71 @@
 
 <h2>Editar Usuário</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.usuarioId)
-        <div class="form-group">
-            @Html.Label("Nome", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.usuarioNome, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
-            </div>
-        </div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-4">
 
-        <div class="form-group">
-            @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.usuarioEmail, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
-            </div>
-        </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.usuarioId)
+                <div class="form-group">
+                    @Html.Label("Nome", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.usuarioNome, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.Label("Celular", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.usuarioTelefone, new { htmlAttributes = new { @class = "form-control" }, maxLength = 15 })
-            </div>
-        </div>
+                <div class="form-group">
+                    @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.usuarioEmail, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Status", null, string.Empty, htmlAttributes: new { @class = "form-control" })
-            </div>
-        </div>
+                <div class="form-group">
+                    @Html.Label("Celular", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.usuarioTelefone, new { htmlAttributes = new { @class = "form-control" }, maxLength = 15 })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.Label("Perfil", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Perfil", null, string.Empty, htmlAttributes: new { @class = "form-control" })
-            </div>
-        </div>
+                <div class="form-group">
+                    @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Status", null, string.Empty, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input id="btnSalvar" type="button" value="Salvar" class="btn btn-default" />
+                <div class="form-group">
+                    @Html.Label("Perfil", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Perfil", null, string.Empty, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-md-offset-2">
+                    <input id="btnSalvar" type="submit" value="Salvar" class="btn btn-default" />
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div>
+                    @if (!string.IsNullOrWhiteSpace(Model.usuarioFoto))
+                    {
+                        <img id="imgUpload" src="@Url.Content(Model.usuarioFoto)" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="cursor:pointer; width:220px; height:230px;" />
+                    }
+                    else
+                    {
+                        <img id="imgUpload" src="~/Content/Images/fotoVazia.png" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="cursor:pointer; width:220px; height:230px;" />
+                    }
+                </div>
+                <br />
+                Utilizar imagens de no máximo 2Mb.
+                <input type='file' id="fileUpload" name="fileUpload" style="display:none;" />
             </div>
         </div>
     </div>
@@ -60,13 +79,22 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+            $('#imgUpload').click(function () {
+                $('#fileUpload').click();
+            });
+
+            $("#fileUpload").change(function () {
+                readURL(this);
+            });
+
             $('#btnSalvar').click(function () {
 
                 if (!Consistir()) {
                     return false;
                 }
 
-                $.post('@Url.Action("Edit","Usuario")',
+                @*$.post('@Url.Action("Edit","Usuario")',
                 {
                     id: $("#usuarioId").val(),
                     email: $("#usuarioEmail").val(),
@@ -84,12 +112,32 @@
                     var erroTratado = erro[1];
 
                     $.ErrorDialog(erroTratado, null, null);
-                });
+                });*@
             });
+
+            @if (ViewBag.Alterado != null && ViewBag.Alterado == "S")
+            {
+            <text>
+            $.AlertDialog("Usuário alterado com sucesso!", "Mensagem", null, null);
+            </text>
+            }
         });
 
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgUpload').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function Consistir() {
-            
+
             if ($.trim($("#usuarioTelefone").val()) == "() -") {
                 $("#usuarioTelefone").val("");
             }
@@ -114,6 +162,14 @@
                 return false;
             }
 
+            if ($("#fileUpload").val().length > 0) {
+                var file_size = $('#fileUpload')[0].files[0].size
+                if (file_size > 2097152) {
+                    $.AlertDialog("A foto para o usuário é maior que 2Mb. Favor selecionar uma imagem menor.", 'Mensagem', null, null);
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -123,5 +179,3 @@
 <div>
     @Html.ActionLink("Voltar", "Index")
 </div>
-
-

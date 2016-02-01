@@ -40,15 +40,6 @@
         </div>
     </div>
     <div class="container body-content">
-        <div id="alert">
-            <p id="alertText"></p>
-        </div>
-        <div id="confirm">
-            <p id="confirmText"></p>
-        </div>
-        <div id="erro">
-            <p id="erroText"></p>
-        </div>
         @RenderBody()
         <hr />
         <footer>
@@ -63,32 +54,7 @@
             "searching": true,
             "ordering": true
         });
-        $("#confirm").dialog({
-            title: 'Mensagem',
-            modal: true,
-            autoOpen: false,
-            open: function (type, data) {
-                $(this).parent().appendTo($("form:first"));
-            },
-            buttons: [
-  {
-      text: "OK",
-      click: function () {
-          $(this).dialog("close");
-      }
-  }
-            ]
-        });
-
-        $("#erro").dialog({
-            title: 'Erro',
-            modal: true,
-            autoOpen: false,
-            open: function (type, data) {
-                $(this).parent().appendTo($("form:first"));
-            }
-        });
-
+       
     </script>
 </body>
 </html>

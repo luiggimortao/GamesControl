@@ -60,11 +60,7 @@
             <PropertyRef Name="jogadorId" />
           </Key>
           <Property Name="jogadorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="jogadorNome" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="jogadorDataNascimento" Type="date" Nullable="false" />
-          <Property Name="jogadorEndereco" Type="varchar" MaxLength="600" />
-          <Property Name="jogadorCaminhoFoto" Type="varchar" MaxLength="500" />
-          <Property Name="jogadorTelefone" Type="varchar" MaxLength="45" />
           <Property Name="cidadeId" Type="int" Nullable="false" />
           <Property Name="usuarioId" Type="int" />
         </EntityType>
@@ -77,6 +73,8 @@
           <Property Name="timeVisitanteId" Type="int" Nullable="false" />
           <Property Name="jogoData" Type="datetime" Nullable="false" />
           <Property Name="jogoStatusId" Type="int" />
+          <Property Name="jogoPontuacaoCasa" Type="int" />
+          <Property Name="jogoPontuacaoVisitante" Type="int" />
         </EntityType>
         <EntityType Name="tbjogoarbitro">
           <Key>
@@ -120,6 +118,7 @@
           <Property Name="usuarioTelefone" Type="varchar" MaxLength="15" />
           <Property Name="usuarioStatusId" Type="int" Nullable="false" />
           <Property Name="perfilId" Type="int" Nullable="false" />
+          <Property Name="usuarioFoto" Type="varchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="tbusuariostatus">
           <Key>
@@ -400,11 +399,7 @@
             <PropertyRef Name="jogadorId" />
           </Key>
           <Property Name="jogadorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="jogadorNome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="jogadorDataNascimento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="jogadorEndereco" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
-          <Property Name="jogadorCaminhoFoto" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="jogadorTelefone" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="cidadeId" Type="Int32" Nullable="false" />
           <Property Name="usuarioId" Type="Int32" />
           <NavigationProperty Name="tbcidade" Relationship="Self.jogadorCidade" FromRole="tbjogador" ToRole="tbcidade" />
@@ -425,6 +420,8 @@
           <NavigationProperty Name="tbtime" Relationship="Self.JogoTime1" FromRole="tbjogo" ToRole="tbtime" />
           <NavigationProperty Name="tbtime1" Relationship="Self.JogoTime2" FromRole="tbjogo" ToRole="tbtime" />
           <NavigationProperty Name="tbarbitro" Relationship="Self.tbjogoarbitro" FromRole="tbjogo" ToRole="tbarbitro" />
+          <Property Name="jogoPontuacaoCasa" Type="Int32" />
+          <Property Name="jogoPontuacaoVisitante" Type="Int32" />
         </EntityType>
         <EntityType Name="tbjogostatus">
           <Key>
@@ -460,6 +457,7 @@
           <Property Name="usuarioTelefone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="perfilId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tbPerfil" Relationship="dbGameModel.FK_tbusuario_tbPerfil" FromRole="tbusuario" ToRole="tbPerfil" />
+          <Property Name="usuarioFoto" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbusuariostatus">
           <Key>
@@ -724,11 +722,7 @@
             <EntityTypeMapping TypeName="dbGameModel.tbjogador">
               <MappingFragment StoreEntitySet="tbjogador">
                 <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
-                <ScalarProperty Name="jogadorNome" ColumnName="jogadorNome" />
                 <ScalarProperty Name="jogadorDataNascimento" ColumnName="jogadorDataNascimento" />
-                <ScalarProperty Name="jogadorEndereco" ColumnName="jogadorEndereco" />
-                <ScalarProperty Name="jogadorCaminhoFoto" ColumnName="jogadorCaminhoFoto" />
-                <ScalarProperty Name="jogadorTelefone" ColumnName="jogadorTelefone" />
                 <ScalarProperty Name="cidadeId" ColumnName="cidadeId" />
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
               </MappingFragment>
@@ -737,6 +731,8 @@
           <EntitySetMapping Name="tbjogo">
             <EntityTypeMapping TypeName="dbGameModel.tbjogo">
               <MappingFragment StoreEntitySet="tbjogo">
+                <ScalarProperty Name="jogoPontuacaoVisitante" ColumnName="jogoPontuacaoVisitante" />
+                <ScalarProperty Name="jogoPontuacaoCasa" ColumnName="jogoPontuacaoCasa" />
                 <ScalarProperty Name="jogoId" ColumnName="jogoId" />
                 <ScalarProperty Name="timeCasaId" ColumnName="timeCasaId" />
                 <ScalarProperty Name="timeVisitanteId" ColumnName="timeVisitanteId" />
@@ -766,6 +762,7 @@
           <EntitySetMapping Name="tbusuario">
             <EntityTypeMapping TypeName="dbGameModel.tbusuario">
               <MappingFragment StoreEntitySet="tbusuario">
+                <ScalarProperty Name="usuarioFoto" ColumnName="usuarioFoto" />
                 <ScalarProperty Name="perfilId" ColumnName="perfilId" />
                 <ScalarProperty Name="usuarioTelefone" ColumnName="usuarioTelefone" />
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />

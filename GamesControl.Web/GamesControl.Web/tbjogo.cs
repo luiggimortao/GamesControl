@@ -25,6 +25,8 @@ namespace GamesControl.Web
         public int timeVisitanteId { get; set; }
         public System.DateTime jogoData { get; set; }
         public Nullable<int> jogoStatusId { get; set; }
+        public Nullable<int> jogoPontuacaoCasa { get; set; }
+        public Nullable<int> jogoPontuacaoVisitante { get; set; }
     
         public virtual ICollection<tbestatisticajogo> tbestatisticajogo { get; set; }
         public virtual tbjogostatus tbjogostatus { get; set; }

@@ -9,41 +9,57 @@
 
 <div>
     <hr />
-    <dl class="dl-horizontal">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                @if (!string.IsNullOrWhiteSpace(Model.usuarioFoto))
+                {
+                    <img id="imgUpload" src="@Url.Content(Model.usuarioFoto)" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="width:220px; height:230px;" />
+                }
+                else
+                {
+                    <img id="imgUpload" src="~/Content/Images/fotoVazia.png" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="width:220px; height:230px;" />
+                }
+            </div>
+            <br />
+        </div>
 
-        <dt>
-            @Html.DisplayName("Email")
-        </dt>
+        <div class="col-md-10">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("Email")
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.usuarioEmail)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.usuarioEmail)
+                </dd>
 
-        <dt>
-            @Html.DisplayName("Celular")
-        </dt>
+                <dt>
+                    @Html.DisplayName("Celular")
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.usuarioTelefone)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.usuarioTelefone)
+                </dd>
 
-        <dt>
-            @Html.DisplayName("Status")
-        </dt>
+                <dt>
+                    @Html.DisplayName("Status")
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.tbusuariostatus.usuarioStatusDescricao)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.tbusuariostatus.usuarioStatusDescricao)
+                </dd>
 
-        <dt>
-            @Html.DisplayName("Perfil")
-        </dt>
+                <dt>
+                    @Html.DisplayName("Perfil")
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.tbPerfil.perfilDescricao)
-        </dd>
-
-    </dl>
+                <dd>
+                    @Html.DisplayFor(model => model.tbPerfil.perfilDescricao)
+                </dd>
+            </dl>
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.usuarioId }) |

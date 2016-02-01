@@ -60,11 +60,7 @@
       <PropertyRef Name="jogadorId" />
     </Key>
     <Property Name="jogadorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="jogadorNome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="jogadorDataNascimento" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="jogadorEndereco" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
-    <Property Name="jogadorCaminhoFoto" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-    <Property Name="jogadorTelefone" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
     <Property Name="cidadeId" Type="Int32" Nullable="false" />
     <Property Name="usuarioId" Type="Int32" />
     <NavigationProperty Name="tbcidade" Relationship="Self.jogadorCidade" FromRole="tbjogador" ToRole="tbcidade" />
@@ -85,6 +81,8 @@
     <NavigationProperty Name="tbtime" Relationship="Self.JogoTime1" FromRole="tbjogo" ToRole="tbtime" />
     <NavigationProperty Name="tbtime1" Relationship="Self.JogoTime2" FromRole="tbjogo" ToRole="tbtime" />
     <NavigationProperty Name="tbarbitro" Relationship="Self.tbjogoarbitro" FromRole="tbjogo" ToRole="tbarbitro" />
+    <Property Name="jogoPontuacaoCasa" Type="Int32" />
+    <Property Name="jogoPontuacaoVisitante" Type="Int32" />
   </EntityType>
   <EntityType Name="tbjogostatus">
     <Key>
@@ -120,6 +118,7 @@
     <Property Name="usuarioTelefone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <Property Name="perfilId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="tbPerfil" Relationship="dbGameModel.FK_tbusuario_tbPerfil" FromRole="tbusuario" ToRole="tbPerfil" />
+    <Property Name="usuarioFoto" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="tbusuariostatus">
     <Key>

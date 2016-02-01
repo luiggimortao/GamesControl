@@ -55,11 +55,7 @@
       <PropertyRef Name="jogadorId" />
     </Key>
     <Property Name="jogadorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="jogadorNome" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="jogadorDataNascimento" Type="date" Nullable="false" />
-    <Property Name="jogadorEndereco" Type="varchar" MaxLength="600" />
-    <Property Name="jogadorCaminhoFoto" Type="varchar" MaxLength="500" />
-    <Property Name="jogadorTelefone" Type="varchar" MaxLength="45" />
     <Property Name="cidadeId" Type="int" Nullable="false" />
     <Property Name="usuarioId" Type="int" />
   </EntityType>
@@ -72,6 +68,8 @@
     <Property Name="timeVisitanteId" Type="int" Nullable="false" />
     <Property Name="jogoData" Type="datetime" Nullable="false" />
     <Property Name="jogoStatusId" Type="int" />
+    <Property Name="jogoPontuacaoCasa" Type="int" />
+    <Property Name="jogoPontuacaoVisitante" Type="int" />
   </EntityType>
   <EntityType Name="tbjogoarbitro">
     <Key>
@@ -115,6 +113,7 @@
     <Property Name="usuarioTelefone" Type="varchar" MaxLength="15" />
     <Property Name="usuarioStatusId" Type="int" Nullable="false" />
     <Property Name="perfilId" Type="int" Nullable="false" />
+    <Property Name="usuarioFoto" Type="varchar" MaxLength="300" />
   </EntityType>
   <EntityType Name="tbusuariostatus">
     <Key>

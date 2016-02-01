@@ -20,11 +20,7 @@ namespace GamesControl.Web
         }
     
         public int jogadorId { get; set; }
-        public string jogadorNome { get; set; }
         public System.DateTime jogadorDataNascimento { get; set; }
-        public string jogadorEndereco { get; set; }
-        public string jogadorCaminhoFoto { get; set; }
-        public string jogadorTelefone { get; set; }
         public int cidadeId { get; set; }
         public Nullable<int> usuarioId { get; set; }
     
