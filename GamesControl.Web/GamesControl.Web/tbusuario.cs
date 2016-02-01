@@ -18,20 +18,21 @@ namespace GamesControl.Web
         {
             this.tbarbitro = new HashSet<tbarbitro>();
             this.tbjogador = new HashSet<tbjogador>();
+            this.tbPerfil = new HashSet<tbPerfil>();
         }
     
         public int usuarioId { get; set; }
         public string usuarioEmail { get; set; }
         public string usuarioNome { get; set; }
         public string usuarioSenha { get; set; }
-        public int usuarioStatusId { get; set; }
         public string usuarioTelefone { get; set; }
+        public int usuarioStatusId { get; set; }
         public int perfilId { get; set; }
         public string usuarioFoto { get; set; }
     
         public virtual ICollection<tbarbitro> tbarbitro { get; set; }
         public virtual ICollection<tbjogador> tbjogador { get; set; }
         public virtual tbusuariostatus tbusuariostatus { get; set; }
-        public virtual tbPerfil tbPerfil { get; set; }
+        public virtual ICollection<tbPerfil> tbPerfil { get; set; }
     }
 }

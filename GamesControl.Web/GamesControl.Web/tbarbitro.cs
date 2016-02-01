@@ -20,7 +20,6 @@ namespace GamesControl.Web
         }
     
         public int arbitroId { get; set; }
-        public string arbitroNome { get; set; }
         public Nullable<int> usuarioId { get; set; }
     
         public virtual tbusuario tbusuario { get; set; }

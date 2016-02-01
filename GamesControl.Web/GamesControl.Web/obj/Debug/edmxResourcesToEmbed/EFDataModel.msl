@@ -16,7 +16,6 @@
       <EntityTypeMapping TypeName="dbGameModel.tbarbitro">
         <MappingFragment StoreEntitySet="tbarbitro">
           <ScalarProperty Name="arbitroId" ColumnName="arbitroId" />
-          <ScalarProperty Name="arbitroNome" ColumnName="arbitroNome" />
           <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -68,13 +67,13 @@
     <EntitySetMapping Name="tbjogo">
       <EntityTypeMapping TypeName="dbGameModel.tbjogo">
         <MappingFragment StoreEntitySet="tbjogo">
-          <ScalarProperty Name="jogoPontuacaoVisitante" ColumnName="jogoPontuacaoVisitante" />
-          <ScalarProperty Name="jogoPontuacaoCasa" ColumnName="jogoPontuacaoCasa" />
           <ScalarProperty Name="jogoId" ColumnName="jogoId" />
           <ScalarProperty Name="timeCasaId" ColumnName="timeCasaId" />
           <ScalarProperty Name="timeVisitanteId" ColumnName="timeVisitanteId" />
           <ScalarProperty Name="jogoData" ColumnName="jogoData" />
           <ScalarProperty Name="jogoStatusId" ColumnName="jogoStatusId" />
+          <ScalarProperty Name="jogoPontuacaoCasa" ColumnName="jogoPontuacaoCasa" />
+          <ScalarProperty Name="jogoPontuacaoVisitante" ColumnName="jogoPontuacaoVisitante" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -83,6 +82,14 @@
         <MappingFragment StoreEntitySet="tbjogostatus">
           <ScalarProperty Name="jogoStatusId" ColumnName="jogoStatusId" />
           <ScalarProperty Name="jogoStatusDescricao" ColumnName="jogoStatusDescricao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbPerfil">
+      <EntityTypeMapping TypeName="dbGameModel.tbPerfil">
+        <MappingFragment StoreEntitySet="tbPerfil">
+          <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+          <ScalarProperty Name="perfilDescricao" ColumnName="perfilDescricao" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -99,14 +106,14 @@
     <EntitySetMapping Name="tbusuario">
       <EntityTypeMapping TypeName="dbGameModel.tbusuario">
         <MappingFragment StoreEntitySet="tbusuario">
-          <ScalarProperty Name="usuarioFoto" ColumnName="usuarioFoto" />
-          <ScalarProperty Name="perfilId" ColumnName="perfilId" />
-          <ScalarProperty Name="usuarioTelefone" ColumnName="usuarioTelefone" />
           <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
           <ScalarProperty Name="usuarioEmail" ColumnName="usuarioEmail" />
           <ScalarProperty Name="usuarioNome" ColumnName="usuarioNome" />
           <ScalarProperty Name="usuarioSenha" ColumnName="usuarioSenha" />
+          <ScalarProperty Name="usuarioTelefone" ColumnName="usuarioTelefone" />
           <ScalarProperty Name="usuarioStatusId" ColumnName="usuarioStatusId" />
+          <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+          <ScalarProperty Name="usuarioFoto" ColumnName="usuarioFoto" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -126,13 +133,13 @@
         <ScalarProperty Name="jogoId" ColumnName="jogoId" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="tbPerfil">
-      <EntityTypeMapping TypeName="dbGameModel.tbPerfil">
-        <MappingFragment StoreEntitySet="tbPerfil">
-          <ScalarProperty Name="perfilDescricao" ColumnName="perfilDescricao" />
-          <ScalarProperty Name="perfilId" ColumnName="perfilId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+    <AssociationSetMapping Name="tbPerfilUsuario" TypeName="dbGameModel.tbPerfilUsuario" StoreEntitySet="tbPerfilUsuario">
+      <EndProperty Name="tbPerfil">
+        <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+      </EndProperty>
+      <EndProperty Name="tbusuario">
+        <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

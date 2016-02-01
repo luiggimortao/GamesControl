@@ -51,11 +51,18 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayName("Perfil")
+                    @Html.DisplayName("Perfil(is)")
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.tbPerfil.perfilDescricao)
+                    <table>
+                        @foreach (var perfil in Model.tbPerfil)
+                        {
+                            <tr>
+                                <td>@perfil.perfilDescricao</td>
+                            </tr>
+                        }
+                    </table>
                 </dd>
             </dl>
         </div>

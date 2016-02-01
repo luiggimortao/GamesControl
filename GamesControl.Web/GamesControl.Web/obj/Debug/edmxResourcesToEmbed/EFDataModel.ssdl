@@ -15,7 +15,6 @@
       <PropertyRef Name="arbitroId" />
     </Key>
     <Property Name="arbitroId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="arbitroNome" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="usuarioId" Type="int" />
   </EntityType>
   <EntityType Name="tbatributoestatistica">
@@ -92,6 +91,14 @@
     </Key>
     <Property Name="perfilId" Type="int" Nullable="false" />
     <Property Name="perfilDescricao" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbPerfilUsuario">
+    <Key>
+      <PropertyRef Name="usuarioId" />
+      <PropertyRef Name="perfilId" />
+    </Key>
+    <Property Name="usuarioId" Type="int" Nullable="false" />
+    <Property Name="perfilId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tbtime">
     <Key>
@@ -170,15 +177,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tbusuario_tbPerfil">
+  <Association Name="FK_tbUsuarioPerfil_tbPerfil">
     <End Role="tbPerfil" Type="Self.tbPerfil" Multiplicity="1" />
-    <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="*" />
+    <End Role="tbPerfilUsuario" Type="Self.tbPerfilUsuario" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tbPerfil">
         <PropertyRef Name="perfilId" />
       </Principal>
-      <Dependent Role="tbusuario">
+      <Dependent Role="tbPerfilUsuario">
         <PropertyRef Name="perfilId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbUsuarioPerfil_tbusuario">
+    <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="1" />
+    <End Role="tbPerfilUsuario" Type="Self.tbPerfilUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbusuario">
+        <PropertyRef Name="usuarioId" />
+      </Principal>
+      <Dependent Role="tbPerfilUsuario">
+        <PropertyRef Name="usuarioId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -278,6 +297,7 @@
     <EntitySet Name="tbjogoarbitro" EntityType="Self.tbjogoarbitro" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbjogostatus" EntityType="Self.tbjogostatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbPerfil" EntityType="Self.tbPerfil" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbPerfilUsuario" EntityType="Self.tbPerfilUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbtime" EntityType="Self.tbtime" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbusuario" EntityType="Self.tbusuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbusuariostatus" EntityType="Self.tbusuariostatus" Schema="dbo" store:Type="Tables" />
@@ -297,9 +317,13 @@
       <End Role="tbjogo" EntitySet="tbjogo" />
       <End Role="tbestatisticajogo" EntitySet="tbestatisticajogo" />
     </AssociationSet>
-    <AssociationSet Name="FK_tbusuario_tbPerfil" Association="Self.FK_tbusuario_tbPerfil">
+    <AssociationSet Name="FK_tbUsuarioPerfil_tbPerfil" Association="Self.FK_tbUsuarioPerfil_tbPerfil">
       <End Role="tbPerfil" EntitySet="tbPerfil" />
+      <End Role="tbPerfilUsuario" EntitySet="tbPerfilUsuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbUsuarioPerfil_tbusuario" Association="Self.FK_tbUsuarioPerfil_tbusuario">
       <End Role="tbusuario" EntitySet="tbusuario" />
+      <End Role="tbPerfilUsuario" EntitySet="tbPerfilUsuario" />
     </AssociationSet>
     <AssociationSet Name="jogadorCidade" Association="Self.jogadorCidade">
       <End Role="tbcidade" EntitySet="tbcidade" />

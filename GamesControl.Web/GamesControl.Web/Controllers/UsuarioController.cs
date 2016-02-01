@@ -60,7 +60,7 @@ namespace GamesControl.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(string usuarioNome, string usuarioEmail, string usuarioTelefone, int Status, int Perfil, HttpPostedFileBase fileUpload)
+        public ActionResult Create(string usuarioNome, string usuarioEmail, string usuarioTelefone, int Status, string[] Perfil, HttpPostedFileBase fileUpload)
         {
             try
             {
@@ -80,7 +80,15 @@ namespace GamesControl.Web.Controllers
                 }
 
                 usuario.tbusuariostatus = db.tbusuariostatus.Find(Status);
-                usuario.tbPerfil = db.tbPerfil.Find(Perfil);
+
+                foreach (string idPerfil in Perfil)
+                {
+                    var perfil = db.tbPerfil.Find(int.Parse(idPerfil));
+                    if (perfil != null)
+                    {
+                        usuario.tbPerfil.Add(perfil);
+                    }
+                }
 
                 db.tbusuario.Add(usuario);
                 db.SaveChanges();
@@ -88,7 +96,7 @@ namespace GamesControl.Web.Controllers
                 if (fileUpload != null)
                 {
                     this.ApagarArquivosUsuario(usuario.usuarioId);
-                    
+
                     var caminhoFoto = Path.Combine(Server.MapPath("~/Content/Fotos"), usuario.usuarioId + Path.GetExtension(fileUpload.FileName));
                     fileUpload.SaveAs(caminhoFoto); // Save the file
 
@@ -157,7 +165,7 @@ namespace GamesControl.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int usuarioId, string usuarioNome, string usuarioEmail, string usuarioTelefone, int Status, int Perfil, HttpPostedFileBase fileUpload)
+        public ActionResult Edit(int usuarioId, string usuarioNome, string usuarioEmail, string usuarioTelefone, int Status, string[] Perfil, HttpPostedFileBase fileUpload)
         {
             try
             {
@@ -180,7 +188,16 @@ namespace GamesControl.Web.Controllers
                 }
 
                 usuario.tbusuariostatus = db.tbusuariostatus.Find(Status);
-                usuario.tbPerfil = db.tbPerfil.Find(Perfil);
+
+                this.ExcluirPerfis(usuarioId);
+                foreach (string idPerfil in Perfil)
+                {
+                    var perfil = db.tbPerfil.Find(int.Parse(idPerfil));
+                    if (perfil != null)
+                    {
+                        usuario.tbPerfil.Add(perfil);
+                    }
+                }
 
                 if (fileUpload != null)
                 {
@@ -224,13 +241,35 @@ namespace GamesControl.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            tbusuario tbusuario = db.tbusuario.Find(id);
-            db.tbusuario.Remove(tbusuario);
+            try
+            {
+                tbusuario tbusuario = db.tbusuario.Find(id);
+                this.ExcluirPerfis(id);
+                db.tbusuario.Remove(tbusuario);
+                db.SaveChanges();
+
+                this.ApagarArquivosUsuario(id);
+
+                return PartialView();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("|{0}|", ex.Message));
+            }
+        }
+
+        private void ExcluirPerfis(int idUsuario)
+        {
+            var usuario = db.tbusuario.Find(idUsuario);
+            if (usuario != null)
+            {
+                while (usuario.tbPerfil.Count > 0)
+                {
+                    usuario.tbPerfil.Remove(usuario.tbPerfil.FirstOrDefault());
+                }
+            }
+
             db.SaveChanges();
-
-            this.ApagarArquivosUsuario(id);
-
-            return PartialView();
         }
 
         private void ApagarArquivosUsuario(int idUsuario)

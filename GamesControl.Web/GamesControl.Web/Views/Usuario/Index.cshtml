@@ -14,17 +14,14 @@
     <thead>
         <tr>
             <th width="20%" style="text-align:center;">Ações</th>
-            <th width="30%">
+            <th width="35%">
                 Nome
             </th>
-            <th width="30%">
+            <th width="35%">
                 Email
             </th>
             <th width="10%">
                 Status
-            </th>
-            <th width="10%">
-                Perfil
             </th>
         </tr>
     </thead>
@@ -45,9 +42,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.tbusuariostatus.usuarioStatusDescricao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tbPerfil.perfilDescricao)
                 </td>
             </tr>
         }
@@ -76,7 +70,7 @@
     });
 
     function Excluir(id, nome) {
-        $.ConfirmDialog('Confirma a exclusão do usuário\'' + nome + '\' ?',
+        $.ConfirmDialog('Confirma a exclusão do usuário \'' + nome + '\' ?',
                         'Confirmação',
                         function () {
 

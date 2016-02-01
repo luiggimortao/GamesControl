@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="dbGameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="dbGameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -20,7 +20,6 @@
             <PropertyRef Name="arbitroId" />
           </Key>
           <Property Name="arbitroId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="arbitroNome" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="usuarioId" Type="int" />
         </EntityType>
         <EntityType Name="tbatributoestatistica">
@@ -97,6 +96,14 @@
           </Key>
           <Property Name="perfilId" Type="int" Nullable="false" />
           <Property Name="perfilDescricao" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbPerfilUsuario">
+          <Key>
+            <PropertyRef Name="usuarioId" />
+            <PropertyRef Name="perfilId" />
+          </Key>
+          <Property Name="usuarioId" Type="int" Nullable="false" />
+          <Property Name="perfilId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tbtime">
           <Key>
@@ -175,15 +182,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbusuario_tbPerfil">
+        <Association Name="FK_tbUsuarioPerfil_tbPerfil">
           <End Role="tbPerfil" Type="Self.tbPerfil" Multiplicity="1" />
-          <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="*" />
+          <End Role="tbPerfilUsuario" Type="Self.tbPerfilUsuario" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbPerfil">
               <PropertyRef Name="perfilId" />
             </Principal>
-            <Dependent Role="tbusuario">
+            <Dependent Role="tbPerfilUsuario">
               <PropertyRef Name="perfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbUsuarioPerfil_tbusuario">
+          <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="1" />
+          <End Role="tbPerfilUsuario" Type="Self.tbPerfilUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbusuario">
+              <PropertyRef Name="usuarioId" />
+            </Principal>
+            <Dependent Role="tbPerfilUsuario">
+              <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -283,6 +302,7 @@
           <EntitySet Name="tbjogoarbitro" EntityType="Self.tbjogoarbitro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbjogostatus" EntityType="Self.tbjogostatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbPerfil" EntityType="Self.tbPerfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbPerfilUsuario" EntityType="Self.tbPerfilUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbtime" EntityType="Self.tbtime" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbusuario" EntityType="Self.tbusuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbusuariostatus" EntityType="Self.tbusuariostatus" Schema="dbo" store:Type="Tables" />
@@ -302,9 +322,13 @@
             <End Role="tbjogo" EntitySet="tbjogo" />
             <End Role="tbestatisticajogo" EntitySet="tbestatisticajogo" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbusuario_tbPerfil" Association="Self.FK_tbusuario_tbPerfil">
+          <AssociationSet Name="FK_tbUsuarioPerfil_tbPerfil" Association="Self.FK_tbUsuarioPerfil_tbPerfil">
             <End Role="tbPerfil" EntitySet="tbPerfil" />
+            <End Role="tbPerfilUsuario" EntitySet="tbPerfilUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbUsuarioPerfil_tbusuario" Association="Self.FK_tbUsuarioPerfil_tbusuario">
             <End Role="tbusuario" EntitySet="tbusuario" />
+            <End Role="tbPerfilUsuario" EntitySet="tbPerfilUsuario" />
           </AssociationSet>
           <AssociationSet Name="jogadorCidade" Association="Self.jogadorCidade">
             <End Role="tbcidade" EntitySet="tbcidade" />
@@ -335,7 +359,8 @@
             <End Role="tbusuario" EntitySet="tbusuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbGameModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -354,7 +379,6 @@
             <PropertyRef Name="arbitroId" />
           </Key>
           <Property Name="arbitroId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="arbitroNome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="usuarioId" Type="Int32" />
           <NavigationProperty Name="tbusuario" Relationship="Self.arbitrousuario" FromRole="tbarbitro" ToRole="tbusuario" />
           <NavigationProperty Name="tbjogo" Relationship="Self.tbjogoarbitro" FromRole="tbarbitro" ToRole="tbjogo" />
@@ -415,13 +439,13 @@
           <Property Name="timeVisitanteId" Type="Int32" Nullable="false" />
           <Property Name="jogoData" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="jogoStatusId" Type="Int32" />
+          <Property Name="jogoPontuacaoCasa" Type="Int32" />
+          <Property Name="jogoPontuacaoVisitante" Type="Int32" />
           <NavigationProperty Name="tbestatisticajogo" Relationship="Self.Estatisticajogo" FromRole="tbjogo" ToRole="tbestatisticajogo" />
           <NavigationProperty Name="tbjogostatus" Relationship="Self.jogojogostatus" FromRole="tbjogo" ToRole="tbjogostatus" />
           <NavigationProperty Name="tbtime" Relationship="Self.JogoTime1" FromRole="tbjogo" ToRole="tbtime" />
           <NavigationProperty Name="tbtime1" Relationship="Self.JogoTime2" FromRole="tbjogo" ToRole="tbtime" />
           <NavigationProperty Name="tbarbitro" Relationship="Self.tbjogoarbitro" FromRole="tbjogo" ToRole="tbarbitro" />
-          <Property Name="jogoPontuacaoCasa" Type="Int32" />
-          <Property Name="jogoPontuacaoVisitante" Type="Int32" />
         </EntityType>
         <EntityType Name="tbjogostatus">
           <Key>
@@ -430,6 +454,14 @@
           <Property Name="jogoStatusId" Type="Int32" Nullable="false" />
           <Property Name="jogoStatusDescricao" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tbjogo" Relationship="Self.jogojogostatus" FromRole="tbjogostatus" ToRole="tbjogo" />
+        </EntityType>
+        <EntityType Name="tbPerfil">
+          <Key>
+            <PropertyRef Name="perfilId" />
+          </Key>
+          <Property Name="perfilId" Type="Int32" Nullable="false" />
+          <Property Name="perfilDescricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tbusuario" Relationship="Self.tbPerfilUsuario" FromRole="tbPerfil" ToRole="tbusuario" />
         </EntityType>
         <EntityType Name="tbtime">
           <Key>
@@ -450,14 +482,14 @@
           <Property Name="usuarioEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="usuarioNome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="usuarioSenha" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usuarioTelefone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="usuarioStatusId" Type="Int32" Nullable="false" />
+          <Property Name="perfilId" Type="Int32" Nullable="false" />
+          <Property Name="usuarioFoto" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tbarbitro" Relationship="Self.arbitrousuario" FromRole="tbusuario" ToRole="tbarbitro" />
           <NavigationProperty Name="tbjogador" Relationship="Self.jogadorusuario" FromRole="tbusuario" ToRole="tbjogador" />
           <NavigationProperty Name="tbusuariostatus" Relationship="Self.usuariousuariostatus" FromRole="tbusuario" ToRole="tbusuariostatus" />
-          <Property Name="usuarioTelefone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="perfilId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tbPerfil" Relationship="dbGameModel.FK_tbusuario_tbPerfil" FromRole="tbusuario" ToRole="tbPerfil" />
-          <Property Name="usuarioFoto" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbPerfil" Relationship="Self.tbPerfilUsuario" FromRole="tbusuario" ToRole="tbPerfil" />
         </EntityType>
         <EntityType Name="tbusuariostatus">
           <Key>
@@ -579,6 +611,10 @@
           <End Role="tbarbitro" Type="Self.tbarbitro" Multiplicity="*" />
           <End Role="tbjogo" Type="Self.tbjogo" Multiplicity="*" />
         </Association>
+        <Association Name="tbPerfilUsuario">
+          <End Role="tbPerfil" Type="Self.tbPerfil" Multiplicity="*" />
+          <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="Contexto" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="tbarbitro" EntityType="Self.tbarbitro" />
@@ -589,6 +625,7 @@
           <EntitySet Name="tbjogador" EntityType="Self.tbjogador" />
           <EntitySet Name="tbjogo" EntityType="Self.tbjogo" />
           <EntitySet Name="tbjogostatus" EntityType="Self.tbjogostatus" />
+          <EntitySet Name="tbPerfil" EntityType="Self.tbPerfil" />
           <EntitySet Name="tbtime" EntityType="Self.tbtime" />
           <EntitySet Name="tbusuario" EntityType="Self.tbusuario" />
           <EntitySet Name="tbusuariostatus" EntityType="Self.tbusuariostatus" />
@@ -632,32 +669,11 @@
             <End Role="tbarbitro" EntitySet="tbarbitro" />
             <End Role="tbjogo" EntitySet="tbjogo" />
           </AssociationSet>
-          <EntitySet Name="tbPerfil" EntityType="dbGameModel.tbPerfil" />
-          <AssociationSet Name="FK_tbusuario_tbPerfil" Association="dbGameModel.FK_tbusuario_tbPerfil">
+          <AssociationSet Name="tbPerfilUsuario" Association="Self.tbPerfilUsuario">
             <End Role="tbPerfil" EntitySet="tbPerfil" />
             <End Role="tbusuario" EntitySet="tbusuario" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="tbPerfil">
-          <Key>
-            <PropertyRef Name="perfilId" />
-          </Key>
-          <Property Name="perfilId" Type="Int32" Nullable="false" />
-          <Property Name="perfilDescricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tbusuario" Relationship="dbGameModel.FK_tbusuario_tbPerfil" FromRole="tbPerfil" ToRole="tbusuario" />
-        </EntityType>
-        <Association Name="FK_tbusuario_tbPerfil">
-          <End Type="dbGameModel.tbPerfil" Role="tbPerfil" Multiplicity="1" />
-          <End Type="dbGameModel.tbusuario" Role="tbusuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbPerfil">
-              <PropertyRef Name="perfilId" />
-            </Principal>
-            <Dependent Role="tbusuario">
-              <PropertyRef Name="perfilId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -679,7 +695,6 @@
             <EntityTypeMapping TypeName="dbGameModel.tbarbitro">
               <MappingFragment StoreEntitySet="tbarbitro">
                 <ScalarProperty Name="arbitroId" ColumnName="arbitroId" />
-                <ScalarProperty Name="arbitroNome" ColumnName="arbitroNome" />
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -731,13 +746,13 @@
           <EntitySetMapping Name="tbjogo">
             <EntityTypeMapping TypeName="dbGameModel.tbjogo">
               <MappingFragment StoreEntitySet="tbjogo">
-                <ScalarProperty Name="jogoPontuacaoVisitante" ColumnName="jogoPontuacaoVisitante" />
-                <ScalarProperty Name="jogoPontuacaoCasa" ColumnName="jogoPontuacaoCasa" />
                 <ScalarProperty Name="jogoId" ColumnName="jogoId" />
                 <ScalarProperty Name="timeCasaId" ColumnName="timeCasaId" />
                 <ScalarProperty Name="timeVisitanteId" ColumnName="timeVisitanteId" />
                 <ScalarProperty Name="jogoData" ColumnName="jogoData" />
                 <ScalarProperty Name="jogoStatusId" ColumnName="jogoStatusId" />
+                <ScalarProperty Name="jogoPontuacaoCasa" ColumnName="jogoPontuacaoCasa" />
+                <ScalarProperty Name="jogoPontuacaoVisitante" ColumnName="jogoPontuacaoVisitante" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -746,6 +761,14 @@
               <MappingFragment StoreEntitySet="tbjogostatus">
                 <ScalarProperty Name="jogoStatusId" ColumnName="jogoStatusId" />
                 <ScalarProperty Name="jogoStatusDescricao" ColumnName="jogoStatusDescricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbPerfil">
+            <EntityTypeMapping TypeName="dbGameModel.tbPerfil">
+              <MappingFragment StoreEntitySet="tbPerfil">
+                <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+                <ScalarProperty Name="perfilDescricao" ColumnName="perfilDescricao" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -762,14 +785,14 @@
           <EntitySetMapping Name="tbusuario">
             <EntityTypeMapping TypeName="dbGameModel.tbusuario">
               <MappingFragment StoreEntitySet="tbusuario">
-                <ScalarProperty Name="usuarioFoto" ColumnName="usuarioFoto" />
-                <ScalarProperty Name="perfilId" ColumnName="perfilId" />
-                <ScalarProperty Name="usuarioTelefone" ColumnName="usuarioTelefone" />
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="usuarioEmail" ColumnName="usuarioEmail" />
                 <ScalarProperty Name="usuarioNome" ColumnName="usuarioNome" />
                 <ScalarProperty Name="usuarioSenha" ColumnName="usuarioSenha" />
+                <ScalarProperty Name="usuarioTelefone" ColumnName="usuarioTelefone" />
                 <ScalarProperty Name="usuarioStatusId" ColumnName="usuarioStatusId" />
+                <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+                <ScalarProperty Name="usuarioFoto" ColumnName="usuarioFoto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -789,14 +812,14 @@
               <ScalarProperty Name="jogoId" ColumnName="jogoId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="tbPerfil">
-            <EntityTypeMapping TypeName="dbGameModel.tbPerfil">
-              <MappingFragment StoreEntitySet="tbPerfil">
-                <ScalarProperty Name="perfilDescricao" ColumnName="perfilDescricao" />
-                <ScalarProperty Name="perfilId" ColumnName="perfilId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <AssociationSetMapping Name="tbPerfilUsuario" TypeName="dbGameModel.tbPerfilUsuario" StoreEntitySet="tbPerfilUsuario">
+            <EndProperty Name="tbPerfil">
+              <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+            </EndProperty>
+            <EndProperty Name="tbusuario">
+              <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

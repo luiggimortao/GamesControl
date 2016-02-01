@@ -34,9 +34,9 @@ namespace GamesControl.Web
         public virtual DbSet<tbjogador> tbjogador { get; set; }
         public virtual DbSet<tbjogo> tbjogo { get; set; }
         public virtual DbSet<tbjogostatus> tbjogostatus { get; set; }
+        public virtual DbSet<tbPerfil> tbPerfil { get; set; }
         public virtual DbSet<tbtime> tbtime { get; set; }
         public virtual DbSet<tbusuario> tbusuario { get; set; }
         public virtual DbSet<tbusuariostatus> tbusuariostatus { get; set; }
-        public virtual DbSet<tbPerfil> tbPerfil { get; set; }
     }
 }
