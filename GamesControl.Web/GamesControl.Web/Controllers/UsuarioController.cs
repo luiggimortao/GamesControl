@@ -21,7 +21,7 @@ namespace GamesControl.Web.Controllers
         }
 
         // GET: Usuario/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Detail(int? id)
         {
             if (id == null)
             {
@@ -38,6 +38,20 @@ namespace GamesControl.Web.Controllers
         // GET: Usuario/Create
         public ActionResult Create()
         {
+            ViewBag.Status = new SelectList
+            (
+                db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
+                "usuarioStatusId",
+                "usuarioStatusDescricao"
+            );
+
+            ViewBag.Perfil = new SelectList
+            (
+                db.tbPerfil.ToList().OrderBy(p => p.perfilDescricao),
+                "perfilId",
+                "perfilDescricao"
+            );
+
             return View();
         }
 
@@ -45,22 +59,45 @@ namespace GamesControl.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(string email, string nome, string senha, string telefone, int status)
+        public ActionResult Create(string email, string nome, string telefone, int status, int perfil)
         {
             try
             {
                 tbusuario usuario = new tbusuario();
                 usuario.usuarioEmail = email;
                 usuario.usuarioNome = nome;
-                usuario.usuarioSenha = senha;
+                usuario.usuarioSenha = "123";
+
+                if (telefone == "() -")
+                {
+                    telefone = string.Empty;
+                }
+
                 if (!string.IsNullOrWhiteSpace(telefone))
                 {
                     usuario.usuarioTelefone = telefone;
                 }
 
-                usuario.tbusuariostatus.usuarioStatusId = status;
+                usuario.tbusuariostatus = db.tbusuariostatus.Find(status);
+                usuario.tbPerfil = db.tbPerfil.Find(perfil);
+
                 db.tbusuario.Add(usuario);
                 db.SaveChanges();
+
+                ViewBag.Status = new SelectList
+                (
+                    db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
+                    "usuarioStatusId",
+                    "usuarioStatusDescricao"
+                );
+
+                ViewBag.Perfil = new SelectList
+                (
+                    db.tbPerfil.ToList().OrderBy(p => p.perfilDescricao),
+                    "perfilId",
+                    "perfilDescricao"
+                );
+
                 return PartialView();
             }
             catch (Exception ex)
@@ -81,6 +118,21 @@ namespace GamesControl.Web.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Status = new SelectList
+            (
+                db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
+                "usuarioStatusId",
+                "usuarioStatusDescricao"
+            );
+
+            ViewBag.Perfil = new SelectList
+            (
+                db.tbPerfil.ToList().OrderBy(p => p.perfilDescricao),
+                "perfilId",
+                "perfilDescricao"
+            );
+
             return View(tbusuario);
         }
 
@@ -88,7 +140,7 @@ namespace GamesControl.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int id, string email, string nome, string senha, string telefone, int status)
+        public ActionResult Edit(int id, string email, string nome, string senha, string telefone, int status, int perfil)
         {
             try
             {
@@ -106,8 +158,24 @@ namespace GamesControl.Web.Controllers
                     usuario.usuarioTelefone = telefone;
                 }
                 usuario.tbusuariostatus.usuarioStatusId = status;
+                usuario.tbPerfil.perfilId = perfil;
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();
+
+                ViewBag.Status = new SelectList
+                (
+                    db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
+                    "usuarioStatusId",
+                    "usuarioStatusDescricao"
+                );
+
+                ViewBag.Perfil = new SelectList
+                (
+                    db.tbPerfil.ToList().OrderBy(p => p.perfilDescricao),
+                    "perfilId",
+                    "perfilDescricao"
+                );
+
                 return PartialView();
             }
             catch (Exception ex)

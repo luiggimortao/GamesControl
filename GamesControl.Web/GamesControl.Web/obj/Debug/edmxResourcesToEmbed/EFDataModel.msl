@@ -101,6 +101,7 @@
     <EntitySetMapping Name="tbusuario">
       <EntityTypeMapping TypeName="dbGameModel.tbusuario">
         <MappingFragment StoreEntitySet="tbusuario">
+          <ScalarProperty Name="perfilId" ColumnName="perfilId" />
           <ScalarProperty Name="usuarioTelefone" ColumnName="usuarioTelefone" />
           <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
           <ScalarProperty Name="usuarioEmail" ColumnName="usuarioEmail" />
@@ -126,5 +127,13 @@
         <ScalarProperty Name="jogoId" ColumnName="jogoId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="tbPerfil">
+      <EntityTypeMapping TypeName="dbGameModel.tbPerfil">
+        <MappingFragment StoreEntitySet="tbPerfil">
+          <ScalarProperty Name="perfilDescricao" ColumnName="perfilDescricao" />
+          <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

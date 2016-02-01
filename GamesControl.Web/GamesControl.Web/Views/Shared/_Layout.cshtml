@@ -9,6 +9,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryblockUI")
+    @Scripts.Render("~/bundles/jqueryMask")
     @Scripts.Render("~/bundles/dataTables")
     @Scripts.Render("~/bundles/site")
 </head>
@@ -50,7 +52,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Todos os direitos reservados</p>
         </footer>
     </div>
     @RenderSection("scripts", required: false)

@@ -1,0 +1,51 @@
+﻿@model GamesControl.Web.tbusuario
+
+@{
+    ViewBag.Title = "Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Html.DisplayFor(model => model.usuarioNome)</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayName("Email")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuarioEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Celular")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuarioTelefone)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Status")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tbusuariostatus.usuarioStatusDescricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Perfil")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tbPerfil.perfilDescricao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.usuarioId }) |
+    @Html.ActionLink("Voltar", "Index")
+</p>

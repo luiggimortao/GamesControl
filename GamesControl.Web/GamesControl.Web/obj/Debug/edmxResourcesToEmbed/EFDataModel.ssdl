@@ -88,6 +88,13 @@
     <Property Name="jogoStatusId" Type="int" Nullable="false" />
     <Property Name="jogoStatusDescricao" Type="varchar" MaxLength="45" />
   </EntityType>
+  <EntityType Name="tbPerfil">
+    <Key>
+      <PropertyRef Name="perfilId" />
+    </Key>
+    <Property Name="perfilId" Type="int" Nullable="false" />
+    <Property Name="perfilDescricao" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="tbtime">
     <Key>
       <PropertyRef Name="timeId" />
@@ -107,6 +114,7 @@
     <Property Name="usuarioSenha" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="usuarioTelefone" Type="varchar" MaxLength="15" />
     <Property Name="usuarioStatusId" Type="int" Nullable="false" />
+    <Property Name="perfilId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tbusuariostatus">
     <Key>
@@ -160,6 +168,18 @@
       </Principal>
       <Dependent Role="tbestatisticajogo">
         <PropertyRef Name="jogoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbusuario_tbPerfil">
+    <End Role="tbPerfil" Type="Self.tbPerfil" Multiplicity="1" />
+    <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbPerfil">
+        <PropertyRef Name="perfilId" />
+      </Principal>
+      <Dependent Role="tbusuario">
+        <PropertyRef Name="perfilId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -258,6 +278,7 @@
     <EntitySet Name="tbjogo" EntityType="Self.tbjogo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbjogoarbitro" EntityType="Self.tbjogoarbitro" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbjogostatus" EntityType="Self.tbjogostatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbPerfil" EntityType="Self.tbPerfil" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbtime" EntityType="Self.tbtime" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbusuario" EntityType="Self.tbusuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tbusuariostatus" EntityType="Self.tbusuariostatus" Schema="dbo" store:Type="Tables" />
@@ -276,6 +297,10 @@
     <AssociationSet Name="Estatisticajogo" Association="Self.Estatisticajogo">
       <End Role="tbjogo" EntitySet="tbjogo" />
       <End Role="tbestatisticajogo" EntitySet="tbestatisticajogo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbusuario_tbPerfil" Association="Self.FK_tbusuario_tbPerfil">
+      <End Role="tbPerfil" EntitySet="tbPerfil" />
+      <End Role="tbusuario" EntitySet="tbusuario" />
     </AssociationSet>
     <AssociationSet Name="jogadorCidade" Association="Self.jogadorCidade">
       <End Role="tbcidade" EntitySet="tbcidade" />

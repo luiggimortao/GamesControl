@@ -1,11 +1,11 @@
-﻿@model GamesControl.Web.tbusuariostatus
+﻿@model GamesControl.Web.tbusuario
 
 @{
-    ViewBag.Title = "Editar Status de Usuários";
+    ViewBag.Title = "Editar Usuário";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Editar Status de Usuários</h2>
+<h2>Editar Usuário</h2>
 
 @using (Html.BeginForm())
 {
@@ -14,18 +14,39 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+        @Html.HiddenFor(model => model.usuarioId)
         <div class="form-group">
-            @Html.Label("Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Nome", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.usuarioStatusId, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" }, maxLength = 200 })
+                @Html.EditorFor(model => model.usuarioNome, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("Descrição", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.usuarioStatusDescricao, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+                @Html.EditorFor(model => model.usuarioEmail, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Celular", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.usuarioTelefone, new { htmlAttributes = new { @class = "form-control" }, maxLength = 15 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Status", null, string.Empty, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Perfil", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Perfil", null, string.Empty, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 
@@ -45,13 +66,17 @@
                     return false;
                 }
 
-                $.post('@Url.Action("Edit","UsuarioStatus")',
+                $.post('@Url.Action("Edit","Usuario")',
                 {
-                    id: $("#usuarioStatusId").val(),
-                    descricao: $("#usuarioStatusDescricao").val()
+                    id: $("#usuarioId").val(),
+                    email: $("#usuarioEmail").val(),
+                    nome: $("#usuarioNome").val(),
+                    telefone: $("#usuarioTelefone").val(),
+                    status: $("#Status").val(),
+                    perfil: $("#Perfil").val()
                 }).done(function (data) {
 
-                    $.AlertDialog('Status de Usuário alterado com sucesso!', 'Mensagem', null, null);
+                    $.AlertDialog('Usuário alterado com sucesso!', 'Mensagem', null, null);
 
                 }).error(function (XMLHttpRequest, textStatus, errorThrow) {
 
@@ -64,9 +89,28 @@
         });
 
         function Consistir() {
-            if ($.trim($("#usuarioStatusDescricao").val()).length <= 0) {
+            
+            if ($.trim($("#usuarioTelefone").val()) == "() -") {
+                $("#usuarioTelefone").val("");
+            }
 
-                $.AlertDialog("O campo 'Descrição' é obrigatório", 'Mensagem', null, null);
+            if ($.trim($("#usuarioNome").val()).length <= 0) {
+                $.AlertDialog("O campo 'Nome' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#usuarioEmail").val()).length <= 0) {
+                $.AlertDialog("O campo 'Email' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#Status").val()).length <= 0) {
+                $.AlertDialog("O campo 'Status' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#Perfil").val()).length <= 0) {
+                $.AlertDialog("O campo 'Perfil' é obrigatório", 'Mensagem', null, null);
                 return false;
             }
 

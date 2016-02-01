@@ -27,6 +27,8 @@
         <AssociationConnector Association="dbGameModel.JogoTime2" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.usuariousuariostatus" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.tbjogoarbitro" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dbGameModel.tbPerfil" Width="1.5" PointX="0.75" PointY="9.875" />
+        <AssociationConnector Association="dbGameModel.FK_tbusuario_tbPerfil" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

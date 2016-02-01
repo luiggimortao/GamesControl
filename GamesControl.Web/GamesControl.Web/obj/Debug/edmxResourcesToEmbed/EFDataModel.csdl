@@ -118,6 +118,8 @@
     <NavigationProperty Name="tbjogador" Relationship="Self.jogadorusuario" FromRole="tbusuario" ToRole="tbjogador" />
     <NavigationProperty Name="tbusuariostatus" Relationship="Self.usuariousuariostatus" FromRole="tbusuario" ToRole="tbusuariostatus" />
     <Property Name="usuarioTelefone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="perfilId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tbPerfil" Relationship="dbGameModel.FK_tbusuario_tbPerfil" FromRole="tbusuario" ToRole="tbPerfil" />
   </EntityType>
   <EntityType Name="tbusuariostatus">
     <Key>
@@ -292,5 +294,30 @@
       <End Role="tbarbitro" EntitySet="tbarbitro" />
       <End Role="tbjogo" EntitySet="tbjogo" />
     </AssociationSet>
+    <EntitySet Name="tbPerfil" EntityType="dbGameModel.tbPerfil" />
+    <AssociationSet Name="FK_tbusuario_tbPerfil" Association="dbGameModel.FK_tbusuario_tbPerfil">
+      <End Role="tbPerfil" EntitySet="tbPerfil" />
+      <End Role="tbusuario" EntitySet="tbusuario" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="tbPerfil">
+    <Key>
+      <PropertyRef Name="perfilId" />
+    </Key>
+    <Property Name="perfilId" Type="Int32" Nullable="false" />
+    <Property Name="perfilDescricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tbusuario" Relationship="dbGameModel.FK_tbusuario_tbPerfil" FromRole="tbPerfil" ToRole="tbusuario" />
+  </EntityType>
+  <Association Name="FK_tbusuario_tbPerfil">
+    <End Type="dbGameModel.tbPerfil" Role="tbPerfil" Multiplicity="1" />
+    <End Type="dbGameModel.tbusuario" Role="tbusuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbPerfil">
+        <PropertyRef Name="perfilId" />
+      </Principal>
+      <Dependent Role="tbusuario">
+        <PropertyRef Name="perfilId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -100,3 +100,5 @@ $.ErrorDialog = function (message, callbackClose, callbackArgument) {
         });
     dlg.dialog("open");
 };
+
+$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);

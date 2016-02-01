@@ -26,9 +26,11 @@ namespace GamesControl.Web
         public string usuarioSenha { get; set; }
         public int usuarioStatusId { get; set; }
         public string usuarioTelefone { get; set; }
+        public int perfilId { get; set; }
     
         public virtual ICollection<tbarbitro> tbarbitro { get; set; }
         public virtual ICollection<tbjogador> tbjogador { get; set; }
         public virtual tbusuariostatus tbusuariostatus { get; set; }
+        public virtual tbPerfil tbPerfil { get; set; }
     }
 }

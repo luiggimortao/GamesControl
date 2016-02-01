@@ -13,15 +13,18 @@
 <table id="tbDados">
     <thead>
         <tr>
-            <th width="15%" style="text-align:center;">Ações</th>
-            <th width="35%">
+            <th width="20%" style="text-align:center;">Ações</th>
+            <th width="30%">
                 Nome
             </th>
             <th width="30%">
                 Email
             </th>
-            <th width="20%">
+            <th width="10%">
                 Status
+            </th>
+            <th width="10%">
+                Perfil
             </th>
         </tr>
     </thead>
@@ -30,6 +33,7 @@
         {
             <tr>
                 <td align="center">
+                    @Html.ActionLink("Detalhar", "Detail", new { id = item.usuarioId }) |
                     @Html.ActionLink("Editar", "Edit", new { id = item.usuarioId }) |
                     <a onclick="Excluir(@item.usuarioId, '@item.usuarioNome');">Excluir</a>
                 </td>
@@ -41,6 +45,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.tbusuariostatus.usuarioStatusDescricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tbPerfil.perfilDescricao)
                 </td>
             </tr>
         }
