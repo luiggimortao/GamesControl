@@ -34,6 +34,25 @@
                 </dd>
             </dl>
         </div>
+
+        @if (Model.tbjogador.Count > 0)
+        { 
+        <div class="col-md-9">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("Jogadores")
+                </dt>
+
+                <dd>
+                    @foreach(var jogador in Model.tbjogador)
+                    {
+                        <span>@jogador.tbusuario.usuarioNome</span>
+                        <br />
+                    }
+                </dd>
+            </dl>
+        </div>
+        }
     </div>
 </div>
 <p>
