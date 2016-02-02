@@ -14,5 +14,13 @@ namespace GamesControl.Web.Comum
             Arbitro = 3,
             Visitante = 4
         }
+
+        public enum eStatusUsuario
+        {
+            OK = 1,
+            PendenteAprovacao = 2,
+            Inativo = 3,
+            Banido = 4
+        }
     }
 }

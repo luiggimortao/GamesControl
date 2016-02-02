@@ -13,8 +13,8 @@
 <table id="tbDados">
     <thead>
         <tr>
-            <th width="20%" style="text-align:center;">Ações</th>
-            <th width="50%">
+            <th width="26%" style="text-align:center;">Ações</th>
+            <th width="44%">
                 Nome
             </th>
             <th width="30%">
@@ -29,6 +29,7 @@
                 <td align="center">
                     @Html.ActionLink("Detalhar", "Detail", new { id = item.timeId }) |
                     @Html.ActionLink("Editar", "Edit", new { id = item.timeId }) |
+                    @Html.ActionLink("Editar Jogadores", "Index", "TimeJogador", new { id = item.timeId }, null) |
                     <a onclick="Excluir(@item.timeId, '@item.timeNome');">Excluir</a>
                 </td>
                 <td>
@@ -57,7 +58,7 @@
                 "processing": "Processando...",
                 "search": "Filtrar:",
                 "zeroRecords": "Consulta não retornou registros",
-            },
+            }
 
         });
 

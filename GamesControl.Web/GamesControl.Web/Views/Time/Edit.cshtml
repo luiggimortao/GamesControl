@@ -35,6 +35,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
                         <input id="btnSalvar" type="submit" value="Salvar" class="btn btn-default" />
+                        <input id="btnEditarJogadores" type="button" value="Editar Jogadores" class="btn btn-default" />
                     </div>
                 </div>
 
@@ -77,6 +78,13 @@
                 if (!Consistir()) {
                     return false;
                 }
+            });
+
+            $('#btnEditarJogadores').click(function () {
+
+                var url = '@Url.Action("Index", "TimeJogador", new { id = Model.timeId })';
+                window.location.href = url;
+
             });
 
             @if (ViewBag.Alterado != null && ViewBag.Alterado == "S")

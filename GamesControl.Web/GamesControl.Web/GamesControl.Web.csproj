@@ -164,6 +164,7 @@
     <Compile Include="Comum\Enuns.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TimeJogadorController.cs" />
     <Compile Include="Controllers\TimeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\UsuarioStatusController.cs" />
@@ -351,6 +352,9 @@
     <Content Include="Views\Time\Detail.cshtml" />
     <Content Include="Views\Time\Edit.cshtml" />
     <Content Include="Views\Time\Index.cshtml" />
+    <Content Include="Views\TimeJogador\Index.cshtml" />
+    <Content Include="Views\TimeJogador\Add.cshtml" />
+    <Content Include="Views\TimeJogador\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
