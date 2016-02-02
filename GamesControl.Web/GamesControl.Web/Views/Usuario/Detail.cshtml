@@ -1,20 +1,20 @@
-﻿@model GamesControl.Web.tbusuario
+﻿@model GamesControl.Web.Models.UsuarioViewModel
 
 @{
     ViewBag.Title = "Usuário";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var jogador = false;
 }
 
-<h2>@Html.DisplayFor(model => model.usuarioNome)</h2>
-
+<h2>@Html.DisplayFor(model => model.Usuario.usuarioNome)</h2>
 <div>
     <hr />
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div>
-                @if (!string.IsNullOrWhiteSpace(Model.usuarioFoto))
+                @if (!string.IsNullOrWhiteSpace(Model.Usuario.usuarioFoto))
                 {
-                    <img id="imgUpload" src="@Url.Content(Model.usuarioFoto)" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="width:220px; height:230px;" />
+                    <img id="imgUpload" src="@Url.Content(Model.Usuario.usuarioFoto)" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="width:220px; height:230px;" />
                 }
                 else
                 {
@@ -24,14 +24,14 @@
             <br />
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-9">
             <dl class="dl-horizontal">
                 <dt>
                     @Html.DisplayName("Email")
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.usuarioEmail)
+                    @Html.DisplayFor(model => model.Usuario.usuarioEmail)
                 </dd>
 
                 <dt>
@@ -39,7 +39,7 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.usuarioTelefone)
+                    @Html.DisplayFor(model => model.Usuario.usuarioTelefone)
                 </dd>
 
                 <dt>
@@ -47,7 +47,7 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.tbusuariostatus.usuarioStatusDescricao)
+                    @Html.DisplayFor(model => model.Usuario.tbusuariostatus.usuarioStatusDescricao)
                 </dd>
 
                 <dt>
@@ -56,19 +56,40 @@
 
                 <dd>
                     <table>
-                        @foreach (var perfil in Model.tbPerfil)
+                        @foreach (var perfil in Model.Usuario.tbPerfil)
                         {
+                            if (perfil.perfilId == (int)GamesControl.Web.Comum.Enuns.ePerfilUsuario.Jogador)
+                            {
+                                jogador = true;
+                            }
                             <tr>
                                 <td>@perfil.perfilDescricao</td>
                             </tr>
                         }
                     </table>
                 </dd>
+                @if (jogador)
+                {
+                    <dt>
+                        @Html.DisplayName("Data de Nascimento")
+                    </dt>
+
+                    <dd>
+                        @Html.Label(Model.Jogador.jogadorDataNascimento != DateTime.MinValue ? Model.Jogador.jogadorDataNascimento.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO) : string.Empty)
+                    </dd>
+                    <dt>
+                        @Html.DisplayName("Cidade")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Jogador.tbcidade.cidadeNome)
+                    </dd>
+                }
             </dl>
         </div>
     </div>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.usuarioId }) |
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Usuario.usuarioId }) |
     @Html.ActionLink("Voltar", "Index")
 </p>

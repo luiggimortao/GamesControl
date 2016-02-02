@@ -8,12 +8,21 @@ using System.Web;
 using System.Web.Mvc;
 using GamesControl.Web;
 using System.IO;
+using GamesControl.Web.Models;
+using GamesControl.Web.Comum;
+using System.Globalization;
 
 namespace GamesControl.Web.Controllers
 {
     public class UsuarioController : Controller
     {
+        #region - Variáveis -
+
         private Contexto db = new Contexto();
+
+        #endregion
+
+        #region - Actions -
 
         // GET: Usuario
         public ActionResult Index()
@@ -28,12 +37,20 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbusuario tbusuario = db.tbusuario.Find(id);
-            if (tbusuario == null)
+            tbusuario usuario = db.tbusuario.Find(id);
+            if (usuario == null)
             {
                 return HttpNotFound();
             }
-            return View(tbusuario);
+
+            var jogador = usuario.tbjogador.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
+            var arbitro = usuario.tbarbitro.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
+
+            UsuarioViewModel usuarioVM = new UsuarioViewModel();
+            usuarioVM.Usuario = usuario;
+            usuarioVM.Jogador = jogador;
+            usuarioVM.Arbitro = arbitro;
+            return View(usuarioVM);
         }
 
         // GET: Usuario/Create
@@ -53,6 +70,13 @@ namespace GamesControl.Web.Controllers
                 "perfilDescricao"
             );
 
+            ViewBag.Cidade = new SelectList
+            (
+                db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                "cidadeId",
+                "cidadeNome"
+            );
+
             return View();
         }
 
@@ -60,7 +84,7 @@ namespace GamesControl.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(string usuarioNome, string usuarioEmail, string usuarioTelefone, int Status, string[] Perfil, HttpPostedFileBase fileUpload)
+        public ActionResult Create(string usuarioNome, string usuarioEmail, string usuarioTelefone, int usuarioStatus, string[] usuarioPerfil, string jogadorDataNascimento, int? usuarioCidade, HttpPostedFileBase fileUpload)
         {
             try
             {
@@ -79,10 +103,22 @@ namespace GamesControl.Web.Controllers
                     usuario.usuarioTelefone = usuarioTelefone;
                 }
 
-                usuario.tbusuariostatus = db.tbusuariostatus.Find(Status);
+                usuario.tbusuariostatus = db.tbusuariostatus.Find(usuarioStatus);
 
-                foreach (string idPerfil in Perfil)
+                bool possuiJogador = false;
+                bool possuiArbitro = false;
+                foreach (string idPerfil in usuarioPerfil)
                 {
+                    if (int.Parse(idPerfil) == (int)Enuns.ePerfilUsuario.Jogador)
+                    {
+                        possuiJogador = true;
+                    }
+
+                    if (int.Parse(idPerfil) == (int)Enuns.ePerfilUsuario.Arbitro)
+                    {
+                        possuiArbitro = true;
+                    }
+
                     var perfil = db.tbPerfil.Find(int.Parse(idPerfil));
                     if (perfil != null)
                     {
@@ -92,6 +128,16 @@ namespace GamesControl.Web.Controllers
 
                 db.tbusuario.Add(usuario);
                 db.SaveChanges();
+
+                if (possuiJogador)
+                {
+                    this.AdicionarJogador(usuario, DateTime.ParseExact(jogadorDataNascimento, Constantes.DATA_PADRAO, CultureInfo.InvariantCulture), usuarioCidade.Value);
+                }
+
+                if (possuiArbitro)
+                {
+                    this.AdicionarArbitro(usuario);
+                }
 
                 if (fileUpload != null)
                 {
@@ -117,6 +163,13 @@ namespace GamesControl.Web.Controllers
                     db.tbPerfil.ToList().OrderBy(p => p.perfilDescricao),
                     "perfilId",
                     "perfilDescricao"
+                );
+
+                ViewBag.Cidade = new SelectList
+                (
+                    db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                    "cidadeId",
+                    "cidadeNome"
                 );
 
                 return PartialView();
@@ -156,16 +209,32 @@ namespace GamesControl.Web.Controllers
                 usuario.perfilId
             );
 
+            var jogador = usuario.tbjogador.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
+            var arbitro = usuario.tbarbitro.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
+
+            ViewBag.Cidade = new SelectList
+            (
+                db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                "cidadeId",
+                "cidadeNome",
+                jogador != null ? jogador.cidadeId.ToString() : string.Empty
+            );
+
             ViewBag.Alterado = "N";
 
-            return View(usuario);
+            UsuarioViewModel usuarioVM = new UsuarioViewModel();
+            usuarioVM.Usuario = usuario;
+            usuarioVM.Jogador = jogador;
+            usuarioVM.Arbitro = arbitro;
+
+            return View(usuarioVM);
         }
 
         // POST: Usuario/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int usuarioId, string usuarioNome, string usuarioEmail, string usuarioTelefone, int Status, string[] Perfil, HttpPostedFileBase fileUpload)
+        public ActionResult Edit(int usuarioId, string usuarioNome, string usuarioEmail, string usuarioTelefone, int usuarioStatus, string[] usuarioPerfil, string jogadorDataNascimento, int? usuarioCidade, HttpPostedFileBase fileUpload)
         {
             try
             {
@@ -187,11 +256,25 @@ namespace GamesControl.Web.Controllers
                     usuario.usuarioTelefone = usuarioTelefone;
                 }
 
-                usuario.tbusuariostatus = db.tbusuariostatus.Find(Status);
+                usuario.tbusuariostatus = db.tbusuariostatus.Find(usuarioStatus);
 
                 this.ExcluirPerfis(usuarioId);
-                foreach (string idPerfil in Perfil)
+                this.ExcluirJogadores(usuarioId);
+                this.ExcluirArbitros(usuarioId);
+                bool possuiJogador = false;
+                bool possuiArbitro = false;
+                foreach (string idPerfil in usuarioPerfil)
                 {
+                    if (int.Parse(idPerfil) == (int)Enuns.ePerfilUsuario.Jogador)
+                    {
+                        possuiJogador = true;
+                    }
+
+                    if (int.Parse(idPerfil) == (int)Enuns.ePerfilUsuario.Arbitro)
+                    {
+                        possuiArbitro = true;
+                    }
+
                     var perfil = db.tbPerfil.Find(int.Parse(idPerfil));
                     if (perfil != null)
                     {
@@ -211,6 +294,18 @@ namespace GamesControl.Web.Controllers
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();
 
+                tbjogador jogador = null;
+                if (possuiJogador)
+                {
+                    jogador = this.AdicionarJogador(usuario, DateTime.ParseExact(jogadorDataNascimento, Constantes.DATA_PADRAO, CultureInfo.InvariantCulture), usuarioCidade.Value);
+                }
+
+                tbarbitro arbitro = null;
+                if (possuiArbitro)
+                {
+                    arbitro = this.AdicionarArbitro(usuario);
+                }
+
                 ViewBag.Status = new SelectList
                 (
                     db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
@@ -227,9 +322,22 @@ namespace GamesControl.Web.Controllers
                     usuario.perfilId
                 );
 
+                ViewBag.Cidade = new SelectList
+                (
+                    db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                    "cidadeId",
+                    "cidadeNome",
+                    jogador != null ? jogador.cidadeId.ToString() : string.Empty
+                );
+
                 ViewBag.Alterado = "S";
 
-                return PartialView(usuario);
+                UsuarioViewModel usuarioVM = new UsuarioViewModel();
+                usuarioVM.Usuario = usuario;
+                usuarioVM.Jogador = jogador;
+                usuarioVM.Arbitro = arbitro;
+
+                return View(usuarioVM);
             }
             catch (Exception ex)
             {
@@ -245,6 +353,8 @@ namespace GamesControl.Web.Controllers
             {
                 tbusuario tbusuario = db.tbusuario.Find(id);
                 this.ExcluirPerfis(id);
+                this.ExcluirJogadores(id);
+                this.ExcluirArbitros(id);
                 db.tbusuario.Remove(tbusuario);
                 db.SaveChanges();
 
@@ -256,6 +366,34 @@ namespace GamesControl.Web.Controllers
             {
                 throw new Exception(string.Format("|{0}|", ex.Message));
             }
+        }
+
+        #endregion
+
+        #region - Métodos -
+
+        private tbjogador AdicionarJogador(tbusuario usuario, DateTime dataNascimento, int idCidade)
+        {
+            tbjogador jogador = new tbjogador();
+            jogador.jogadorDataNascimento = dataNascimento;
+            jogador.cidadeId = idCidade;
+            jogador.usuarioId = usuario.usuarioId;
+
+            db.tbjogador.Add(jogador);
+            db.SaveChanges();
+
+            return jogador;
+        }
+
+        private tbarbitro AdicionarArbitro(tbusuario usuario)
+        {
+            tbarbitro arbitro = new tbarbitro();
+            arbitro.usuarioId = usuario.usuarioId;
+
+            db.tbarbitro.Add(arbitro);
+            db.SaveChanges();
+
+            return arbitro;
         }
 
         private void ExcluirPerfis(int idUsuario)
@@ -272,15 +410,48 @@ namespace GamesControl.Web.Controllers
             db.SaveChanges();
         }
 
+        private void ExcluirJogadores(int idUsuario)
+        {
+            var jogadores = db.tbjogador.Where(x => x.usuarioId == idUsuario);
+
+            if (jogadores.Count() > 0)
+            {
+                foreach (var jogador in jogadores)
+                {
+                    db.tbjogador.Remove(jogador);
+                }
+            }
+
+            db.SaveChanges();
+        }
+
+        private void ExcluirArbitros(int idUsuario)
+        {
+            var arbitros = db.tbarbitro.Where(x => x.usuarioId == idUsuario);
+
+            if (arbitros.Count() > 0)
+            {
+                foreach (var arbitro in arbitros)
+                {
+                    db.tbarbitro.Remove(arbitro);
+                }
+            }
+
+            db.SaveChanges();
+        }
+
         private void ApagarArquivosUsuario(int idUsuario)
         {
             string pattern = string.Format("{0}.*", idUsuario);
-            var matches = Directory.GetFiles(Server.MapPath("~/Content/Fotos"), pattern);
-            foreach (string file in Directory.GetFiles(Server.MapPath("~/Content/Fotos")).Except(matches))
+            foreach (string file in Directory.GetFiles(Server.MapPath("~/Content/Fotos"), pattern))
             {
                 System.IO.File.Delete(file);
             }
         }
+
+        #endregion
+
+        #region - Destrutores -
 
         protected override void Dispose(bool disposing)
         {
@@ -290,5 +461,7 @@ namespace GamesControl.Web.Controllers
             }
             base.Dispose(disposing);
         }
+
+        #endregion
     }
 }
