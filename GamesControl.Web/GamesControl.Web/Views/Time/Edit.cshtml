@@ -1,0 +1,131 @@
+﻿@model GamesControl.Web.tbtime
+
+@{
+    ViewBag.Title = "Editar Time";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Editar Time</h2>
+
+@using (Html.BeginForm("Edit", "Time", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        <div class="row">
+            <div class="col-md-offset-1 col-md-5">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.timeId, new { @id = "timeId", @Name = "timeId" })
+                <div class="form-group">
+                    @Html.Label("Nome", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.timeNome, null, "timeNome", new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Cidade", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownList("timeCidade", (SelectList)ViewBag.Cidade, string.Empty, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input id="btnSalvar" type="submit" value="Salvar" class="btn btn-default" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <span>Selecione um logo para o time.</span>
+                <br />
+                <br />
+                <div>
+                    @if (!string.IsNullOrWhiteSpace(Model.timeCaminhoLogo))
+                    {
+                        <img id="imgUpload" src="@Url.Content(Model.timeCaminhoLogo)" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="cursor:pointer; width:220px; height:230px;" />
+                    }
+                    else
+                    {
+                        <img id="imgUpload" src="~/Content/Images/fotoVazia.png" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="cursor:pointer; width:220px; height:230px;" />
+                    }
+                </div>
+                <br />
+                Utilizar imagem de no máximo 2MB.
+                <input type='file' id="fileUpload" name="fileUpload" style="display:none;" />
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#imgUpload').click(function () {
+                $('#fileUpload').click();
+            });
+
+            $("#fileUpload").change(function () {
+                readURL(this);
+            });
+
+            $('#btnSalvar').click(function () {
+
+                if (!Consistir()) {
+                    return false;
+                }
+            });
+
+            @if (ViewBag.Alterado != null && ViewBag.Alterado == "S")
+            {
+            <text>
+            $.AlertDialog("Time alterado com sucesso!", "Mensagem", null, null);
+            </text>
+            }
+        });
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgUpload').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function Consistir() {
+
+            if ($.trim($("#timeNome").val()).length <= 0) {
+                $.AlertDialog("O campo 'Nome' é obrigatório.", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#timeCidade").val()).length <= 0) {
+                $.AlertDialog("O campo 'Nome' é obrigatório.", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($("#fileUpload").val().length > 0) {
+                var file_size = $('#fileUpload')[0].files[0].size
+                if (file_size > 2097152) {
+                    $.AlertDialog("O logo para o time é maior que 2MB. Favor selecionar uma imagem menor.", 'Mensagem', null, null);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+    </script>
+}
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>

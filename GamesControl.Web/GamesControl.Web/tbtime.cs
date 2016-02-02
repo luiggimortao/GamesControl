@@ -18,6 +18,7 @@ namespace GamesControl.Web
         {
             this.tbjogo = new HashSet<tbjogo>();
             this.tbjogo1 = new HashSet<tbjogo>();
+            this.tbjogador = new HashSet<tbjogador>();
         }
     
         public int timeId { get; set; }
@@ -27,5 +28,7 @@ namespace GamesControl.Web
     
         public virtual ICollection<tbjogo> tbjogo { get; set; }
         public virtual ICollection<tbjogo> tbjogo1 { get; set; }
+        public virtual ICollection<tbjogador> tbjogador { get; set; }
+        public virtual tbcidade tbcidade { get; set; }
     }
 }

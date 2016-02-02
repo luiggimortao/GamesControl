@@ -1,0 +1,42 @@
+﻿@model GamesControl.Web.tbtime
+
+@{
+    ViewBag.Title = "Time";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Html.DisplayFor(model => model.timeNome)</h2>
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <div>
+                @if (!string.IsNullOrWhiteSpace(Model.timeCaminhoLogo))
+                {
+                    <img id="imgUpload" src="@Url.Content(Model.timeCaminhoLogo)" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="width:220px; height:230px;" />
+                }
+                else
+                {
+                    <img id="imgUpload" src="~/Content/Images/fotoVazia.png" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="width:220px; height:230px;" />
+                }
+            </div>
+            <br />
+        </div>
+
+        <div class="col-md-9">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("Cidade")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.tbcidade.cidadeNome)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.timeId }) |
+    @Html.ActionLink("Voltar", "Index")
+</p>

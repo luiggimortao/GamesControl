@@ -17,11 +17,13 @@ namespace GamesControl.Web
         public tbcidade()
         {
             this.tbjogador = new HashSet<tbjogador>();
+            this.tbtime = new HashSet<tbtime>();
         }
     
         public int cidadeId { get; set; }
         public string cidadeNome { get; set; }
     
         public virtual ICollection<tbjogador> tbjogador { get; set; }
+        public virtual ICollection<tbtime> tbtime { get; set; }
     }
 }

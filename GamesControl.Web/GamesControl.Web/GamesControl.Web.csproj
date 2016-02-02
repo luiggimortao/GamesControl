@@ -164,6 +164,7 @@
     <Compile Include="Comum\Enuns.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TimeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\UsuarioStatusController.cs" />
     <Compile Include="Controllers\JogoStatusController.cs" />
@@ -345,14 +346,19 @@
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Create.cshtml" />
     <Content Include="Views\Usuario\Detail.cshtml" />
+    <Content Include="Views\Time\Create.cshtml" />
+    <Content Include="Views\Time\Delete.cshtml" />
+    <Content Include="Views\Time\Detail.cshtml" />
+    <Content Include="Views\Time\Edit.cshtml" />
+    <Content Include="Views\Time\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Fotos\" />
+    <Folder Include="Content\TimeLogo\" />
     <Folder Include="Views\Arbitro\" />
     <Folder Include="Views\EstatisticaJogo\" />
     <Folder Include="Views\Jogo\" />
-    <Folder Include="Views\Time\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

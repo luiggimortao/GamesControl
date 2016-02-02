@@ -143,10 +143,10 @@ namespace GamesControl.Web.Controllers
                 {
                     this.ApagarArquivosUsuario(usuario.usuarioId);
 
-                    var caminhoFoto = Path.Combine(Server.MapPath("~/Content/Fotos"), usuario.usuarioId + Path.GetExtension(fileUpload.FileName));
+                    var caminhoFoto = Path.Combine(Server.MapPath(Constantes.CAMINHO_FOTOS), usuario.usuarioId + Path.GetExtension(fileUpload.FileName));
                     fileUpload.SaveAs(caminhoFoto); // Save the file
 
-                    usuario.usuarioFoto = string.Format("{0}{1}{2}", "~/Content/Fotos/", usuario.usuarioId, Path.GetExtension(fileUpload.FileName));
+                    usuario.usuarioFoto = string.Format("{0}{1}{2}", Constantes.CAMINHO_FOTOS, usuario.usuarioId, Path.GetExtension(fileUpload.FileName));
                     db.Entry(usuario).State = EntityState.Modified;
                     db.SaveChanges();
                 }
@@ -285,7 +285,7 @@ namespace GamesControl.Web.Controllers
                 if (fileUpload != null)
                 {
                     this.ApagarArquivosUsuario(usuario.usuarioId);
-                    var caminhoFoto = Path.Combine(Server.MapPath("~/Content/Fotos"), usuario.usuarioId + Path.GetExtension(fileUpload.FileName));
+                    var caminhoFoto = Path.Combine(Server.MapPath(Constantes.CAMINHO_FOTOS), usuario.usuarioId + Path.GetExtension(fileUpload.FileName));
                     fileUpload.SaveAs(caminhoFoto); // Save the file
 
                     usuario.usuarioFoto = string.Format("{0}{1}{2}", "~/Content/Fotos/", usuario.usuarioId, Path.GetExtension(fileUpload.FileName));
@@ -443,7 +443,7 @@ namespace GamesControl.Web.Controllers
         private void ApagarArquivosUsuario(int idUsuario)
         {
             string pattern = string.Format("{0}.*", idUsuario);
-            foreach (string file in Directory.GetFiles(Server.MapPath("~/Content/Fotos"), pattern))
+            foreach (string file in Directory.GetFiles(Server.MapPath(Constantes.CAMINHO_FOTOS), pattern))
             {
                 System.IO.File.Delete(file);
             }

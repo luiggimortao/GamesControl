@@ -141,5 +141,13 @@
         <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
       </EndProperty>
     </AssociationSetMapping>
+    <AssociationSetMapping Name="tbTimeJogador" TypeName="dbGameModel.tbTimeJogador" StoreEntitySet="tbTimeJogador">
+      <EndProperty Name="tbtime">
+        <ScalarProperty Name="timeId" ColumnName="timeId" />
+      </EndProperty>
+      <EndProperty Name="tbjogador">
+        <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

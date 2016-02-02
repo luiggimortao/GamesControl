@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dbGameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dbGameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -114,6 +114,14 @@
           <Property Name="timeCaminhoLogo" Type="varchar" MaxLength="500" />
           <Property Name="cidadeId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="tbTimeJogador">
+          <Key>
+            <PropertyRef Name="timeId" />
+            <PropertyRef Name="jogadorId" />
+          </Key>
+          <Property Name="timeId" Type="int" Nullable="false" />
+          <Property Name="jogadorId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="tbusuario">
           <Key>
             <PropertyRef Name="usuarioId" />
@@ -179,6 +187,42 @@
             </Principal>
             <Dependent Role="tbestatisticajogo">
               <PropertyRef Name="jogoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbtime_tbcidade">
+          <End Role="tbcidade" Type="Self.tbcidade" Multiplicity="1" />
+          <End Role="tbtime" Type="Self.tbtime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbcidade">
+              <PropertyRef Name="cidadeId" />
+            </Principal>
+            <Dependent Role="tbtime">
+              <PropertyRef Name="cidadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbTimeJogador_tbjogador">
+          <End Role="tbjogador" Type="Self.tbjogador" Multiplicity="1" />
+          <End Role="tbTimeJogador" Type="Self.tbTimeJogador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbjogador">
+              <PropertyRef Name="jogadorId" />
+            </Principal>
+            <Dependent Role="tbTimeJogador">
+              <PropertyRef Name="jogadorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbTimeJogador_tbtime">
+          <End Role="tbtime" Type="Self.tbtime" Multiplicity="1" />
+          <End Role="tbTimeJogador" Type="Self.tbTimeJogador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbtime">
+              <PropertyRef Name="timeId" />
+            </Principal>
+            <Dependent Role="tbTimeJogador">
+              <PropertyRef Name="timeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -304,6 +348,7 @@
           <EntitySet Name="tbPerfil" EntityType="Self.tbPerfil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbPerfilUsuario" EntityType="Self.tbPerfilUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbtime" EntityType="Self.tbtime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbTimeJogador" EntityType="Self.tbTimeJogador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbusuario" EntityType="Self.tbusuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbusuariostatus" EntityType="Self.tbusuariostatus" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="arbitroId" Association="Self.arbitroId">
@@ -321,6 +366,18 @@
           <AssociationSet Name="Estatisticajogo" Association="Self.Estatisticajogo">
             <End Role="tbjogo" EntitySet="tbjogo" />
             <End Role="tbestatisticajogo" EntitySet="tbestatisticajogo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbtime_tbcidade" Association="Self.FK_tbtime_tbcidade">
+            <End Role="tbcidade" EntitySet="tbcidade" />
+            <End Role="tbtime" EntitySet="tbtime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbTimeJogador_tbjogador" Association="Self.FK_tbTimeJogador_tbjogador">
+            <End Role="tbjogador" EntitySet="tbjogador" />
+            <End Role="tbTimeJogador" EntitySet="tbTimeJogador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbTimeJogador_tbtime" Association="Self.FK_tbTimeJogador_tbtime">
+            <End Role="tbtime" EntitySet="tbtime" />
+            <End Role="tbTimeJogador" EntitySet="tbTimeJogador" />
           </AssociationSet>
           <AssociationSet Name="FK_tbUsuarioPerfil_tbPerfil" Association="Self.FK_tbUsuarioPerfil_tbPerfil">
             <End Role="tbPerfil" EntitySet="tbPerfil" />
@@ -359,8 +416,7 @@
             <End Role="tbusuario" EntitySet="tbusuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbGameModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -397,6 +453,7 @@
           <Property Name="cidadeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cidadeNome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="tbjogador" Relationship="Self.jogadorCidade" FromRole="tbcidade" ToRole="tbjogador" />
+          <NavigationProperty Name="tbtime" Relationship="dbGameModel.FK_tbtime_tbcidade" FromRole="tbcidade" ToRole="tbtime" />
         </EntityType>
         <EntityType Name="tbestatisticaatributo">
           <Key>
@@ -429,6 +486,7 @@
           <NavigationProperty Name="tbcidade" Relationship="Self.jogadorCidade" FromRole="tbjogador" ToRole="tbcidade" />
           <NavigationProperty Name="tbestatisticajogo" Relationship="Self.estatisticajogador" FromRole="tbjogador" ToRole="tbestatisticajogo" />
           <NavigationProperty Name="tbusuario" Relationship="Self.jogadorusuario" FromRole="tbjogador" ToRole="tbusuario" />
+          <NavigationProperty Name="tbtime" Relationship="dbGameModel.tbTimeJogador" FromRole="tbjogador" ToRole="tbtime" />
         </EntityType>
         <EntityType Name="tbjogo">
           <Key>
@@ -473,6 +531,8 @@
           <Property Name="cidadeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tbjogo" Relationship="Self.JogoTime1" FromRole="tbtime" ToRole="tbjogo" />
           <NavigationProperty Name="tbjogo1" Relationship="Self.JogoTime2" FromRole="tbtime" ToRole="tbjogo" />
+          <NavigationProperty Name="tbjogador" Relationship="dbGameModel.tbTimeJogador" FromRole="tbtime" ToRole="tbjogador" />
+          <NavigationProperty Name="tbcidade" Relationship="dbGameModel.FK_tbtime_tbcidade" FromRole="tbtime" ToRole="tbcidade" />
         </EntityType>
         <EntityType Name="tbusuario">
           <Key>
@@ -673,7 +733,31 @@
             <End Role="tbPerfil" EntitySet="tbPerfil" />
             <End Role="tbusuario" EntitySet="tbusuario" />
           </AssociationSet>
+          <AssociationSet Name="tbTimeJogador" Association="dbGameModel.tbTimeJogador">
+            <End Role="tbjogador" EntitySet="tbjogador" />
+            <End Role="tbtime" EntitySet="tbtime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbtime_tbcidade" Association="dbGameModel.FK_tbtime_tbcidade">
+            <End Role="tbcidade" EntitySet="tbcidade" />
+            <End Role="tbtime" EntitySet="tbtime" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="tbTimeJogador">
+          <End Type="dbGameModel.tbjogador" Role="tbjogador" Multiplicity="*" />
+          <End Type="dbGameModel.tbtime" Role="tbtime" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_tbtime_tbcidade">
+          <End Type="dbGameModel.tbcidade" Role="tbcidade" Multiplicity="1" />
+          <End Type="dbGameModel.tbtime" Role="tbtime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbcidade">
+              <PropertyRef Name="cidadeId" />
+            </Principal>
+            <Dependent Role="tbtime">
+              <PropertyRef Name="cidadeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -818,6 +902,14 @@
             </EndProperty>
             <EndProperty Name="tbusuario">
               <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="tbTimeJogador" TypeName="dbGameModel.tbTimeJogador" StoreEntitySet="tbTimeJogador">
+            <EndProperty Name="tbtime">
+              <ScalarProperty Name="timeId" ColumnName="timeId" />
+            </EndProperty>
+            <EndProperty Name="tbjogador">
+              <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
