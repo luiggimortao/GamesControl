@@ -73,6 +73,13 @@
                 }
             });
 
+            @if (ViewBag.Incluido != null && ViewBag.Incluido == "S")
+            {
+                <text>
+            $.AlertDialog("Time incluído com sucesso!", "Mensagem", null, null);
+                </text>
+            }
+
         });
 
         function readURL(input) {

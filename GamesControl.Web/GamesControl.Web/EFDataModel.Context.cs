@@ -28,11 +28,12 @@ namespace GamesControl.Web
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<tbarbitro> tbarbitro { get; set; }
         public virtual DbSet<tbatributoestatistica> tbatributoestatistica { get; set; }
+        public virtual DbSet<tbCampeonato> tbCampeonato { get; set; }
         public virtual DbSet<tbcidade> tbcidade { get; set; }
-        public virtual DbSet<tbestatisticaatributo> tbestatisticaatributo { get; set; }
         public virtual DbSet<tbestatisticajogo> tbestatisticajogo { get; set; }
         public virtual DbSet<tbjogador> tbjogador { get; set; }
         public virtual DbSet<tbjogo> tbjogo { get; set; }
+        public virtual DbSet<tbJogoJogadorTime> tbJogoJogadorTime { get; set; }
         public virtual DbSet<tbjogostatus> tbjogostatus { get; set; }
         public virtual DbSet<tbPerfil> tbPerfil { get; set; }
         public virtual DbSet<tbtime> tbtime { get; set; }

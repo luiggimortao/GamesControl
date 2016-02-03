@@ -17,16 +17,19 @@ namespace GamesControl.Web
         public tbjogador()
         {
             this.tbestatisticajogo = new HashSet<tbestatisticajogo>();
+            this.tbJogoJogadorTime = new HashSet<tbJogoJogadorTime>();
             this.tbtime = new HashSet<tbtime>();
         }
     
         public int jogadorId { get; set; }
         public System.DateTime jogadorDataNascimento { get; set; }
         public int cidadeId { get; set; }
-        public Nullable<int> usuarioId { get; set; }
+        public int usuarioId { get; set; }
+        public bool jogadorAtivo { get; set; }
     
         public virtual tbcidade tbcidade { get; set; }
         public virtual ICollection<tbestatisticajogo> tbestatisticajogo { get; set; }
+        public virtual ICollection<tbJogoJogadorTime> tbJogoJogadorTime { get; set; }
         public virtual tbusuario tbusuario { get; set; }
         public virtual ICollection<tbtime> tbtime { get; set; }
     }

@@ -68,7 +68,7 @@
                         'Confirmação',
                         function () {
 
-                            $.post('@Url.Action("Delete", "UsuarioStatus")',
+                            $.post('@Url.Action("DeleteConfirmed", "UsuarioStatus")',
                             {
                                 id: id
                             }).done(function (data) {

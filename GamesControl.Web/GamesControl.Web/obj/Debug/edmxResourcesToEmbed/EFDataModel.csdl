@@ -21,10 +21,19 @@
   </EntityType>
   <EntityType Name="tbatributoestatistica">
     <Key>
-      <PropertyRef Name="aributoEstatisticaId" />
+      <PropertyRef Name="atributoEstatisticaId" />
     </Key>
-    <Property Name="aributoEstatisticaId" Type="Int32" Nullable="false" />
-    <Property Name="aributoEstatisticaDescricao" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="atributoEstatisticaId" Type="Int32" Nullable="false" />
+    <Property Name="atributoEstatisticaDescricao" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="tbestatisticajogo" Relationship="Self.FK_tbestatisticajogo_tbatributoestatistica" FromRole="tbatributoestatistica" ToRole="tbestatisticajogo" />
+  </EntityType>
+  <EntityType Name="tbCampeonato">
+    <Key>
+      <PropertyRef Name="campeonatoId" />
+    </Key>
+    <Property Name="campeonatoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="campeonatoNome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="tbjogo" Relationship="Self.FK_tbjogo_tbCampeonato" FromRole="tbCampeonato" ToRole="tbjogo" />
   </EntityType>
   <EntityType Name="tbcidade">
     <Key>
@@ -32,26 +41,20 @@
     </Key>
     <Property Name="cidadeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="cidadeNome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="tbtime" Relationship="Self.FK_tbtime_tbcidade" FromRole="tbcidade" ToRole="tbtime" />
     <NavigationProperty Name="tbjogador" Relationship="Self.jogadorCidade" FromRole="tbcidade" ToRole="tbjogador" />
-    <NavigationProperty Name="tbtime" Relationship="dbGameModel.FK_tbtime_tbcidade" FromRole="tbcidade" ToRole="tbtime" />
-  </EntityType>
-  <EntityType Name="tbestatisticaatributo">
-    <Key>
-      <PropertyRef Name="estatisticaJogoId" />
-      <PropertyRef Name="atributoEstatisticaId" />
-      <PropertyRef Name="estatisticaAtributoQuantidade" />
-    </Key>
-    <Property Name="estatisticaJogoId" Type="Int32" Nullable="false" />
-    <Property Name="atributoEstatisticaId" Type="Int32" Nullable="false" />
-    <Property Name="estatisticaAtributoQuantidade" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="tbestatisticajogo">
     <Key>
-      <PropertyRef Name="estatisticaJogoId" />
+      <PropertyRef Name="jogoId" />
+      <PropertyRef Name="atributoEstatisticaId" />
+      <PropertyRef Name="jogadorId" />
     </Key>
-    <Property Name="estatisticaJogoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="jogoId" Type="Int32" Nullable="false" />
+    <Property Name="atributoEstatisticaId" Type="Int32" Nullable="false" />
     <Property Name="jogadorId" Type="Int32" Nullable="false" />
+    <Property Name="estatisticaJogoQuantidade" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tbatributoestatistica" Relationship="Self.FK_tbestatisticajogo_tbatributoestatistica" FromRole="tbestatisticajogo" ToRole="tbatributoestatistica" />
     <NavigationProperty Name="tbjogador" Relationship="Self.estatisticajogador" FromRole="tbestatisticajogo" ToRole="tbjogador" />
     <NavigationProperty Name="tbjogo" Relationship="Self.Estatisticajogo" FromRole="tbestatisticajogo" ToRole="tbjogo" />
   </EntityType>
@@ -62,28 +65,46 @@
     <Property Name="jogadorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="jogadorDataNascimento" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="cidadeId" Type="Int32" Nullable="false" />
-    <Property Name="usuarioId" Type="Int32" />
+    <Property Name="usuarioId" Type="Int32" Nullable="false" />
+    <Property Name="jogadorAtivo" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="tbcidade" Relationship="Self.jogadorCidade" FromRole="tbjogador" ToRole="tbcidade" />
     <NavigationProperty Name="tbestatisticajogo" Relationship="Self.estatisticajogador" FromRole="tbjogador" ToRole="tbestatisticajogo" />
+    <NavigationProperty Name="tbJogoJogadorTime" Relationship="Self.FK_tbJogoJogador_tbjogador" FromRole="tbjogador" ToRole="tbJogoJogadorTime" />
     <NavigationProperty Name="tbusuario" Relationship="Self.jogadorusuario" FromRole="tbjogador" ToRole="tbusuario" />
-    <NavigationProperty Name="tbtime" Relationship="dbGameModel.tbTimeJogador" FromRole="tbjogador" ToRole="tbtime" />
+    <NavigationProperty Name="tbtime" Relationship="Self.tbTimeJogador" FromRole="tbjogador" ToRole="tbtime" />
   </EntityType>
   <EntityType Name="tbjogo">
     <Key>
       <PropertyRef Name="jogoId" />
     </Key>
     <Property Name="jogoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="campeonatoId" Type="Int32" Nullable="false" />
     <Property Name="timeCasaId" Type="Int32" Nullable="false" />
     <Property Name="timeVisitanteId" Type="Int32" Nullable="false" />
     <Property Name="jogoData" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="jogoStatusId" Type="Int32" />
     <Property Name="jogoPontuacaoCasa" Type="Int32" />
     <Property Name="jogoPontuacaoVisitante" Type="Int32" />
+    <NavigationProperty Name="tbCampeonato" Relationship="Self.FK_tbjogo_tbCampeonato" FromRole="tbjogo" ToRole="tbCampeonato" />
     <NavigationProperty Name="tbestatisticajogo" Relationship="Self.Estatisticajogo" FromRole="tbjogo" ToRole="tbestatisticajogo" />
+    <NavigationProperty Name="tbJogoJogadorTime" Relationship="Self.FK_tbJogoJogador_tbjogo" FromRole="tbjogo" ToRole="tbJogoJogadorTime" />
     <NavigationProperty Name="tbjogostatus" Relationship="Self.jogojogostatus" FromRole="tbjogo" ToRole="tbjogostatus" />
     <NavigationProperty Name="tbtime" Relationship="Self.JogoTime1" FromRole="tbjogo" ToRole="tbtime" />
     <NavigationProperty Name="tbtime1" Relationship="Self.JogoTime2" FromRole="tbjogo" ToRole="tbtime" />
     <NavigationProperty Name="tbarbitro" Relationship="Self.tbjogoarbitro" FromRole="tbjogo" ToRole="tbarbitro" />
+  </EntityType>
+  <EntityType Name="tbJogoJogadorTime">
+    <Key>
+      <PropertyRef Name="jogoId" />
+      <PropertyRef Name="jogadorId" />
+      <PropertyRef Name="timeId" />
+    </Key>
+    <Property Name="jogoId" Type="Int32" Nullable="false" />
+    <Property Name="jogadorId" Type="Int32" Nullable="false" />
+    <Property Name="timeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tbjogador" Relationship="Self.FK_tbJogoJogador_tbjogador" FromRole="tbJogoJogadorTime" ToRole="tbjogador" />
+    <NavigationProperty Name="tbjogo" Relationship="Self.FK_tbJogoJogador_tbjogo" FromRole="tbJogoJogadorTime" ToRole="tbjogo" />
+    <NavigationProperty Name="tbtime" Relationship="Self.FK_tbJogoJogadorTime_tbtime" FromRole="tbJogoJogadorTime" ToRole="tbtime" />
   </EntityType>
   <EntityType Name="tbjogostatus">
     <Key>
@@ -109,10 +130,11 @@
     <Property Name="timeNome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="timeCaminhoLogo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
     <Property Name="cidadeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tbcidade" Relationship="Self.FK_tbtime_tbcidade" FromRole="tbtime" ToRole="tbcidade" />
     <NavigationProperty Name="tbjogo" Relationship="Self.JogoTime1" FromRole="tbtime" ToRole="tbjogo" />
     <NavigationProperty Name="tbjogo1" Relationship="Self.JogoTime2" FromRole="tbtime" ToRole="tbjogo" />
-    <NavigationProperty Name="tbjogador" Relationship="dbGameModel.tbTimeJogador" FromRole="tbtime" ToRole="tbjogador" />
-    <NavigationProperty Name="tbcidade" Relationship="dbGameModel.FK_tbtime_tbcidade" FromRole="tbtime" ToRole="tbcidade" />
+    <NavigationProperty Name="tbJogoJogadorTime" Relationship="Self.FK_tbJogoJogadorTime_tbtime" FromRole="tbtime" ToRole="tbJogoJogadorTime" />
+    <NavigationProperty Name="tbjogador" Relationship="Self.tbTimeJogador" FromRole="tbtime" ToRole="tbjogador" />
   </EntityType>
   <EntityType Name="tbusuario">
     <Key>
@@ -148,6 +170,42 @@
       </Principal>
       <Dependent Role="tbarbitro">
         <PropertyRef Name="usuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbestatisticajogo_tbatributoestatistica">
+    <End Role="tbatributoestatistica" Type="Self.tbatributoestatistica" Multiplicity="1" />
+    <End Role="tbestatisticajogo" Type="Self.tbestatisticajogo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbatributoestatistica">
+        <PropertyRef Name="atributoEstatisticaId" />
+      </Principal>
+      <Dependent Role="tbestatisticajogo">
+        <PropertyRef Name="atributoEstatisticaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbjogo_tbCampeonato">
+    <End Role="tbCampeonato" Type="Self.tbCampeonato" Multiplicity="1" />
+    <End Role="tbjogo" Type="Self.tbjogo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbCampeonato">
+        <PropertyRef Name="campeonatoId" />
+      </Principal>
+      <Dependent Role="tbjogo">
+        <PropertyRef Name="campeonatoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbtime_tbcidade">
+    <End Role="tbcidade" Type="Self.tbcidade" Multiplicity="1" />
+    <End Role="tbtime" Type="Self.tbtime" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbcidade">
+        <PropertyRef Name="cidadeId" />
+      </Principal>
+      <Dependent Role="tbtime">
+        <PropertyRef Name="cidadeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -187,8 +245,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tbJogoJogador_tbjogador">
+    <End Role="tbjogador" Type="Self.tbjogador" Multiplicity="1" />
+    <End Role="tbJogoJogadorTime" Type="Self.tbJogoJogadorTime" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbjogador">
+        <PropertyRef Name="jogadorId" />
+      </Principal>
+      <Dependent Role="tbJogoJogadorTime">
+        <PropertyRef Name="jogadorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="jogadorusuario">
-    <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="0..1" />
+    <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="1" />
     <End Role="tbjogador" Type="Self.tbjogador" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tbusuario">
@@ -196,6 +266,18 @@
       </Principal>
       <Dependent Role="tbjogador">
         <PropertyRef Name="usuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbJogoJogador_tbjogo">
+    <End Role="tbjogo" Type="Self.tbjogo" Multiplicity="1" />
+    <End Role="tbJogoJogadorTime" Type="Self.tbJogoJogadorTime" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbjogo">
+        <PropertyRef Name="jogoId" />
+      </Principal>
+      <Dependent Role="tbJogoJogadorTime">
+        <PropertyRef Name="jogoId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -235,6 +317,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tbJogoJogadorTime_tbtime">
+    <End Role="tbtime" Type="Self.tbtime" Multiplicity="1" />
+    <End Role="tbJogoJogadorTime" Type="Self.tbJogoJogadorTime" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbtime">
+        <PropertyRef Name="timeId" />
+      </Principal>
+      <Dependent Role="tbJogoJogadorTime">
+        <PropertyRef Name="timeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="usuariousuariostatus">
     <End Role="tbusuariostatus" Type="Self.tbusuariostatus" Multiplicity="1" />
     <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="*" />
@@ -255,15 +349,20 @@
     <End Role="tbPerfil" Type="Self.tbPerfil" Multiplicity="*" />
     <End Role="tbusuario" Type="Self.tbusuario" Multiplicity="*" />
   </Association>
+  <Association Name="tbTimeJogador">
+    <End Role="tbjogador" Type="Self.tbjogador" Multiplicity="*" />
+    <End Role="tbtime" Type="Self.tbtime" Multiplicity="*" />
+  </Association>
   <EntityContainer Name="Contexto" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="tbarbitro" EntityType="Self.tbarbitro" />
     <EntitySet Name="tbatributoestatistica" EntityType="Self.tbatributoestatistica" />
+    <EntitySet Name="tbCampeonato" EntityType="Self.tbCampeonato" />
     <EntitySet Name="tbcidade" EntityType="Self.tbcidade" />
-    <EntitySet Name="tbestatisticaatributo" EntityType="Self.tbestatisticaatributo" />
     <EntitySet Name="tbestatisticajogo" EntityType="Self.tbestatisticajogo" />
     <EntitySet Name="tbjogador" EntityType="Self.tbjogador" />
     <EntitySet Name="tbjogo" EntityType="Self.tbjogo" />
+    <EntitySet Name="tbJogoJogadorTime" EntityType="Self.tbJogoJogadorTime" />
     <EntitySet Name="tbjogostatus" EntityType="Self.tbjogostatus" />
     <EntitySet Name="tbPerfil" EntityType="Self.tbPerfil" />
     <EntitySet Name="tbtime" EntityType="Self.tbtime" />
@@ -272,6 +371,18 @@
     <AssociationSet Name="arbitrousuario" Association="Self.arbitrousuario">
       <End Role="tbusuario" EntitySet="tbusuario" />
       <End Role="tbarbitro" EntitySet="tbarbitro" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbestatisticajogo_tbatributoestatistica" Association="Self.FK_tbestatisticajogo_tbatributoestatistica">
+      <End Role="tbatributoestatistica" EntitySet="tbatributoestatistica" />
+      <End Role="tbestatisticajogo" EntitySet="tbestatisticajogo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbjogo_tbCampeonato" Association="Self.FK_tbjogo_tbCampeonato">
+      <End Role="tbCampeonato" EntitySet="tbCampeonato" />
+      <End Role="tbjogo" EntitySet="tbjogo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbtime_tbcidade" Association="Self.FK_tbtime_tbcidade">
+      <End Role="tbcidade" EntitySet="tbcidade" />
+      <End Role="tbtime" EntitySet="tbtime" />
     </AssociationSet>
     <AssociationSet Name="jogadorCidade" Association="Self.jogadorCidade">
       <End Role="tbcidade" EntitySet="tbcidade" />
@@ -285,9 +396,17 @@
       <End Role="tbjogo" EntitySet="tbjogo" />
       <End Role="tbestatisticajogo" EntitySet="tbestatisticajogo" />
     </AssociationSet>
+    <AssociationSet Name="FK_tbJogoJogador_tbjogador" Association="Self.FK_tbJogoJogador_tbjogador">
+      <End Role="tbjogador" EntitySet="tbjogador" />
+      <End Role="tbJogoJogadorTime" EntitySet="tbJogoJogadorTime" />
+    </AssociationSet>
     <AssociationSet Name="jogadorusuario" Association="Self.jogadorusuario">
       <End Role="tbusuario" EntitySet="tbusuario" />
       <End Role="tbjogador" EntitySet="tbjogador" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbJogoJogador_tbjogo" Association="Self.FK_tbJogoJogador_tbjogo">
+      <End Role="tbjogo" EntitySet="tbjogo" />
+      <End Role="tbJogoJogadorTime" EntitySet="tbJogoJogadorTime" />
     </AssociationSet>
     <AssociationSet Name="jogojogostatus" Association="Self.jogojogostatus">
       <End Role="tbjogostatus" EntitySet="tbjogostatus" />
@@ -301,6 +420,10 @@
       <End Role="tbtime" EntitySet="tbtime" />
       <End Role="tbjogo" EntitySet="tbjogo" />
     </AssociationSet>
+    <AssociationSet Name="FK_tbJogoJogadorTime_tbtime" Association="Self.FK_tbJogoJogadorTime_tbtime">
+      <End Role="tbtime" EntitySet="tbtime" />
+      <End Role="tbJogoJogadorTime" EntitySet="tbJogoJogadorTime" />
+    </AssociationSet>
     <AssociationSet Name="usuariousuariostatus" Association="Self.usuariousuariostatus">
       <End Role="tbusuariostatus" EntitySet="tbusuariostatus" />
       <End Role="tbusuario" EntitySet="tbusuario" />
@@ -313,29 +436,9 @@
       <End Role="tbPerfil" EntitySet="tbPerfil" />
       <End Role="tbusuario" EntitySet="tbusuario" />
     </AssociationSet>
-    <AssociationSet Name="tbTimeJogador" Association="dbGameModel.tbTimeJogador">
+    <AssociationSet Name="tbTimeJogador" Association="Self.tbTimeJogador">
       <End Role="tbjogador" EntitySet="tbjogador" />
       <End Role="tbtime" EntitySet="tbtime" />
     </AssociationSet>
-    <AssociationSet Name="FK_tbtime_tbcidade" Association="dbGameModel.FK_tbtime_tbcidade">
-      <End Role="tbcidade" EntitySet="tbcidade" />
-      <End Role="tbtime" EntitySet="tbtime" />
-    </AssociationSet>
   </EntityContainer>
-  <Association Name="tbTimeJogador">
-    <End Type="dbGameModel.tbjogador" Role="tbjogador" Multiplicity="*" />
-    <End Type="dbGameModel.tbtime" Role="tbtime" Multiplicity="*" />
-  </Association>
-  <Association Name="FK_tbtime_tbcidade">
-    <End Type="dbGameModel.tbcidade" Role="tbcidade" Multiplicity="1" />
-    <End Type="dbGameModel.tbtime" Role="tbtime" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tbcidade">
-        <PropertyRef Name="cidadeId" />
-      </Principal>
-      <Dependent Role="tbtime">
-        <PropertyRef Name="cidadeId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>

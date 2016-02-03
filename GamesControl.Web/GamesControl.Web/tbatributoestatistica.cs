@@ -14,7 +14,14 @@ namespace GamesControl.Web
     
     public partial class tbatributoestatistica
     {
-        public int aributoEstatisticaId { get; set; }
-        public string aributoEstatisticaDescricao { get; set; }
+        public tbatributoestatistica()
+        {
+            this.tbestatisticajogo = new HashSet<tbestatisticajogo>();
+        }
+    
+        public int atributoEstatisticaId { get; set; }
+        public string atributoEstatisticaDescricao { get; set; }
+    
+        public virtual ICollection<tbestatisticajogo> tbestatisticajogo { get; set; }
     }
 }

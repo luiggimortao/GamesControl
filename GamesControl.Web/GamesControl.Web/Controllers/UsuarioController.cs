@@ -24,13 +24,11 @@ namespace GamesControl.Web.Controllers
 
         #region - Actions -
 
-        // GET: Usuario
         public ActionResult Index()
         {
             return View(db.tbusuario.ToList().OrderBy(x => x.usuarioNome));
         }
 
-        // GET: Usuario/Details/5
         public ActionResult Detail(int? id)
         {
             if (id == null)
@@ -53,7 +51,6 @@ namespace GamesControl.Web.Controllers
             return View(usuarioVM);
         }
 
-        // GET: Usuario/Create
         public ActionResult Create()
         {
             ViewBag.Status = new SelectList
@@ -77,12 +74,11 @@ namespace GamesControl.Web.Controllers
                 "cidadeNome"
             );
 
+            ViewBag.Incluido = "N";
+
             return View();
         }
 
-        // POST: Usuario/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public ActionResult Create(string usuarioNome, string usuarioEmail, string usuarioTelefone, int usuarioStatus, string[] usuarioPerfil, string jogadorDataNascimento, int? usuarioCidade, HttpPostedFileBase fileUpload)
         {
@@ -172,6 +168,8 @@ namespace GamesControl.Web.Controllers
                     "cidadeNome"
                 );
 
+                ViewBag.Incluido = "S";
+
                 return PartialView();
             }
             catch (Exception ex)
@@ -180,7 +178,6 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // GET: Usuario/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -230,9 +227,6 @@ namespace GamesControl.Web.Controllers
             return View(usuarioVM);
         }
 
-        // POST: Usuario/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public ActionResult Edit(int usuarioId, string usuarioNome, string usuarioEmail, string usuarioTelefone, int usuarioStatus, string[] usuarioPerfil, string jogadorDataNascimento, int? usuarioCidade, HttpPostedFileBase fileUpload)
         {
@@ -345,20 +339,16 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // POST: Usuario/Delete/5
-        [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
             try
             {
-                tbusuario tbusuario = db.tbusuario.Find(id);
-                this.ExcluirPerfis(id);
-                this.ExcluirJogadores(id);
-                this.ExcluirArbitros(id);
-                db.tbusuario.Remove(tbusuario);
-                db.SaveChanges();
+                tbusuario usuario = db.tbusuario.Find(id);
+                tbusuariostatus status = db.tbusuariostatus.Find((int)Enuns.eStatusUsuario.Inativo);
+                usuario.tbusuariostatus = status;
 
-                this.ApagarArquivosUsuario(id);
+                db.Entry(usuario).State = EntityState.Modified;
+                db.SaveChanges();
 
                 return PartialView();
             }
@@ -374,12 +364,31 @@ namespace GamesControl.Web.Controllers
 
         private tbjogador AdicionarJogador(tbusuario usuario, DateTime dataNascimento, int idCidade)
         {
-            tbjogador jogador = new tbjogador();
-            jogador.jogadorDataNascimento = dataNascimento;
-            jogador.cidadeId = idCidade;
-            jogador.usuarioId = usuario.usuarioId;
+            tbjogador jogador = null;
+            var jogadores = db.tbjogador.Where(x => x.tbusuario.usuarioId == usuario.usuarioId);
 
-            db.tbjogador.Add(jogador);
+            if (jogadores.Count() > 0)
+            {
+                jogador = jogadores.FirstOrDefault();
+                jogador.jogadorDataNascimento = dataNascimento;
+                jogador.cidadeId = idCidade;
+                jogador.usuarioId = usuario.usuarioId;
+                jogador.jogadorAtivo = true;
+
+                db.Entry(jogador).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                jogador = new tbjogador();
+                jogador.jogadorDataNascimento = dataNascimento;
+                jogador.cidadeId = idCidade;
+                jogador.usuarioId = usuario.usuarioId;
+                jogador.jogadorAtivo = true;
+
+                db.tbjogador.Add(jogador);
+            }
+
             db.SaveChanges();
 
             return jogador;
@@ -418,7 +427,8 @@ namespace GamesControl.Web.Controllers
             {
                 foreach (var jogador in jogadores)
                 {
-                    db.tbjogador.Remove(jogador);
+                    jogador.jogadorAtivo = false;
+                    db.Entry(jogador).State = EntityState.Modified;
                 }
             }
 

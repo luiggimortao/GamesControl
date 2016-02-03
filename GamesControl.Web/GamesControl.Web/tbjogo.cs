@@ -17,10 +17,12 @@ namespace GamesControl.Web
         public tbjogo()
         {
             this.tbestatisticajogo = new HashSet<tbestatisticajogo>();
+            this.tbJogoJogadorTime = new HashSet<tbJogoJogadorTime>();
             this.tbarbitro = new HashSet<tbarbitro>();
         }
     
         public int jogoId { get; set; }
+        public int campeonatoId { get; set; }
         public int timeCasaId { get; set; }
         public int timeVisitanteId { get; set; }
         public System.DateTime jogoData { get; set; }
@@ -28,7 +30,9 @@ namespace GamesControl.Web
         public Nullable<int> jogoPontuacaoCasa { get; set; }
         public Nullable<int> jogoPontuacaoVisitante { get; set; }
     
+        public virtual tbCampeonato tbCampeonato { get; set; }
         public virtual ICollection<tbestatisticajogo> tbestatisticajogo { get; set; }
+        public virtual ICollection<tbJogoJogadorTime> tbJogoJogadorTime { get; set; }
         public virtual tbjogostatus tbjogostatus { get; set; }
         public virtual tbtime tbtime { get; set; }
         public virtual tbtime tbtime1 { get; set; }

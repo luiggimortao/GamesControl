@@ -163,10 +163,13 @@
     <Compile Include="Comum\Constantes.cs" />
     <Compile Include="Comum\Enuns.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CampenatoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JogoJogador.cs" />
     <Compile Include="Controllers\TimeJogadorController.cs" />
     <Compile Include="Controllers\TimeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\JogoController.cs" />
     <Compile Include="Controllers\UsuarioStatusController.cs" />
     <Compile Include="Controllers\JogoStatusController.cs" />
     <Compile Include="Controllers\CidadeController.cs" />
@@ -203,10 +206,10 @@
     <Compile Include="tbatributoestatistica.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbcidade.cs">
+    <Compile Include="tbCampeonato.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbestatisticaatributo.cs">
+    <Compile Include="tbcidade.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tbestatisticajogo.cs">
@@ -216,6 +219,9 @@
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tbjogo.cs">
+      <DependentUpon>EFDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbJogoJogadorTime.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tbjogostatus.cs">
@@ -330,39 +336,54 @@
     <Content Include="Views\Cidade\Index.cshtml" />
     <Content Include="Views\Cidade\Create.cshtml" />
     <Content Include="Views\Cidade\Edit.cshtml" />
-    <Content Include="Views\AtributoEstatistica\Delete.cshtml" />
-    <Content Include="Views\Cidade\Delete.cshtml" />
     <Content Include="Views\JogoStatus\Create.cshtml" />
-    <Content Include="Views\JogoStatus\Delete.cshtml" />
     <Content Include="Views\JogoStatus\Edit.cshtml" />
     <Content Include="Views\JogoStatus\Index.cshtml" />
-    <Content Include="Views\Jogador\Create.cshtml" />
-    <Content Include="Views\Jogador\Edit.cshtml" />
     <Content Include="Views\UsuarioStatus\Edit.cshtml" />
     <Content Include="Views\UsuarioStatus\Create.cshtml" />
-    <Content Include="Views\UsuarioStatus\Delete.cshtml" />
+    <Content Include="Views\UsuarioStatus\DeleteConfirmed.cshtml" />
     <Content Include="Views\UsuarioStatus\Index.cshtml" />
-    <Content Include="Views\Usuario\Delete.cshtml" />
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
-    <Content Include="Views\Usuario\Create.cshtml" />
     <Content Include="Views\Usuario\Detail.cshtml" />
     <Content Include="Views\Time\Create.cshtml" />
-    <Content Include="Views\Time\Delete.cshtml" />
     <Content Include="Views\Time\Detail.cshtml" />
     <Content Include="Views\Time\Edit.cshtml" />
     <Content Include="Views\Time\Index.cshtml" />
     <Content Include="Views\TimeJogador\Index.cshtml" />
     <Content Include="Views\TimeJogador\Add.cshtml" />
     <Content Include="Views\TimeJogador\Remove.cshtml" />
+    <Content Include="Views\Campeonato\Create.cshtml" />
+    <Content Include="Views\Campeonato\Edit.cshtml" />
+    <Content Include="Views\Campeonato\Index.cshtml" />
+    <Content Include="Views\Jogo\Index.cshtml" />
+    <Content Include="Views\Usuario\Create.cshtml" />
+    <Content Include="Views\Jogo\Create.cshtml" />
+    <Content Include="Views\Jogo\Edit.cshtml" />
+    <Content Include="Views\Jogo\EditConfirmed.cshtml" />
+    <Content Include="Views\Jogo\CreateConfirmed.cshtml" />
+    <Content Include="Views\UsuarioStatus\CreateConfirmed.cshtml" />
+    <Content Include="Views\UsuarioStatus\EditConfirmed.cshtml" />
+    <Content Include="Views\Campeonato\CreateConfirmed.cshtml" />
+    <Content Include="Views\Campeonato\EditConfirmed.cshtml" />
+    <Content Include="Views\Cidade\CreateConfirmed.cshtml" />
+    <Content Include="Views\Cidade\EditConfirmed.cshtml" />
+    <Content Include="Views\JogoStatus\CreateConfirmed.cshtml" />
+    <Content Include="Views\JogoStatus\EditConfirmed.cshtml" />
+    <Content Include="Views\Usuario\DeleteConfirmed.cshtml" />
+    <Content Include="Views\Time\DeleteConfirmed.cshtml" />
+    <Content Include="Views\JogoStatus\DeleteConfirmed.cshtml" />
+    <Content Include="Views\Jogo\DeleteConfirmed.cshtml" />
+    <Content Include="Views\Cidade\DeleteConfirmed.cshtml" />
+    <Content Include="Views\Campeonato\DeleteConfirmed.cshtml" />
+    <Content Include="Views\JogoJogador\Add.cshtml" />
+    <Content Include="Views\JogoJogador\Index.cshtml" />
+    <Content Include="Views\JogoJogador\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Fotos\" />
     <Folder Include="Content\TimeLogo\" />
-    <Folder Include="Views\Arbitro\" />
-    <Folder Include="Views\EstatisticaJogo\" />
-    <Folder Include="Views\Jogo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

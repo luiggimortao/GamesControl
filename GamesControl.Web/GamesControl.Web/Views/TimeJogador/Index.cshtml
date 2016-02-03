@@ -47,7 +47,7 @@
             {
                 <tr>
                     <td align="center">
-                        <a onclick="Excluir(@jogador.jogadorId);">Excluir</a>
+                        <a onclick="Excluir(@jogador.jogadorId);">Remover</a>
                     </td>
                     <td>
                         @Html.Label(jogador.tbusuario.usuarioNome)
@@ -89,11 +89,11 @@
                 return false;
             }
 
-            var codigosSelecionados;
+            var codigosSelecionados = "";
             var selecionados = $('#jogadoresTime :selected');
             selecionados.each(function () {
 
-                if (codigosSelecionados != "") {
+                if (codigosSelecionados == "") {
                     codigosSelecionados = $(this).val();
                 }
                 else {

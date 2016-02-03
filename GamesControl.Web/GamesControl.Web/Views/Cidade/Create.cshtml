@@ -41,7 +41,7 @@
                     return false;
                 }
 
-                $.post('@Url.Action("Create","Cidade")',
+                $.post('@Url.Action("CreateConfirmed", "Cidade")',
                 {
                     nome: $("#cidadeNome").val()
                 }).done(function (data) {

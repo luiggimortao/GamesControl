@@ -47,7 +47,7 @@
                     return false;
                 }
 
-                $.post('@Url.Action("Create", "JogoStatus")',
+                $.post('@Url.Action("CreateConfirmed", "JogoStatus")',
                 {
                     id: $("#jogoStatusId").val(),
                     descricao: $("#jogoStatusDescricao").val()

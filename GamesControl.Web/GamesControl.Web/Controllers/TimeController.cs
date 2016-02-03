@@ -24,13 +24,11 @@ namespace GamesControl.Web.Controllers
 
         #region - Actions -
 
-        // GET: Usuario
         public ActionResult Index()
         {
             return View(db.tbtime.ToList().OrderBy(x => x.timeNome));
         }
 
-        // GET: Usuario/Details/5
         public ActionResult Detail(int? id)
         {
             if (id == null)
@@ -46,7 +44,6 @@ namespace GamesControl.Web.Controllers
             return View(time);
         }
 
-        // GET: Usuario/Create
         public ActionResult Create()
         {
             ViewBag.Cidade = new SelectList
@@ -56,12 +53,11 @@ namespace GamesControl.Web.Controllers
                 "cidadeNome"
             );
 
+            ViewBag.Incluido = "N";
+
             return View();
         }
 
-        // POST: Usuario/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public ActionResult Create(string timeNome, int timeCidade, HttpPostedFileBase fileUpload)
         {
@@ -93,6 +89,8 @@ namespace GamesControl.Web.Controllers
                     "cidadeNome"
                 );
 
+                ViewBag.Incluido = "S";
+
                 return PartialView();
             }
             catch (Exception ex)
@@ -101,7 +99,6 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // GET: Usuario/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -127,9 +124,6 @@ namespace GamesControl.Web.Controllers
             return View(time);
         }
 
-        // POST: Usuario/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public ActionResult Edit(int timeId, string timeNome, int timeCidade, HttpPostedFileBase fileUpload)
         {
@@ -177,8 +171,6 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // POST: Usuario/Delete/5
-        [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
             try

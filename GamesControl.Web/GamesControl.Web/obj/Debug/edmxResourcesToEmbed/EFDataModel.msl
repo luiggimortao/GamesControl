@@ -23,8 +23,16 @@
     <EntitySetMapping Name="tbatributoestatistica">
       <EntityTypeMapping TypeName="dbGameModel.tbatributoestatistica">
         <MappingFragment StoreEntitySet="tbatributoestatistica">
-          <ScalarProperty Name="aributoEstatisticaId" ColumnName="aributoEstatisticaId" />
-          <ScalarProperty Name="aributoEstatisticaDescricao" ColumnName="aributoEstatisticaDescricao" />
+          <ScalarProperty Name="atributoEstatisticaId" ColumnName="atributoEstatisticaId" />
+          <ScalarProperty Name="atributoEstatisticaDescricao" ColumnName="atributoEstatisticaDescricao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbCampeonato">
+      <EntityTypeMapping TypeName="dbGameModel.tbCampeonato">
+        <MappingFragment StoreEntitySet="tbCampeonato">
+          <ScalarProperty Name="campeonatoId" ColumnName="campeonatoId" />
+          <ScalarProperty Name="campeonatoNome" ColumnName="campeonatoNome" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -36,21 +44,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbestatisticaatributo">
-      <EntityTypeMapping TypeName="dbGameModel.tbestatisticaatributo">
-        <MappingFragment StoreEntitySet="tbestatisticaatributo">
-          <ScalarProperty Name="estatisticaJogoId" ColumnName="estatisticaJogoId" />
-          <ScalarProperty Name="atributoEstatisticaId" ColumnName="atributoEstatisticaId" />
-          <ScalarProperty Name="estatisticaAtributoQuantidade" ColumnName="estatisticaAtributoQuantidade" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="tbestatisticajogo">
       <EntityTypeMapping TypeName="dbGameModel.tbestatisticajogo">
         <MappingFragment StoreEntitySet="tbestatisticajogo">
-          <ScalarProperty Name="estatisticaJogoId" ColumnName="estatisticaJogoId" />
           <ScalarProperty Name="jogoId" ColumnName="jogoId" />
+          <ScalarProperty Name="atributoEstatisticaId" ColumnName="atributoEstatisticaId" />
           <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
+          <ScalarProperty Name="estatisticaJogoQuantidade" ColumnName="estatisticaJogoQuantidade" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -61,6 +61,7 @@
           <ScalarProperty Name="jogadorDataNascimento" ColumnName="jogadorDataNascimento" />
           <ScalarProperty Name="cidadeId" ColumnName="cidadeId" />
           <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+          <ScalarProperty Name="jogadorAtivo" ColumnName="jogadorAtivo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -68,12 +69,22 @@
       <EntityTypeMapping TypeName="dbGameModel.tbjogo">
         <MappingFragment StoreEntitySet="tbjogo">
           <ScalarProperty Name="jogoId" ColumnName="jogoId" />
+          <ScalarProperty Name="campeonatoId" ColumnName="campeonatoId" />
           <ScalarProperty Name="timeCasaId" ColumnName="timeCasaId" />
           <ScalarProperty Name="timeVisitanteId" ColumnName="timeVisitanteId" />
           <ScalarProperty Name="jogoData" ColumnName="jogoData" />
           <ScalarProperty Name="jogoStatusId" ColumnName="jogoStatusId" />
           <ScalarProperty Name="jogoPontuacaoCasa" ColumnName="jogoPontuacaoCasa" />
           <ScalarProperty Name="jogoPontuacaoVisitante" ColumnName="jogoPontuacaoVisitante" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbJogoJogadorTime">
+      <EntityTypeMapping TypeName="dbGameModel.tbJogoJogadorTime">
+        <MappingFragment StoreEntitySet="tbJogoJogadorTime">
+          <ScalarProperty Name="jogoId" ColumnName="jogoId" />
+          <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
+          <ScalarProperty Name="timeId" ColumnName="timeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -142,11 +153,11 @@
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="tbTimeJogador" TypeName="dbGameModel.tbTimeJogador" StoreEntitySet="tbTimeJogador">
-      <EndProperty Name="tbtime">
-        <ScalarProperty Name="timeId" ColumnName="timeId" />
-      </EndProperty>
       <EndProperty Name="tbjogador">
         <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
+      </EndProperty>
+      <EndProperty Name="tbtime">
+        <ScalarProperty Name="timeId" ColumnName="timeId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

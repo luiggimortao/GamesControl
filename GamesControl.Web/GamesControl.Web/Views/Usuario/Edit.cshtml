@@ -76,7 +76,7 @@
                 <div id="divDataNascimento" class="form-group" style="@(jogador ? "" : "display:none;")">
                     @Html.Label("Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.EditorFor(model => model.Jogador.jogadorDataNascimento, null, "jogadorDataNascimento", new { htmlAttributes = new { @class = "form-control" }, maxLength = 10, @Value = Model.Jogador.jogadorDataNascimento.ToString("dd/MM/yyyy") })
+                        @Html.EditorFor(model => model.Jogador.jogadorDataNascimento, null, "jogadorDataNascimento", new { htmlAttributes = new { @class = "form-control" }, maxLength = 10, @Value = Model.Jogador.jogadorDataNascimento.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO) })
                     </div>
                 </div>
 

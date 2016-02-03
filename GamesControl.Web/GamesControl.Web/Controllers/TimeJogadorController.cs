@@ -24,7 +24,6 @@ namespace GamesControl.Web.Controllers
 
         #region - Actions -
 
-        // GET: Usuario
         public ActionResult Index(int? id)
         {
             if (id == null)
@@ -48,14 +47,8 @@ namespace GamesControl.Web.Controllers
             return View(time);
         }
 
-        // GET: Usuario/Add
-        [HttpPost]
         public ActionResult Add(int idTime, string listaJogadores)
         {
-            if (idTime == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var time = db.tbtime.Find(idTime);
             if (time == null)
             {
@@ -81,8 +74,6 @@ namespace GamesControl.Web.Controllers
             return PartialView();
         }
 
-        // GET: Usuario/Remove
-        [HttpPost]
         public ActionResult Remove(int idTime, string listaJogadores)
         {
             if (idTime == null)

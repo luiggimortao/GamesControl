@@ -69,7 +69,7 @@
                         'Confirmação',
                         function () {
 
-                            $.post('@Url.Action("Delete", "Time")',
+                            $.post('@Url.Action("DeleteConfirmed", "Time")',
                             {
                                 id: id
                             }).done(function (data) {

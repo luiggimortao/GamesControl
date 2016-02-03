@@ -15,13 +15,11 @@ namespace GamesControl.Web.Controllers
     {
         private Contexto db = new Contexto();
 
-        // GET: Cidade
         public ActionResult Index()
         {
             return View(db.tbcidade.ToList().OrderBy(x => x.cidadeNome));
         }
 
-        // GET: Cidade/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,17 +34,12 @@ namespace GamesControl.Web.Controllers
             return View(tbcidade);
         }
 
-        // GET: Cidade/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Cidade/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public ActionResult Create(string nome)
+        public ActionResult CreateConfirmed(string nome)
         {
             try
             {
@@ -62,7 +55,6 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // GET: Cidade/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,11 +69,7 @@ namespace GamesControl.Web.Controllers
             return View(tbcidade);
         }
 
-        // POST: Cidade/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public ActionResult Edit(int id, string nome)
+        public ActionResult EditConfirmed(int id, string nome)
         {
             try
             {
@@ -102,8 +90,6 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // POST: Cidade/Delete/5
-        [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
             tbcidade tbcidade = db.tbcidade.Find(id);

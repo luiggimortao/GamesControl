@@ -1,0 +1,150 @@
+﻿@model GamesControl.Web.tbjogo
+
+@{
+    ViewBag.Title = "Incluir Jogo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Incluir Jogo</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Campeonato", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("jogoCampeonato", (SelectList)ViewBag.Campeonato, string.Empty, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Data", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.jogoData, new { htmlAttributes = new { @class = "form-control" }, maxLength = 10 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Time da Casa", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("timeCasa", (SelectList)ViewBag.Time, string.Empty, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Time Visitante", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("timeVisitante", (SelectList)ViewBag.Time, string.Empty, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("jogoStatus", (SelectList)ViewBag.Status, string.Empty, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="checkbox" id="chkCopiaTimeCasa" name="chkCopiaTimeCasa" checked>&nbsp;Copiar jogadores do time da casa para este jogo?
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="checkbox" id="chkCopiaTimeVisitante" name="chkCopiaTimeVisitante" checked>&nbsp;Copiar jogadores do time visitante para este jogo?
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnSalvar" type="button" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <div>
+        @Html.ActionLink("Voltar", "Index")
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#jogoData").mask("99/99/9999");
+
+            $('#btnSalvar').click(function () {
+
+                if (!Consistir()) {
+                    return false;
+                }
+
+                $.post('@Url.Action("CreateConfirmed", "Jogo")',
+                {
+                    campeonatoId: $("#jogoCampeonato").val(),
+                    timeCasaId: $("#timeCasa").val(),
+                    timeVisitanteId: $("#timeVisitante").val(),
+                    jogoData: $("#jogoData").val(),
+                    statusId: $("#jogoStatus").val(),
+                    copiarJogadorTimeCasa: $("#chkCopiaTimeCasa").prop( "checked" ),
+                    copiarJogadorTimeVisitante: $("#chkCopiaTimeVisitante").prop( "checked" )
+                }).done(function (data) {
+
+                    $.AlertDialog('Jogo incluído com sucesso!', 'Mensagem', null, null);
+                    Limpar();
+
+                }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                    var erro = XMLHttpRequest.responseText.split('|');
+                    var erroTratado = erro[1];
+
+                    $.ErrorDialog(erroTratado, null, null);
+                });
+            });
+        });
+
+        function Consistir() {
+            if ($.trim($("#jogoCampeonato").val()).length <= 0) {
+                $.AlertDialog("O campo 'Campeonato' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#jogoData").val()).length <= 0) {
+                $.AlertDialog("O campo 'Data' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#timeCasa").val()).length <= 0) {
+                $.AlertDialog("O campo 'Time da Casa' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#timeVisitante").val()).length <= 0) {
+                $.AlertDialog("O campo 'Time Visitante' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#jogoStatus").val()).length <= 0) {
+                $.AlertDialog("O campo 'Status' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            return true;
+        }
+
+        function Limpar() {
+            $("#jogoCampeonato").val('');
+            $("#timeCasa").val('');
+            $("#timeVisitante").val('');
+            $("#jogoData").val('');
+            $("#jogoStatus").val('');
+        }
+
+    </script>
+}
+

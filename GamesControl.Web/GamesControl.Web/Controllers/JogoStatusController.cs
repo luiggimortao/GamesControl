@@ -14,13 +14,11 @@ namespace GamesControl.Web.Controllers
     {
         private Contexto db = new Contexto();
 
-        // GET: JogoStatus
         public ActionResult Index()
         {
             return View(db.tbjogostatus.ToList().OrderBy(x => x.jogoStatusId));
         }
 
-        // GET: JogoStatus/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,17 +33,12 @@ namespace GamesControl.Web.Controllers
             return View(tbjogostatus);
         }
 
-        // GET: JogoStatus/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: JogoStatus/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public ActionResult Create(int id, string descricao)
+        public ActionResult CreateConfirmed(int id, string descricao)
         {
             try
             {
@@ -62,7 +55,6 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // GET: JogoStatus/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,11 +69,7 @@ namespace GamesControl.Web.Controllers
             return View(tbjogostatus);
         }
 
-        // POST: JogoStatus/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public ActionResult Edit(int id, string descricao)
+        public ActionResult EditConfirmed(int id, string descricao)
         {
             try
             {
@@ -102,8 +90,6 @@ namespace GamesControl.Web.Controllers
             }
         }
 
-        // POST: JogoStatus/Delete/5
-        [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
             tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);

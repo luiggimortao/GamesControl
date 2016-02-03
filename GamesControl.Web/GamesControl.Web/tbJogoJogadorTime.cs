@@ -12,10 +12,14 @@ namespace GamesControl.Web
     using System;
     using System.Collections.Generic;
     
-    public partial class tbestatisticaatributo
+    public partial class tbJogoJogadorTime
     {
-        public int estatisticaJogoId { get; set; }
-        public int atributoEstatisticaId { get; set; }
-        public int estatisticaAtributoQuantidade { get; set; }
+        public int jogoId { get; set; }
+        public int jogadorId { get; set; }
+        public int timeId { get; set; }
+    
+        public virtual tbjogador tbjogador { get; set; }
+        public virtual tbjogo tbjogo { get; set; }
+        public virtual tbtime tbtime { get; set; }
     }
 }

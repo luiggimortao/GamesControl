@@ -8,6 +8,7 @@ namespace GamesControl.Web.Comum
     public class Constantes
     {
         public const string DATA_PADRAO = "dd/MM/yyyy";
+        public const string DATA_PADRAO_RAZOR = "{0:dd/MM/yyyy}";        
         public const string CAMINHO_FOTOS = "~/Content/Fotos/";
         public const string CAMINHO_LOGOS = "~/Content/TimeLogo/";
     }
