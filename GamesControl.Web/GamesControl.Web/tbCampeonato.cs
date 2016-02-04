@@ -16,12 +16,12 @@ namespace GamesControl.Web
     {
         public tbCampeonato()
         {
-            this.tbjogo = new HashSet<tbjogo>();
+            this.tbJogo = new HashSet<tbJogo>();
         }
     
         public int campeonatoId { get; set; }
         public string campeonatoNome { get; set; }
     
-        public virtual ICollection<tbjogo> tbjogo { get; set; }
+        public virtual ICollection<tbJogo> tbJogo { get; set; }
     }
 }

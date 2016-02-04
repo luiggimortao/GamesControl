@@ -1,4 +1,4 @@
-﻿@model GamesControl.Web.tbtime
+﻿@model GamesControl.Web.tbTime
 
 @{
     ViewBag.Title = Model.timeNome + " - Edição de jogadores";
@@ -43,14 +43,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var jogador in Model.tbjogador)
+            @foreach (var jogador in Model.tbJogador)
             {
                 <tr>
                     <td align="center">
                         <a onclick="Excluir(@jogador.jogadorId);">Remover</a>
                     </td>
                     <td>
-                        @Html.Label(jogador.tbusuario.usuarioNome)
+                        @Html.Label(jogador.tbUsuario.usuarioNome)
                     </td>
                 </tr>
             }

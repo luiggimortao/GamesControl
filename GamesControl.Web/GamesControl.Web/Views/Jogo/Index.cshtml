@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GamesControl.Web.tbjogo>
+﻿@model IEnumerable<GamesControl.Web.tbJogo>
 
 @{
     ViewBag.Title = "Jogos";
@@ -41,22 +41,22 @@
                 <td align="center">
                     @Html.ActionLink("Editar", "Edit", new { id = item.jogoId }) |
                     @Html.ActionLink("Editar Jogadores", "Index", "JogoJogador", new { id = item.jogoId }, null) |
-                    <a onclick="Excluir(@item.jogoId, '@item.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO)', '@item.tbtime.timeNome', '@item.tbtime1.timeNome');">Excluir</a>
+                    <a onclick="Excluir(@item.jogoId, '@item.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO)', '@item.tbTime.timeNome', '@item.tbTime1.timeNome');">Excluir</a>
                 </td>
                 <td>
                     @Html.ValueFor(modelItem => item.jogoData, GamesControl.Web.Comum.Constantes.DATA_PADRAO_RAZOR)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.tbtime.timeNome)
+                    @Html.DisplayFor(modelItem => item.tbTime.timeNome)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.tbtime1.timeNome)
+                    @Html.DisplayFor(modelItem => item.tbTime1.timeNome)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.tbCampeonato.campeonatoNome)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.tbjogostatus.jogoStatusDescricao)
+                    @Html.DisplayFor(modelItem => item.tbJogoStatus.jogoStatusDescricao)
                 </td>
                 <td align="center">
                     @((!item.jogoPontuacaoCasa.HasValue && !item.jogoPontuacaoVisitante.HasValue) ? " - " : item.jogoPontuacaoCasa + " x " + item.jogoPontuacaoVisitante)

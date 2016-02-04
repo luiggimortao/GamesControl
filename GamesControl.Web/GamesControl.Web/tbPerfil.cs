@@ -16,12 +16,12 @@ namespace GamesControl.Web
     {
         public tbPerfil()
         {
-            this.tbusuario = new HashSet<tbusuario>();
+            this.tbUsuario = new HashSet<tbUsuario>();
         }
     
         public int perfilId { get; set; }
         public string perfilDescricao { get; set; }
     
-        public virtual ICollection<tbusuario> tbusuario { get; set; }
+        public virtual ICollection<tbUsuario> tbUsuario { get; set; }
     }
 }

@@ -12,12 +12,12 @@ namespace GamesControl.Web
     using System;
     using System.Collections.Generic;
     
-    public partial class tbusuario
+    public partial class tbUsuario
     {
-        public tbusuario()
+        public tbUsuario()
         {
-            this.tbarbitro = new HashSet<tbarbitro>();
-            this.tbjogador = new HashSet<tbjogador>();
+            this.tbArbitro = new HashSet<tbArbitro>();
+            this.tbJogador = new HashSet<tbJogador>();
             this.tbPerfil = new HashSet<tbPerfil>();
         }
     
@@ -30,9 +30,9 @@ namespace GamesControl.Web
         public int perfilId { get; set; }
         public string usuarioFoto { get; set; }
     
-        public virtual ICollection<tbarbitro> tbarbitro { get; set; }
-        public virtual ICollection<tbjogador> tbjogador { get; set; }
-        public virtual tbusuariostatus tbusuariostatus { get; set; }
+        public virtual ICollection<tbArbitro> tbArbitro { get; set; }
+        public virtual ICollection<tbJogador> tbJogador { get; set; }
+        public virtual tbUsuarioStatus tbUsuarioStatus { get; set; }
         public virtual ICollection<tbPerfil> tbPerfil { get; set; }
     }
 }

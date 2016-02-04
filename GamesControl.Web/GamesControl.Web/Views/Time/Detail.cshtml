@@ -1,4 +1,4 @@
-﻿@model GamesControl.Web.tbtime
+﻿@model GamesControl.Web.tbTime
 
 @{
     ViewBag.Title = "Time";
@@ -30,12 +30,12 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.tbcidade.cidadeNome)
+                    @Html.DisplayFor(model => model.tbCidade.cidadeNome)
                 </dd>
             </dl>
         </div>
 
-        @if (Model.tbjogador.Count > 0)
+        @if (Model.tbJogador.Count > 0)
         { 
         <div class="col-md-9">
             <dl class="dl-horizontal">
@@ -44,9 +44,9 @@
                 </dt>
 
                 <dd>
-                    @foreach(var jogador in Model.tbjogador)
+                    @foreach(var jogador in Model.tbJogador)
                     {
-                        <span>@jogador.tbusuario.usuarioNome</span>
+                        <span>@jogador.tbUsuario.usuarioNome</span>
                         <br />
                     }
                 </dd>

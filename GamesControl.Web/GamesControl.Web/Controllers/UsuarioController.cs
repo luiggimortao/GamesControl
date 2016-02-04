@@ -26,7 +26,7 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(db.tbusuario.ToList().OrderBy(x => x.usuarioNome));
+            return View(db.tbUsuario.ToList().OrderBy(x => x.usuarioNome));
         }
 
         public ActionResult Detail(int? id)
@@ -35,14 +35,14 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbusuario usuario = db.tbusuario.Find(id);
+            tbUsuario usuario = db.tbUsuario.Find(id);
             if (usuario == null)
             {
                 return HttpNotFound();
             }
 
-            var jogador = usuario.tbjogador.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
-            var arbitro = usuario.tbarbitro.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
+            var jogador = usuario.tbJogador.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
+            var arbitro = usuario.tbArbitro.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
 
             UsuarioViewModel usuarioVM = new UsuarioViewModel();
             usuarioVM.Usuario = usuario;
@@ -55,7 +55,7 @@ namespace GamesControl.Web.Controllers
         {
             ViewBag.Status = new SelectList
             (
-                db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
+                db.tbUsuarioStatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
                 "usuarioStatusId",
                 "usuarioStatusDescricao"
             );
@@ -69,7 +69,7 @@ namespace GamesControl.Web.Controllers
 
             ViewBag.Cidade = new SelectList
             (
-                db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                db.tbCidade.ToList().OrderBy(p => p.cidadeNome),
                 "cidadeId",
                 "cidadeNome"
             );
@@ -84,7 +84,7 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbusuario usuario = new tbusuario();
+                tbUsuario usuario = new tbUsuario();
                 usuario.usuarioEmail = usuarioEmail;
                 usuario.usuarioNome = usuarioNome;
                 usuario.usuarioSenha = "123";
@@ -99,7 +99,7 @@ namespace GamesControl.Web.Controllers
                     usuario.usuarioTelefone = usuarioTelefone;
                 }
 
-                usuario.tbusuariostatus = db.tbusuariostatus.Find(usuarioStatus);
+                usuario.tbUsuarioStatus = db.tbUsuarioStatus.Find(usuarioStatus);
 
                 bool possuiJogador = false;
                 bool possuiArbitro = false;
@@ -122,7 +122,7 @@ namespace GamesControl.Web.Controllers
                     }
                 }
 
-                db.tbusuario.Add(usuario);
+                db.tbUsuario.Add(usuario);
                 db.SaveChanges();
 
                 if (possuiJogador)
@@ -149,7 +149,7 @@ namespace GamesControl.Web.Controllers
 
                 ViewBag.Status = new SelectList
                 (
-                    db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
+                    db.tbUsuarioStatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
                     "usuarioStatusId",
                     "usuarioStatusDescricao"
                 );
@@ -163,7 +163,7 @@ namespace GamesControl.Web.Controllers
 
                 ViewBag.Cidade = new SelectList
                 (
-                    db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                    db.tbCidade.ToList().OrderBy(p => p.cidadeNome),
                     "cidadeId",
                     "cidadeNome"
                 );
@@ -184,7 +184,7 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbusuario usuario = db.tbusuario.Find(id);
+            tbUsuario usuario = db.tbUsuario.Find(id);
             if (usuario == null)
             {
                 return HttpNotFound();
@@ -192,7 +192,7 @@ namespace GamesControl.Web.Controllers
 
             ViewBag.Status = new SelectList
             (
-                db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
+                db.tbUsuarioStatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
                 "usuarioStatusId",
                 "usuarioStatusDescricao",
                 usuario.usuarioStatusId
@@ -206,12 +206,12 @@ namespace GamesControl.Web.Controllers
                 usuario.perfilId
             );
 
-            var jogador = usuario.tbjogador.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
-            var arbitro = usuario.tbarbitro.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
+            var jogador = usuario.tbJogador.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
+            var arbitro = usuario.tbArbitro.FirstOrDefault(x => x.usuarioId == usuario.usuarioId);
 
             ViewBag.Cidade = new SelectList
             (
-                db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                db.tbCidade.ToList().OrderBy(p => p.cidadeNome),
                 "cidadeId",
                 "cidadeNome",
                 jogador != null ? jogador.cidadeId.ToString() : string.Empty
@@ -232,7 +232,7 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbusuario usuario = db.tbusuario.Find(usuarioId);
+                tbUsuario usuario = db.tbUsuario.Find(usuarioId);
 
                 if (usuario == null)
                 {
@@ -250,7 +250,7 @@ namespace GamesControl.Web.Controllers
                     usuario.usuarioTelefone = usuarioTelefone;
                 }
 
-                usuario.tbusuariostatus = db.tbusuariostatus.Find(usuarioStatus);
+                usuario.tbUsuarioStatus = db.tbUsuarioStatus.Find(usuarioStatus);
 
                 this.ExcluirPerfis(usuarioId);
                 this.ExcluirJogadores(usuarioId);
@@ -288,13 +288,13 @@ namespace GamesControl.Web.Controllers
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();
 
-                tbjogador jogador = null;
+                tbJogador jogador = null;
                 if (possuiJogador)
                 {
                     jogador = this.AdicionarJogador(usuario, DateTime.ParseExact(jogadorDataNascimento, Constantes.DATA_PADRAO, CultureInfo.InvariantCulture), usuarioCidade.Value);
                 }
 
-                tbarbitro arbitro = null;
+                tbArbitro arbitro = null;
                 if (possuiArbitro)
                 {
                     arbitro = this.AdicionarArbitro(usuario);
@@ -302,7 +302,7 @@ namespace GamesControl.Web.Controllers
 
                 ViewBag.Status = new SelectList
                 (
-                    db.tbusuariostatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
+                    db.tbUsuarioStatus.ToList().OrderBy(u => u.usuarioStatusDescricao),
                     "usuarioStatusId",
                     "usuarioStatusDescricao",
                     usuario.usuarioStatusId
@@ -318,7 +318,7 @@ namespace GamesControl.Web.Controllers
 
                 ViewBag.Cidade = new SelectList
                 (
-                    db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                    db.tbCidade.ToList().OrderBy(p => p.cidadeNome),
                     "cidadeId",
                     "cidadeNome",
                     jogador != null ? jogador.cidadeId.ToString() : string.Empty
@@ -343,9 +343,9 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbusuario usuario = db.tbusuario.Find(id);
-                tbusuariostatus status = db.tbusuariostatus.Find((int)Enuns.eStatusUsuario.Inativo);
-                usuario.tbusuariostatus = status;
+                tbUsuario usuario = db.tbUsuario.Find(id);
+                tbUsuarioStatus status = db.tbUsuarioStatus.Find((int)Enuns.eStatusUsuario.Inativo);
+                usuario.tbUsuarioStatus = status;
 
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();
@@ -362,10 +362,10 @@ namespace GamesControl.Web.Controllers
 
         #region - Métodos -
 
-        private tbjogador AdicionarJogador(tbusuario usuario, DateTime dataNascimento, int idCidade)
+        private tbJogador AdicionarJogador(tbUsuario usuario, DateTime dataNascimento, int idCidade)
         {
-            tbjogador jogador = null;
-            var jogadores = db.tbjogador.Where(x => x.tbusuario.usuarioId == usuario.usuarioId);
+            tbJogador jogador = null;
+            var jogadores = db.tbJogador.Where(x => x.tbUsuario.usuarioId == usuario.usuarioId);
 
             if (jogadores.Count() > 0)
             {
@@ -380,13 +380,13 @@ namespace GamesControl.Web.Controllers
             }
             else
             {
-                jogador = new tbjogador();
+                jogador = new tbJogador();
                 jogador.jogadorDataNascimento = dataNascimento;
                 jogador.cidadeId = idCidade;
                 jogador.usuarioId = usuario.usuarioId;
                 jogador.jogadorAtivo = true;
 
-                db.tbjogador.Add(jogador);
+                db.tbJogador.Add(jogador);
             }
 
             db.SaveChanges();
@@ -394,12 +394,12 @@ namespace GamesControl.Web.Controllers
             return jogador;
         }
 
-        private tbarbitro AdicionarArbitro(tbusuario usuario)
+        private tbArbitro AdicionarArbitro(tbUsuario usuario)
         {
-            tbarbitro arbitro = new tbarbitro();
+            tbArbitro arbitro = new tbArbitro();
             arbitro.usuarioId = usuario.usuarioId;
 
-            db.tbarbitro.Add(arbitro);
+            db.tbArbitro.Add(arbitro);
             db.SaveChanges();
 
             return arbitro;
@@ -407,7 +407,7 @@ namespace GamesControl.Web.Controllers
 
         private void ExcluirPerfis(int idUsuario)
         {
-            var usuario = db.tbusuario.Find(idUsuario);
+            var usuario = db.tbUsuario.Find(idUsuario);
             if (usuario != null)
             {
                 while (usuario.tbPerfil.Count > 0)
@@ -421,7 +421,7 @@ namespace GamesControl.Web.Controllers
 
         private void ExcluirJogadores(int idUsuario)
         {
-            var jogadores = db.tbjogador.Where(x => x.usuarioId == idUsuario);
+            var jogadores = db.tbJogador.Where(x => x.usuarioId == idUsuario);
 
             if (jogadores.Count() > 0)
             {
@@ -437,13 +437,13 @@ namespace GamesControl.Web.Controllers
 
         private void ExcluirArbitros(int idUsuario)
         {
-            var arbitros = db.tbarbitro.Where(x => x.usuarioId == idUsuario);
+            var arbitros = db.tbArbitro.Where(x => x.usuarioId == idUsuario);
 
             if (arbitros.Count() > 0)
             {
                 foreach (var arbitro in arbitros)
                 {
-                    db.tbarbitro.Remove(arbitro);
+                    db.tbArbitro.Remove(arbitro);
                 }
             }
 

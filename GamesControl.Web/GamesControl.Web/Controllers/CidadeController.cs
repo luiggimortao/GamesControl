@@ -17,7 +17,7 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(db.tbcidade.ToList().OrderBy(x => x.cidadeNome));
+            return View(db.tbCidade.ToList().OrderBy(x => x.cidadeNome));
         }
 
         public ActionResult Details(int? id)
@@ -26,12 +26,12 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbcidade tbcidade = db.tbcidade.Find(id);
-            if (tbcidade == null)
+            tbCidade tbCidade = db.tbCidade.Find(id);
+            if (tbCidade == null)
             {
                 return HttpNotFound();
             }
-            return View(tbcidade);
+            return View(tbCidade);
         }
 
         public ActionResult Create()
@@ -43,9 +43,9 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbcidade cidade = new tbcidade();
+                tbCidade cidade = new tbCidade();
                 cidade.cidadeNome = nome;
-                db.tbcidade.Add(cidade);
+                db.tbCidade.Add(cidade);
                 db.SaveChanges();
                 return PartialView();
             }
@@ -61,26 +61,26 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbcidade tbcidade = db.tbcidade.Find(id);
-            if (tbcidade == null)
+            tbCidade tbCidade = db.tbCidade.Find(id);
+            if (tbCidade == null)
             {
                 return HttpNotFound();
             }
-            return View(tbcidade);
+            return View(tbCidade);
         }
 
         public ActionResult EditConfirmed(int id, string nome)
         {
             try
             {
-                tbcidade tbcidade = db.tbcidade.Find(id);
+                tbCidade tbCidade = db.tbCidade.Find(id);
                 
-                if (tbcidade == null)
+                if (tbCidade == null)
                 {
                     throw new Exception(string.Format("|{0}|", "Cidade não encontrada!"));
                 }
-                tbcidade.cidadeNome = nome;
-                db.Entry(tbcidade).State = EntityState.Modified;
+                tbCidade.cidadeNome = nome;
+                db.Entry(tbCidade).State = EntityState.Modified;
                 db.SaveChanges();
                 return PartialView();
             }
@@ -92,8 +92,8 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult DeleteConfirmed(int id)
         {
-            tbcidade tbcidade = db.tbcidade.Find(id);
-            db.tbcidade.Remove(tbcidade);
+            tbCidade tbCidade = db.tbCidade.Find(id);
+            db.tbCidade.Remove(tbCidade);
             db.SaveChanges();
             return PartialView();
         }

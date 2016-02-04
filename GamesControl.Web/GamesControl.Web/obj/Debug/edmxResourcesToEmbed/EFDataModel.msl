@@ -12,17 +12,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbarbitro">
-      <EntityTypeMapping TypeName="dbGameModel.tbarbitro">
-        <MappingFragment StoreEntitySet="tbarbitro">
+    <EntitySetMapping Name="tbArbitro">
+      <EntityTypeMapping TypeName="dbGameModel.tbArbitro">
+        <MappingFragment StoreEntitySet="tbArbitro">
           <ScalarProperty Name="arbitroId" ColumnName="arbitroId" />
           <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbatributoestatistica">
-      <EntityTypeMapping TypeName="dbGameModel.tbatributoestatistica">
-        <MappingFragment StoreEntitySet="tbatributoestatistica">
+    <EntitySetMapping Name="tbAtributoestatistica">
+      <EntityTypeMapping TypeName="dbGameModel.tbAtributoestatistica">
+        <MappingFragment StoreEntitySet="tbAtributoestatistica">
           <ScalarProperty Name="atributoEstatisticaId" ColumnName="atributoEstatisticaId" />
           <ScalarProperty Name="atributoEstatisticaDescricao" ColumnName="atributoEstatisticaDescricao" />
         </MappingFragment>
@@ -36,27 +36,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbcidade">
-      <EntityTypeMapping TypeName="dbGameModel.tbcidade">
-        <MappingFragment StoreEntitySet="tbcidade">
+    <EntitySetMapping Name="tbCidade">
+      <EntityTypeMapping TypeName="dbGameModel.tbCidade">
+        <MappingFragment StoreEntitySet="tbCidade">
           <ScalarProperty Name="cidadeId" ColumnName="cidadeId" />
           <ScalarProperty Name="cidadeNome" ColumnName="cidadeNome" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbestatisticajogo">
-      <EntityTypeMapping TypeName="dbGameModel.tbestatisticajogo">
-        <MappingFragment StoreEntitySet="tbestatisticajogo">
+    <EntitySetMapping Name="tbEstatisticaJogoJogadorTime">
+      <EntityTypeMapping TypeName="dbGameModel.tbEstatisticaJogoJogadorTime">
+        <MappingFragment StoreEntitySet="tbEstatisticaJogoJogadorTime">
           <ScalarProperty Name="jogoId" ColumnName="jogoId" />
-          <ScalarProperty Name="atributoEstatisticaId" ColumnName="atributoEstatisticaId" />
+          <ScalarProperty Name="timeId" ColumnName="timeId" />
           <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
+          <ScalarProperty Name="atributoEstatisticaId" ColumnName="atributoEstatisticaId" />
           <ScalarProperty Name="estatisticaJogoQuantidade" ColumnName="estatisticaJogoQuantidade" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbjogador">
-      <EntityTypeMapping TypeName="dbGameModel.tbjogador">
-        <MappingFragment StoreEntitySet="tbjogador">
+    <EntitySetMapping Name="tbJogador">
+      <EntityTypeMapping TypeName="dbGameModel.tbJogador">
+        <MappingFragment StoreEntitySet="tbJogador">
           <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
           <ScalarProperty Name="jogadorDataNascimento" ColumnName="jogadorDataNascimento" />
           <ScalarProperty Name="cidadeId" ColumnName="cidadeId" />
@@ -65,9 +66,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbjogo">
-      <EntityTypeMapping TypeName="dbGameModel.tbjogo">
-        <MappingFragment StoreEntitySet="tbjogo">
+    <EntitySetMapping Name="tbJogo">
+      <EntityTypeMapping TypeName="dbGameModel.tbJogo">
+        <MappingFragment StoreEntitySet="tbJogo">
           <ScalarProperty Name="jogoId" ColumnName="jogoId" />
           <ScalarProperty Name="campeonatoId" ColumnName="campeonatoId" />
           <ScalarProperty Name="timeCasaId" ColumnName="timeCasaId" />
@@ -88,9 +89,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbjogostatus">
-      <EntityTypeMapping TypeName="dbGameModel.tbjogostatus">
-        <MappingFragment StoreEntitySet="tbjogostatus">
+    <EntitySetMapping Name="tbJogoStatus">
+      <EntityTypeMapping TypeName="dbGameModel.tbJogoStatus">
+        <MappingFragment StoreEntitySet="tbJogoStatus">
           <ScalarProperty Name="jogoStatusId" ColumnName="jogoStatusId" />
           <ScalarProperty Name="jogoStatusDescricao" ColumnName="jogoStatusDescricao" />
         </MappingFragment>
@@ -104,9 +105,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbtime">
-      <EntityTypeMapping TypeName="dbGameModel.tbtime">
-        <MappingFragment StoreEntitySet="tbtime">
+    <EntitySetMapping Name="tbTime">
+      <EntityTypeMapping TypeName="dbGameModel.tbTime">
+        <MappingFragment StoreEntitySet="tbTime">
           <ScalarProperty Name="timeId" ColumnName="timeId" />
           <ScalarProperty Name="timeNome" ColumnName="timeNome" />
           <ScalarProperty Name="timeCaminhoLogo" ColumnName="timeCaminhoLogo" />
@@ -114,9 +115,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbusuario">
-      <EntityTypeMapping TypeName="dbGameModel.tbusuario">
-        <MappingFragment StoreEntitySet="tbusuario">
+    <EntitySetMapping Name="tbUsuario">
+      <EntityTypeMapping TypeName="dbGameModel.tbUsuario">
+        <MappingFragment StoreEntitySet="tbUsuario">
           <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
           <ScalarProperty Name="usuarioEmail" ColumnName="usuarioEmail" />
           <ScalarProperty Name="usuarioNome" ColumnName="usuarioNome" />
@@ -128,19 +129,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbusuariostatus">
-      <EntityTypeMapping TypeName="dbGameModel.tbusuariostatus">
-        <MappingFragment StoreEntitySet="tbusuariostatus">
+    <EntitySetMapping Name="tbUsuarioStatus">
+      <EntityTypeMapping TypeName="dbGameModel.tbUsuarioStatus">
+        <MappingFragment StoreEntitySet="tbUsuarioStatus">
           <ScalarProperty Name="usuarioStatusId" ColumnName="usuarioStatusId" />
           <ScalarProperty Name="usuarioStatusDescricao" ColumnName="usuarioStatusDescricao" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="tbjogoarbitro" TypeName="dbGameModel.tbjogoarbitro" StoreEntitySet="tbjogoarbitro">
-      <EndProperty Name="tbarbitro">
+    <AssociationSetMapping Name="tbJogoArbitro" TypeName="dbGameModel.tbJogoArbitro" StoreEntitySet="tbJogoArbitro">
+      <EndProperty Name="tbArbitro">
         <ScalarProperty Name="arbitroId" ColumnName="arbitroId" />
       </EndProperty>
-      <EndProperty Name="tbjogo">
+      <EndProperty Name="tbJogo">
         <ScalarProperty Name="jogoId" ColumnName="jogoId" />
       </EndProperty>
     </AssociationSetMapping>
@@ -148,15 +149,15 @@
       <EndProperty Name="tbPerfil">
         <ScalarProperty Name="perfilId" ColumnName="perfilId" />
       </EndProperty>
-      <EndProperty Name="tbusuario">
+      <EndProperty Name="tbUsuario">
         <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="tbTimeJogador" TypeName="dbGameModel.tbTimeJogador" StoreEntitySet="tbTimeJogador">
-      <EndProperty Name="tbjogador">
+      <EndProperty Name="tbJogador">
         <ScalarProperty Name="jogadorId" ColumnName="jogadorId" />
       </EndProperty>
-      <EndProperty Name="tbtime">
+      <EndProperty Name="tbTime">
         <ScalarProperty Name="timeId" ColumnName="timeId" />
       </EndProperty>
     </AssociationSetMapping>

@@ -12,13 +12,13 @@ namespace GamesControl.Web
     using System;
     using System.Collections.Generic;
     
-    public partial class tbjogador
+    public partial class tbJogador
     {
-        public tbjogador()
+        public tbJogador()
         {
-            this.tbestatisticajogo = new HashSet<tbestatisticajogo>();
+            this.tbEstatisticaJogoJogadorTime = new HashSet<tbEstatisticaJogoJogadorTime>();
             this.tbJogoJogadorTime = new HashSet<tbJogoJogadorTime>();
-            this.tbtime = new HashSet<tbtime>();
+            this.tbTime = new HashSet<tbTime>();
         }
     
         public int jogadorId { get; set; }
@@ -27,10 +27,10 @@ namespace GamesControl.Web
         public int usuarioId { get; set; }
         public bool jogadorAtivo { get; set; }
     
-        public virtual tbcidade tbcidade { get; set; }
-        public virtual ICollection<tbestatisticajogo> tbestatisticajogo { get; set; }
+        public virtual tbCidade tbCidade { get; set; }
+        public virtual ICollection<tbEstatisticaJogoJogadorTime> tbEstatisticaJogoJogadorTime { get; set; }
         public virtual ICollection<tbJogoJogadorTime> tbJogoJogadorTime { get; set; }
-        public virtual tbusuario tbusuario { get; set; }
-        public virtual ICollection<tbtime> tbtime { get; set; }
+        public virtual tbUsuario tbUsuario { get; set; }
+        public virtual ICollection<tbTime> tbTime { get; set; }
     }
 }

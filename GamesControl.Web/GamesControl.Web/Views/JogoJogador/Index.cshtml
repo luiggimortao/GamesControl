@@ -1,11 +1,11 @@
-﻿@model GamesControl.Web.tbjogo
+﻿@model GamesControl.Web.tbJogo
 
 @{
-    ViewBag.Title = "Jogo " + Model.tbtime.timeNome + " x " + Model.tbtime1.timeNome + "(" + Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO) + ") - Edição de jogadores";
+    ViewBag.Title = "Jogo " + Model.tbTime.timeNome + " x " + Model.tbTime1.timeNome + "(" + Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO) + ") - Edição de jogadores";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Jogo @Model.tbtime.timeNome x @Model.tbtime1.timeNome (@Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO)) - Edição de jogadores</h2>
+<h2>Jogo @Model.tbTime.timeNome x @Model.tbTime1.timeNome (@Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO)) - Edição de jogadores</h2>
 
 <p>
 </p>
@@ -16,10 +16,10 @@
     @Html.HiddenFor(model => model.jogoId, new { @id = "jogoId", @Name = "jogoId" })
     <div class="form-horizontal row">
         <div class="form-horizontal col-md-6">
-            @Html.HiddenFor(model => model.tbtime.timeId, new { @id = "timeCasaId", @Name = "timeCasaId" })
+            @Html.HiddenFor(model => model.tbTime.timeId, new { @id = "timeCasaId", @Name = "timeCasaId" })
             <div class="form-group">
                 <div class="col-md-8">
-                    @Model.tbtime.timeNome - Jogadores disponíveis
+                    @Model.tbTime.timeNome - Jogadores disponíveis
                 </div>
                 <div class="col-md-4">
                 </div>
@@ -44,14 +44,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var jogadorCasa in Model.tbJogoJogadorTime.Where(x => x.tbtime.timeId == Model.tbtime.timeId))
+                    @foreach (var jogadorCasa in Model.tbJogoJogadorTime.Where(x => x.tbTime.timeId == Model.tbTime.timeId))
                 {
                     <tr>
                         <td align="center">
-                            <a onclick="ExcluirJogadorTime(@jogadorCasa.jogoId, @jogadorCasa.tbtime.timeId, @jogadorCasa.tbjogador.jogadorId);">Remover</a>
+                            <a onclick="ExcluirJogadorTime(@jogadorCasa.jogoId, @jogadorCasa.tbTime.timeId, @jogadorCasa.tbJogador.jogadorId);">Remover</a>
                         </td>
                         <td>
-                            @Html.Label(jogadorCasa.tbjogador.tbusuario.usuarioNome)
+                            @Html.Label(jogadorCasa.tbJogador.tbUsuario.usuarioNome)
                         </td>
                     </tr>
                 }
@@ -60,10 +60,10 @@
         </div>
 
         <div class="form-horizontal col-md-6">
-            @Html.HiddenFor(model => model.tbtime1.timeId, new { @id = "timeVisitanteId", @Name = "timeVisitanteId" })
+            @Html.HiddenFor(model => model.tbTime1.timeId, new { @id = "timeVisitanteId", @Name = "timeVisitanteId" })
             <div class="form-group">
                 <div class="col-md-8">
-                    @Model.tbtime1.timeNome - Jogadores disponíveis
+                    @Model.tbTime1.timeNome - Jogadores disponíveis
                 </div>
                 <div class="col-md-4">
                 </div>
@@ -88,14 +88,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var jogadorVisitante in Model.tbJogoJogadorTime.Where(x => x.tbtime.timeId == Model.tbtime1.timeId))
+                    @foreach (var jogadorVisitante in Model.tbJogoJogadorTime.Where(x => x.tbTime.timeId == Model.tbTime1.timeId))
                 {
                     <tr>
                         <td align="center">
-                            <a onclick="ExcluirJogadorTime(@jogadorVisitante.jogoId, @jogadorVisitante.tbtime.timeId, @jogadorVisitante.tbjogador.jogadorId);">Remover</a>
+                            <a onclick="ExcluirJogadorTime(@jogadorVisitante.jogoId, @jogadorVisitante.tbTime.timeId, @jogadorVisitante.tbJogador.jogadorId);">Remover</a>
                         </td>
                         <td>
-                            @Html.Label(jogadorVisitante.tbjogador.tbusuario.usuarioNome)
+                            @Html.Label(jogadorVisitante.tbJogador.tbUsuario.usuarioNome)
                         </td>
                     </tr>
                 }
@@ -207,7 +207,7 @@
             $.post('@Url.Action("Add", "JogoJogador")',
             {
                 idJogo: $("#jogoId").val(),
-                idTime: $("#timeCasaId").val(),
+                idTime: $("#timeVisitanteId").val(),
                 listaJogadores: codigosSelecionados
             }).done(function (data) {
 

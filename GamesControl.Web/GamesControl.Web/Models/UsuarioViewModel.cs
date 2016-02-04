@@ -9,14 +9,14 @@ namespace GamesControl.Web.Models
     {
         #region - Propriedades -
 
-        private tbusuario _usuario;
-        public tbusuario Usuario
+        private tbUsuario _usuario;
+        public tbUsuario Usuario
         {
             get
             {
                 if (_usuario == null)
                 {
-                    _usuario = new tbusuario();
+                    _usuario = new tbUsuario();
                 }
                 return _usuario;
             }
@@ -26,14 +26,14 @@ namespace GamesControl.Web.Models
             }
         }
 
-        private tbjogador _jogador;
-        public tbjogador Jogador
+        private tbJogador _jogador;
+        public tbJogador Jogador
         {
             get
             {
                 if (_jogador == null)
                 {
-                    _jogador = new tbjogador();
+                    _jogador = new tbJogador();
                 }
                 return _jogador;
             }
@@ -43,14 +43,14 @@ namespace GamesControl.Web.Models
             }
         }
 
-        private tbarbitro _arbitro;
-        public tbarbitro Arbitro
+        private tbArbitro _arbitro;
+        public tbArbitro Arbitro
         {
             get
             {
                 if (_arbitro == null)
                 {
-                    _arbitro = new tbarbitro();
+                    _arbitro = new tbArbitro();
                 }
                 return _arbitro;
             }

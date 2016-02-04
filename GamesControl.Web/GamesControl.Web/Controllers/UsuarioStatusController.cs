@@ -16,7 +16,7 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(db.tbusuariostatus.ToList().OrderBy(x => x.usuarioStatusId));
+            return View(db.tbUsuarioStatus.ToList().OrderBy(x => x.usuarioStatusId));
         }
 
         public ActionResult Details(int? id)
@@ -25,12 +25,12 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbusuariostatus tbusuariostatus = db.tbusuariostatus.Find(id);
-            if (tbusuariostatus == null)
+            tbUsuarioStatus tbUsuarioStatus = db.tbUsuarioStatus.Find(id);
+            if (tbUsuarioStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(tbusuariostatus);
+            return View(tbUsuarioStatus);
         }
 
         public ActionResult Create()
@@ -42,10 +42,10 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbusuariostatus usuariostatus = new tbusuariostatus();
+                tbUsuarioStatus usuariostatus = new tbUsuarioStatus();
                 usuariostatus.usuarioStatusId = id;
                 usuariostatus.usuarioStatusDescricao = descricao;
-                db.tbusuariostatus.Add(usuariostatus);
+                db.tbUsuarioStatus.Add(usuariostatus);
                 db.SaveChanges();
                 return PartialView();
             }
@@ -61,26 +61,26 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbusuariostatus tbusuariostatus = db.tbusuariostatus.Find(id);
-            if (tbusuariostatus == null)
+            tbUsuarioStatus tbUsuarioStatus = db.tbUsuarioStatus.Find(id);
+            if (tbUsuarioStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(tbusuariostatus);
+            return View(tbUsuarioStatus);
         }
 
         public ActionResult EditConfirmed(int id, string descricao)
         {
             try
             {
-                tbusuariostatus tbusuariostatus = db.tbusuariostatus.Find(id);
+                tbUsuarioStatus tbUsuarioStatus = db.tbUsuarioStatus.Find(id);
                 
-                if (tbusuariostatus == null)
+                if (tbUsuarioStatus == null)
                 {
                     throw new Exception(string.Format("|{0}|", "Status não encontrado!"));
                 }
-                tbusuariostatus.usuarioStatusDescricao = descricao;
-                db.Entry(tbusuariostatus).State = EntityState.Modified;
+                tbUsuarioStatus.usuarioStatusDescricao = descricao;
+                db.Entry(tbUsuarioStatus).State = EntityState.Modified;
                 db.SaveChanges();
                 return PartialView();
             }
@@ -92,8 +92,8 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult DeleteConfirmed(int id)
         {
-            tbusuariostatus tbusuariostatus = db.tbusuariostatus.Find(id);
-            db.tbusuariostatus.Remove(tbusuariostatus);
+            tbUsuarioStatus tbUsuarioStatus = db.tbUsuarioStatus.Find(id);
+            db.tbUsuarioStatus.Remove(tbUsuarioStatus);
             db.SaveChanges();
             return PartialView();
         }

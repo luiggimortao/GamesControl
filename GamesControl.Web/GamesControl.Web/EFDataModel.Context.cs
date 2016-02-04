@@ -26,18 +26,18 @@ namespace GamesControl.Web
         }
     
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<tbarbitro> tbarbitro { get; set; }
-        public virtual DbSet<tbatributoestatistica> tbatributoestatistica { get; set; }
+        public virtual DbSet<tbArbitro> tbArbitro { get; set; }
+        public virtual DbSet<tbAtributoestatistica> tbAtributoestatistica { get; set; }
         public virtual DbSet<tbCampeonato> tbCampeonato { get; set; }
-        public virtual DbSet<tbcidade> tbcidade { get; set; }
-        public virtual DbSet<tbestatisticajogo> tbestatisticajogo { get; set; }
-        public virtual DbSet<tbjogador> tbjogador { get; set; }
-        public virtual DbSet<tbjogo> tbjogo { get; set; }
+        public virtual DbSet<tbCidade> tbCidade { get; set; }
+        public virtual DbSet<tbEstatisticaJogoJogadorTime> tbEstatisticaJogoJogadorTime { get; set; }
+        public virtual DbSet<tbJogador> tbJogador { get; set; }
+        public virtual DbSet<tbJogo> tbJogo { get; set; }
         public virtual DbSet<tbJogoJogadorTime> tbJogoJogadorTime { get; set; }
-        public virtual DbSet<tbjogostatus> tbjogostatus { get; set; }
+        public virtual DbSet<tbJogoStatus> tbJogoStatus { get; set; }
         public virtual DbSet<tbPerfil> tbPerfil { get; set; }
-        public virtual DbSet<tbtime> tbtime { get; set; }
-        public virtual DbSet<tbusuario> tbusuario { get; set; }
-        public virtual DbSet<tbusuariostatus> tbusuariostatus { get; set; }
+        public virtual DbSet<tbTime> tbTime { get; set; }
+        public virtual DbSet<tbUsuario> tbUsuario { get; set; }
+        public virtual DbSet<tbUsuarioStatus> tbUsuarioStatus { get; set; }
     }
 }

@@ -12,17 +12,17 @@ namespace GamesControl.Web
     using System;
     using System.Collections.Generic;
     
-    public partial class tbarbitro
+    public partial class tbArbitro
     {
-        public tbarbitro()
+        public tbArbitro()
         {
-            this.tbjogo = new HashSet<tbjogo>();
+            this.tbJogo = new HashSet<tbJogo>();
         }
     
         public int arbitroId { get; set; }
         public Nullable<int> usuarioId { get; set; }
     
-        public virtual tbusuario tbusuario { get; set; }
-        public virtual ICollection<tbjogo> tbjogo { get; set; }
+        public virtual tbUsuario tbUsuario { get; set; }
+        public virtual ICollection<tbJogo> tbJogo { get; set; }
     }
 }

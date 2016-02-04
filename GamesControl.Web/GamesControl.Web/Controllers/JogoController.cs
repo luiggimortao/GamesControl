@@ -22,7 +22,7 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(db.tbjogo.ToList().OrderByDescending(x => x.jogoData));
+            return View(db.tbJogo.ToList().OrderByDescending(x => x.jogoData));
         }
 
         public ActionResult Details(int? id)
@@ -31,12 +31,12 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbusuariostatus tbusuariostatus = db.tbusuariostatus.Find(id);
-            if (tbusuariostatus == null)
+            tbUsuarioStatus tbUsuarioStatus = db.tbUsuarioStatus.Find(id);
+            if (tbUsuarioStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(tbusuariostatus);
+            return View(tbUsuarioStatus);
         }
 
         public ActionResult Create()
@@ -50,14 +50,14 @@ namespace GamesControl.Web.Controllers
 
             ViewBag.Time = new SelectList
             (
-                db.tbtime.OrderBy(u => u.timeNome),
+                db.tbTime.OrderBy(u => u.timeNome),
                 "timeId",
                 "timeNome"
             );
 
             ViewBag.Status = new SelectList
             (
-                db.tbjogostatus.OrderBy(u => u.jogoStatusDescricao),
+                db.tbJogoStatus.OrderBy(u => u.jogoStatusDescricao),
                 "jogoStatusId",
                 "jogoStatusDescricao"
             );
@@ -69,18 +69,18 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbjogo jogo = new tbjogo();
+                tbJogo jogo = new tbJogo();
                 jogo.timeCasaId = timeCasaId;
                 jogo.timeVisitanteId = timeVisitanteId;
                 jogo.jogoData = jogoData;
 
-                var status = db.tbjogostatus.Find(statusId);
-                jogo.tbjogostatus = status;
+                var status = db.tbJogoStatus.Find(statusId);
+                jogo.tbJogoStatus = status;
 
                 var campeonato = db.tbCampeonato.Find(campeonatoId);
                 jogo.tbCampeonato = campeonato;
 
-                db.tbjogo.Add(jogo);
+                db.tbJogo.Add(jogo);
                 db.SaveChanges();
 
                 if (copiarJogadorTimeCasa.HasValue && copiarJogadorTimeCasa.Value)
@@ -102,14 +102,14 @@ namespace GamesControl.Web.Controllers
 
                 ViewBag.Time = new SelectList
                 (
-                    db.tbtime.ToList().OrderBy(u => u.timeNome),
+                    db.tbTime.ToList().OrderBy(u => u.timeNome),
                     "timeId",
                     "timeNome"
                 );
 
                 ViewBag.Status = new SelectList
                 (
-                    db.tbjogostatus.ToList().OrderBy(u => u.jogoStatusDescricao),
+                    db.tbJogoStatus.ToList().OrderBy(u => u.jogoStatusDescricao),
                     "jogoStatusId",
                     "jogoStatusDescricao"
                 );
@@ -128,7 +128,7 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbjogo jogo = db.tbjogo.Find(id);
+            tbJogo jogo = db.tbJogo.Find(id);
             if (jogo == null)
             {
                 return HttpNotFound();
@@ -144,7 +144,7 @@ namespace GamesControl.Web.Controllers
 
             ViewBag.TimeCasa = new SelectList
             (
-                db.tbtime.OrderBy(u => u.timeNome),
+                db.tbTime.OrderBy(u => u.timeNome),
                 "timeId",
                 "timeNome",
                 jogo.timeCasaId
@@ -152,7 +152,7 @@ namespace GamesControl.Web.Controllers
 
             ViewBag.TimeVisitante = new SelectList
             (
-                db.tbtime.OrderBy(u => u.timeNome),
+                db.tbTime.OrderBy(u => u.timeNome),
                 "timeId",
                 "timeNome",
                 jogo.timeVisitanteId
@@ -160,10 +160,10 @@ namespace GamesControl.Web.Controllers
 
             ViewBag.Status = new SelectList
             (
-                db.tbjogostatus.OrderBy(u => u.jogoStatusDescricao),
+                db.tbJogoStatus.OrderBy(u => u.jogoStatusDescricao),
                 "jogoStatusId",
                 "jogoStatusDescricao",
-                jogo.tbjogostatus.jogoStatusId
+                jogo.tbJogoStatus.jogoStatusId
             );
 
             return View(jogo);
@@ -173,7 +173,7 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbjogo jogo = db.tbjogo.Find(jogoId);
+                tbJogo jogo = db.tbJogo.Find(jogoId);
 
                 if (jogo == null)
                 {
@@ -184,8 +184,8 @@ namespace GamesControl.Web.Controllers
                 jogo.timeVisitanteId = timeVisitanteId;
                 jogo.jogoData = jogoData;
 
-                var status = db.tbjogostatus.Find(statusId);
-                jogo.tbjogostatus = status;
+                var status = db.tbJogoStatus.Find(statusId);
+                jogo.tbJogoStatus = status;
 
                 var campeonato = db.tbCampeonato.Find(campeonatoId);
                 jogo.tbCampeonato = campeonato;
@@ -216,22 +216,22 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult DeleteConfirmed(int id)
         {
-            tbjogo jogo = db.tbjogo.Find(id);
-            db.tbjogo.Remove(jogo);
+            tbJogo jogo = db.tbJogo.Find(id);
+            db.tbJogo.Remove(jogo);
             db.SaveChanges();
             return PartialView();
         }
-        
+
         #endregion
 
         #region - Métodos -
 
         private void ExcluirJogadoresTime(int idJogo, int idTme)
         {
-            var jogo = db.tbjogo.Find(idJogo);
+            var jogo = db.tbJogo.Find(idJogo);
             if (jogo != null)
             {
-                var jogadores = db.tbJogoJogadorTime.Where(x => x.tbjogo.jogoId == idJogo && x.tbtime.timeId == idTme);
+                var jogadores = db.tbJogoJogadorTime.Where(x => x.tbJogo.jogoId == idJogo && x.tbTime.timeId == idTme);
                 foreach (var jogador in jogadores)
                 {
                     jogo.tbJogoJogadorTime.Remove(jogador);
@@ -243,23 +243,22 @@ namespace GamesControl.Web.Controllers
 
         private void AdicionarJogadoresTime(int idJogo, int idTime)
         {
-            var jogadoresTime = from jogador in db.tbjogador
-                                where jogador.tbtime.Any(t => t.timeId == idTime)
-                                select jogador;
+            var jogadoresTime = db.tbJogador.Where(j => j.tbTime.Any(t => t.timeId == idTime));
+            jogadoresTime = jogadoresTime.Where(j => j.jogadorAtivo == true);
 
             if (jogadoresTime.Count() > 0)
             {
-                var jogo = db.tbjogo.Find(idJogo);
+                var jogo = db.tbJogo.Find(idJogo);
 
-                var time = db.tbtime.Find(idTime);
+                var time = db.tbTime.Find(idTime);
 
                 foreach (var jogador in jogadoresTime)
                 {
                     var jogoJogadorTime = new tbJogoJogadorTime();
 
-                    jogoJogadorTime.tbjogo = jogo;
-                    jogoJogadorTime.tbtime = time;
-                    jogoJogadorTime.tbjogador = jogador;
+                    jogoJogadorTime.tbJogo = jogo;
+                    jogoJogadorTime.tbTime = time;
+                    jogoJogadorTime.tbJogador = jogador;
 
                     db.tbJogoJogadorTime.Add(jogoJogadorTime);
                 }

@@ -26,7 +26,7 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(db.tbtime.ToList().OrderBy(x => x.timeNome));
+            return View(db.tbTime.ToList().OrderBy(x => x.timeNome));
         }
 
         public ActionResult Detail(int? id)
@@ -35,7 +35,7 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbtime time = db.tbtime.Find(id);
+            tbTime time = db.tbTime.Find(id);
             if (time == null)
             {
                 return HttpNotFound();
@@ -48,7 +48,7 @@ namespace GamesControl.Web.Controllers
         {
             ViewBag.Cidade = new SelectList
             (
-                db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                db.tbCidade.ToList().OrderBy(p => p.cidadeNome),
                 "cidadeId",
                 "cidadeNome"
             );
@@ -63,11 +63,11 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbtime time = new tbtime();
+                tbTime time = new tbTime();
                 time.timeNome = timeNome;
-                time.tbcidade = db.tbcidade.Find(timeCidade);
+                time.tbCidade = db.tbCidade.Find(timeCidade);
 
-                db.tbtime.Add(time);
+                db.tbTime.Add(time);
                 db.SaveChanges();
 
                 if (fileUpload != null)
@@ -84,7 +84,7 @@ namespace GamesControl.Web.Controllers
 
                 ViewBag.Cidade = new SelectList
                 (
-                    db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                    db.tbCidade.ToList().OrderBy(p => p.cidadeNome),
                     "cidadeId",
                     "cidadeNome"
                 );
@@ -105,7 +105,7 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbtime time = db.tbtime.Find(id);
+            tbTime time = db.tbTime.Find(id);
             if (time == null)
             {
                 return HttpNotFound();
@@ -113,10 +113,10 @@ namespace GamesControl.Web.Controllers
 
             ViewBag.Cidade = new SelectList
             (
-                db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                db.tbCidade.ToList().OrderBy(p => p.cidadeNome),
                 "cidadeId",
                 "cidadeNome",
-                time.tbcidade != null ? time.tbcidade.cidadeId.ToString() : string.Empty
+                time.tbCidade != null ? time.tbCidade.cidadeId.ToString() : string.Empty
             );
 
             ViewBag.Alterado = "N";
@@ -129,7 +129,7 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbtime time = db.tbtime.Find(timeId);
+                tbTime time = db.tbTime.Find(timeId);
 
                 if (time == null)
                 {
@@ -137,7 +137,7 @@ namespace GamesControl.Web.Controllers
                 }
 
                 time.timeNome = timeNome;
-                time.tbcidade = db.tbcidade.Find(timeCidade);
+                time.tbCidade = db.tbCidade.Find(timeCidade);
 
                 db.Entry(time).State = EntityState.Modified;
                 db.SaveChanges();
@@ -156,10 +156,10 @@ namespace GamesControl.Web.Controllers
 
                 ViewBag.Cidade = new SelectList
                 (
-                    db.tbcidade.ToList().OrderBy(p => p.cidadeNome),
+                    db.tbCidade.ToList().OrderBy(p => p.cidadeNome),
                     "cidadeId",
                     "cidadeNome",
-                    time.tbcidade != null ? time.tbcidade.cidadeId.ToString() : string.Empty
+                    time.tbCidade != null ? time.tbCidade.cidadeId.ToString() : string.Empty
                 );
 
                 ViewBag.Alterado = "S";
@@ -175,9 +175,9 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbtime time = db.tbtime.Find(id);
+                tbTime time = db.tbTime.Find(id);
                 this.ExcluirJogadores(id);
-                db.tbtime.Remove(time);
+                db.tbTime.Remove(time);
                 db.SaveChanges();
 
                 this.ApagarArquivosTime(id);
@@ -194,14 +194,14 @@ namespace GamesControl.Web.Controllers
 
         #region - Métodos -
 
-        private tbjogador AdicionarJogador(tbusuario usuario, DateTime dataNascimento, int idCidade)
+        private tbJogador AdicionarJogador(tbUsuario usuario, DateTime dataNascimento, int idCidade)
         {
-            tbjogador jogador = new tbjogador();
+            tbJogador jogador = new tbJogador();
             jogador.jogadorDataNascimento = dataNascimento;
             jogador.cidadeId = idCidade;
             jogador.usuarioId = usuario.usuarioId;
 
-            db.tbjogador.Add(jogador);
+            db.tbJogador.Add(jogador);
             db.SaveChanges();
 
             return jogador;
@@ -209,12 +209,12 @@ namespace GamesControl.Web.Controllers
 
         private void ExcluirJogadores(int idTime)
         {
-            var time = db.tbtime.Find(idTime);
+            var time = db.tbTime.Find(idTime);
             if (time != null)
             {
-                while (time.tbjogador.Count > 0)
+                while (time.tbJogador.Count > 0)
                 {
-                    time.tbjogador.Remove(time.tbjogador.FirstOrDefault());
+                    time.tbJogador.Remove(time.tbJogador.FirstOrDefault());
                 }
             }
 

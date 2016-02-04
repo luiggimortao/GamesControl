@@ -30,18 +30,20 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbtime time = db.tbtime.Find(id);
+            tbTime time = db.tbTime.Find(id);
             if (time == null)
             {
                 return HttpNotFound();
             }
 
-            var jogadoresSelecionados = time.tbjogador.Select(x => x.jogadorId).ToArray();
+            var jogadoresSelecionados = time.tbJogador.Select(x => x.jogadorId).ToArray();
             ViewBag.Jogadores = new SelectList
             (
-                db.tbjogador.Where(x => x.tbusuario.tbusuariostatus.usuarioStatusId == (int)Enuns.eStatusUsuario.OK && !jogadoresSelecionados.Contains(x.jogadorId)).OrderBy(x => x.tbusuario.usuarioNome),
+                db.tbJogador.Where(x => x.tbUsuario.tbUsuarioStatus.usuarioStatusId == (int)Enuns.eStatusUsuario.OK && 
+                                        !jogadoresSelecionados.Contains(x.jogadorId) &&
+                                        x.jogadorAtivo == true).OrderBy(x => x.tbUsuario.usuarioNome),
                 "jogadorId",
-                "tbusuario.usuarioNome"
+                "tbUsuario.usuarioNome"
             );
 
             return View(time);
@@ -49,7 +51,7 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult Add(int idTime, string listaJogadores)
         {
-            var time = db.tbtime.Find(idTime);
+            var time = db.tbTime.Find(idTime);
             if (time == null)
             {
                 return HttpNotFound();
@@ -60,10 +62,10 @@ namespace GamesControl.Web.Controllers
                 var splitJogadores = listaJogadores.Split('|');
                 foreach (var idJogador in splitJogadores)
                 {
-                    var jogador = db.tbjogador.Find(int.Parse(idJogador));
+                    var jogador = db.tbJogador.Find(int.Parse(idJogador));
                     if (jogador != null)
                     {
-                        time.tbjogador.Add(jogador);
+                        time.tbJogador.Add(jogador);
                     }
                 }
             }
@@ -80,7 +82,7 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var time = db.tbtime.Find(idTime);
+            var time = db.tbTime.Find(idTime);
             if (time == null)
             {
                 return HttpNotFound();
@@ -91,10 +93,10 @@ namespace GamesControl.Web.Controllers
                 var splitJogadores = listaJogadores.Split('|');
                 foreach (var idJogador in splitJogadores)
                 {
-                    var jogador = db.tbjogador.Find(int.Parse(idJogador));
+                    var jogador = db.tbJogador.Find(int.Parse(idJogador));
                     if (jogador != null)
                     {
-                        time.tbjogador.Remove(jogador);
+                        time.tbJogador.Remove(jogador);
                     }
                 }
             }

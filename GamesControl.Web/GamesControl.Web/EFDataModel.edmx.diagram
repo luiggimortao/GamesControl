@@ -4,37 +4,37 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0214bbe489104fa1b8d4fd7ae70d5269" Name="Diagram1">
-        <EntityTypeShape EntityType="dbGameModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbarbitro" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbatributoestatistica" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+      <Diagram DiagramId="d16adc07232345e69cc5fb530e8cbb54" Name="Diagram1">
+        <EntityTypeShape EntityType="dbGameModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbArbitro" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbAtributoestatistica" Width="1.5" PointX="9.75" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="dbGameModel.tbCampeonato" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbcidade" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbestatisticajogo" Width="1.5" PointX="9.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbjogador" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbjogo" Width="1.5" PointX="7.5" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbJogoJogadorTime" Width="1.5" PointX="9.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbjogostatus" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbCidade" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbEstatisticaJogoJogadorTime" Width="1.5" PointX="12" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbJogador" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbJogo" Width="1.5" PointX="7.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbJogoJogadorTime" Width="1.5" PointX="9.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbJogoStatus" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="dbGameModel.tbPerfil" Width="1.5" PointX="1.5" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbtime" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbusuario" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbGameModel.tbusuariostatus" Width="1.5" PointX="1.5" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbTime" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbUsuario" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbGameModel.tbUsuarioStatus" Width="1.5" PointX="1.5" PointY="11.125" IsExpanded="true" />
         <AssociationConnector Association="dbGameModel.arbitrousuario" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.FK_tbestatisticajogo_tbatributoestatistica" ManuallyRouted="false" />
-        <AssociationConnector Association="dbGameModel.FK_tbjogo_tbCampeonato" ManuallyRouted="false" />
-        <AssociationConnector Association="dbGameModel.FK_tbtime_tbcidade" ManuallyRouted="false" />
+        <AssociationConnector Association="dbGameModel.FK_tbJogo_tbCampeonato" ManuallyRouted="false" />
+        <AssociationConnector Association="dbGameModel.FK_tbTime_tbCidade" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.jogadorCidade" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.estatisticajogador" ManuallyRouted="false" />
-        <AssociationConnector Association="dbGameModel.Estatisticajogo" ManuallyRouted="false" />
-        <AssociationConnector Association="dbGameModel.FK_tbJogoJogador_tbjogador" ManuallyRouted="false" />
+        <AssociationConnector Association="dbGameModel.FK_tbestatisticajogo_tbJogoJogadorTime" ManuallyRouted="false" />
+        <AssociationConnector Association="dbGameModel.FK_tbJogoJogador_tbJogador" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.jogadorusuario" ManuallyRouted="false" />
-        <AssociationConnector Association="dbGameModel.FK_tbJogoJogador_tbjogo" ManuallyRouted="false" />
+        <AssociationConnector Association="dbGameModel.FK_tbJogoJogador_tbJogo" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.jogojogostatus" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.JogoTime1" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.JogoTime2" ManuallyRouted="false" />
-        <AssociationConnector Association="dbGameModel.FK_tbJogoJogadorTime_tbtime" ManuallyRouted="false" />
+        <AssociationConnector Association="dbGameModel.FK_tbJogoJogadorTime_tbTime" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.usuariousuariostatus" ManuallyRouted="false" />
-        <AssociationConnector Association="dbGameModel.tbjogoarbitro" ManuallyRouted="false" />
+        <AssociationConnector Association="dbGameModel.tbJogoArbitro" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.tbPerfilUsuario" ManuallyRouted="false" />
         <AssociationConnector Association="dbGameModel.tbTimeJogador" ManuallyRouted="false" />
       </Diagram>

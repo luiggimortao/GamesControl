@@ -30,26 +30,30 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbjogo jogo = db.tbjogo.Find(id);
+            tbJogo jogo = db.tbJogo.Find(id);
             if (jogo == null)
             {
                 return HttpNotFound();
             }
 
-            var jogadoresSelecionadosCasa = jogo.tbJogoJogadorTime.Where(x => x.tbjogo.jogoId == id && x.tbtime.timeId == jogo.timeCasaId).Select(x => x.jogadorId).ToArray();
-            var jogadoresSelecionadosVisitante = jogo.tbJogoJogadorTime.Where(x => x.tbjogo.jogoId == id && x.tbtime.timeId == jogo.timeVisitanteId).Select(x => x.jogadorId).ToArray();
+            var jogadoresSelecionadosCasa = jogo.tbJogoJogadorTime.Where(x => x.tbJogo.jogoId == id && x.tbTime.timeId == jogo.timeCasaId).Select(x => x.jogadorId).ToArray();
+            var jogadoresSelecionadosVisitante = jogo.tbJogoJogadorTime.Where(x => x.tbJogo.jogoId == id && x.tbTime.timeId == jogo.timeVisitanteId).Select(x => x.jogadorId).ToArray();
             ViewBag.JogadoresTimeCasa = new SelectList
             (
-                db.tbjogador.Where(x => !jogadoresSelecionadosCasa.Contains(x.jogadorId) && !jogadoresSelecionadosVisitante.Contains(x.jogadorId)).OrderBy(x => x.tbusuario.usuarioNome),
+                db.tbJogador.Where(x => !jogadoresSelecionadosCasa.Contains(x.jogadorId) &&
+                                        !jogadoresSelecionadosVisitante.Contains(x.jogadorId) &&
+                                        x.jogadorAtivo == true).OrderBy(x => x.tbUsuario.usuarioNome),
                 "jogadorId",
-                "tbusuario.usuarioNome"
+                "tbUsuario.usuarioNome"
             );
 
             ViewBag.JogadoresTimeVisitante = new SelectList
             (
-                db.tbjogador.Where(x => !jogadoresSelecionadosCasa.Contains(x.jogadorId) && !jogadoresSelecionadosVisitante.Contains(x.jogadorId)).OrderBy(x => x.tbusuario.usuarioNome),
+                db.tbJogador.Where(x => !jogadoresSelecionadosCasa.Contains(x.jogadorId) &&
+                                        !jogadoresSelecionadosVisitante.Contains(x.jogadorId) &&
+                                        x.jogadorAtivo == true).OrderBy(x => x.tbUsuario.usuarioNome),
                 "jogadorId",
-                "tbusuario.usuarioNome"
+                "tbUsuario.usuarioNome"
             );
 
             return View(jogo);
@@ -59,13 +63,13 @@ namespace GamesControl.Web.Controllers
         {
             if (!string.IsNullOrWhiteSpace(listaJogadores))
             {
-                var jogo = db.tbjogo.Find(idJogo);
+                var jogo = db.tbJogo.Find(idJogo);
                 if (jogo == null)
                 {
                     return HttpNotFound();
                 }
 
-                var time = db.tbtime.Find(idTime);
+                var time = db.tbTime.Find(idTime);
                 if (time == null)
                 {
                     return HttpNotFound();
@@ -74,13 +78,13 @@ namespace GamesControl.Web.Controllers
                 var splitJogadores = listaJogadores.Split('|');
                 foreach (var idJogador in splitJogadores)
                 {
-                    var jogador = db.tbjogador.Find(int.Parse(idJogador));
+                    var jogador = db.tbJogador.Find(int.Parse(idJogador));
                     if (jogador != null)
                     {
                         var jogoJogadorTime = new tbJogoJogadorTime();
-                        jogoJogadorTime.tbjogo = jogo;
-                        jogoJogadorTime.tbtime = time;
-                        jogoJogadorTime.tbjogador = jogador;
+                        jogoJogadorTime.tbJogo = jogo;
+                        jogoJogadorTime.tbTime = time;
+                        jogoJogadorTime.tbJogador = jogador;
 
                         jogo.tbJogoJogadorTime.Add(jogoJogadorTime);
                     }
@@ -97,34 +101,19 @@ namespace GamesControl.Web.Controllers
         {
             if (!string.IsNullOrWhiteSpace(listaJogadores))
             {
-                var jogo = db.tbjogo.Find(idJogo);
-                if (jogo == null)
-                {
-                    return HttpNotFound();
-                }
-
-                var time = db.tbtime.Find(idTime);
-                if (time == null)
-                {
-                    return HttpNotFound();
-                }
-
                 var splitJogadores = listaJogadores.Split('|');
-                foreach (var idJogador in splitJogadores)
+                foreach (var textoIdJogador in splitJogadores)
                 {
-                    var jogador = db.tbjogador.Find(int.Parse(idJogador));
-                    if (jogador != null)
+                    int idJogador = int.Parse(textoIdJogador);
+                    var jogoJogadorTime = db.tbJogoJogadorTime.FirstOrDefault(x => x.tbJogo.jogoId == idJogo &&
+                                                                                    x.tbTime.timeId == idTime &&
+                                                                                    x.tbJogador.jogadorId == idJogador);
+                    if (jogoJogadorTime != null)
                     {
-                        var jogoJogadorTime = new tbJogoJogadorTime();
-                        jogoJogadorTime.tbjogo = jogo;
-                        jogoJogadorTime.tbtime = time;
-                        jogoJogadorTime.tbjogador = jogador;
-
-                        jogo.tbJogoJogadorTime.Remove(jogoJogadorTime);
+                        db.tbJogoJogadorTime.Remove(jogoJogadorTime);
                     }
                 }
 
-                db.Entry(jogo).State = EntityState.Modified;
                 db.SaveChanges();
             }
 

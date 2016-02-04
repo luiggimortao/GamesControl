@@ -14,12 +14,18 @@ namespace GamesControl.Web
     
     public partial class tbJogoJogadorTime
     {
+        public tbJogoJogadorTime()
+        {
+            this.tbEstatisticaJogoJogadorTime = new HashSet<tbEstatisticaJogoJogadorTime>();
+        }
+    
         public int jogoId { get; set; }
         public int jogadorId { get; set; }
         public int timeId { get; set; }
     
-        public virtual tbjogador tbjogador { get; set; }
-        public virtual tbjogo tbjogo { get; set; }
-        public virtual tbtime tbtime { get; set; }
+        public virtual ICollection<tbEstatisticaJogoJogadorTime> tbEstatisticaJogoJogadorTime { get; set; }
+        public virtual tbJogador tbJogador { get; set; }
+        public virtual tbJogo tbJogo { get; set; }
+        public virtual tbTime tbTime { get; set; }
     }
 }

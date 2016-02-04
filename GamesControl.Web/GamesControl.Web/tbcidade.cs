@@ -12,18 +12,18 @@ namespace GamesControl.Web
     using System;
     using System.Collections.Generic;
     
-    public partial class tbcidade
+    public partial class tbCidade
     {
-        public tbcidade()
+        public tbCidade()
         {
-            this.tbtime = new HashSet<tbtime>();
-            this.tbjogador = new HashSet<tbjogador>();
+            this.tbTime = new HashSet<tbTime>();
+            this.tbJogador = new HashSet<tbJogador>();
         }
     
         public int cidadeId { get; set; }
         public string cidadeNome { get; set; }
     
-        public virtual ICollection<tbtime> tbtime { get; set; }
-        public virtual ICollection<tbjogador> tbjogador { get; set; }
+        public virtual ICollection<tbTime> tbTime { get; set; }
+        public virtual ICollection<tbJogador> tbJogador { get; set; }
     }
 }

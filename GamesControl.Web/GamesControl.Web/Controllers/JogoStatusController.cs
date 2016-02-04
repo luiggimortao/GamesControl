@@ -16,7 +16,7 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(db.tbjogostatus.ToList().OrderBy(x => x.jogoStatusId));
+            return View(db.tbJogoStatus.ToList().OrderBy(x => x.jogoStatusId));
         }
 
         public ActionResult Details(int? id)
@@ -25,12 +25,12 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);
-            if (tbjogostatus == null)
+            tbJogoStatus tbJogoStatus = db.tbJogoStatus.Find(id);
+            if (tbJogoStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(tbjogostatus);
+            return View(tbJogoStatus);
         }
 
         public ActionResult Create()
@@ -42,10 +42,10 @@ namespace GamesControl.Web.Controllers
         {
             try
             {
-                tbjogostatus jogostatus = new tbjogostatus();
+                tbJogoStatus jogostatus = new tbJogoStatus();
                 jogostatus.jogoStatusId = id;
                 jogostatus.jogoStatusDescricao = descricao;
-                db.tbjogostatus.Add(jogostatus);
+                db.tbJogoStatus.Add(jogostatus);
                 db.SaveChanges();
                 return PartialView();
             }
@@ -61,26 +61,26 @@ namespace GamesControl.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);
-            if (tbjogostatus == null)
+            tbJogoStatus tbJogoStatus = db.tbJogoStatus.Find(id);
+            if (tbJogoStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(tbjogostatus);
+            return View(tbJogoStatus);
         }
 
         public ActionResult EditConfirmed(int id, string descricao)
         {
             try
             {
-                tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);
+                tbJogoStatus tbJogoStatus = db.tbJogoStatus.Find(id);
                 
-                if (tbjogostatus == null)
+                if (tbJogoStatus == null)
                 {
                     throw new Exception(string.Format("|{0}|", "Status não encontrado!"));
                 }
-                tbjogostatus.jogoStatusDescricao = descricao;
-                db.Entry(tbjogostatus).State = EntityState.Modified;
+                tbJogoStatus.jogoStatusDescricao = descricao;
+                db.Entry(tbJogoStatus).State = EntityState.Modified;
                 db.SaveChanges();
                 return PartialView();
             }
@@ -92,8 +92,8 @@ namespace GamesControl.Web.Controllers
 
         public ActionResult DeleteConfirmed(int id)
         {
-            tbjogostatus tbjogostatus = db.tbjogostatus.Find(id);
-            db.tbjogostatus.Remove(tbjogostatus);
+            tbJogoStatus tbJogoStatus = db.tbJogoStatus.Find(id);
+            db.tbJogoStatus.Remove(tbJogoStatus);
             db.SaveChanges();
             return PartialView();
         }

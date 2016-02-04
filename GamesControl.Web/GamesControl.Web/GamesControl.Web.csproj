@@ -200,43 +200,43 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbarbitro.cs">
+    <Compile Include="tbArbitro.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbatributoestatistica.cs">
+    <Compile Include="tbAtributoestatistica.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tbCampeonato.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbcidade.cs">
+    <Compile Include="tbCidade.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbestatisticajogo.cs">
+    <Compile Include="tbEstatisticaJogoJogadorTime.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbjogador.cs">
+    <Compile Include="tbJogador.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbjogo.cs">
+    <Compile Include="tbJogo.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tbJogoJogadorTime.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbjogostatus.cs">
+    <Compile Include="tbJogoStatus.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tbPerfil.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbtime.cs">
+    <Compile Include="tbTime.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbusuario.cs">
+    <Compile Include="tbUsuario.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbusuariostatus.cs">
+    <Compile Include="tbUsuarioStatus.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
