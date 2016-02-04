@@ -27,7 +27,7 @@ namespace GamesControl.Web
     
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<tbArbitro> tbArbitro { get; set; }
-        public virtual DbSet<tbAtributoestatistica> tbAtributoestatistica { get; set; }
+        public virtual DbSet<tbAtributoEstatistica> tbAtributoEstatistica { get; set; }
         public virtual DbSet<tbCampeonato> tbCampeonato { get; set; }
         public virtual DbSet<tbCidade> tbCidade { get; set; }
         public virtual DbSet<tbEstatisticaJogoJogadorTime> tbEstatisticaJogoJogadorTime { get; set; }

@@ -165,6 +165,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CampenatoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\EstatisticaJogoJogadorTime.cs" />
     <Compile Include="Controllers\JogoJogador.cs" />
     <Compile Include="Controllers\TimeJogadorController.cs" />
     <Compile Include="Controllers\TimeController.cs" />
@@ -203,7 +204,7 @@
     <Compile Include="tbArbitro.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tbAtributoestatistica.cs">
+    <Compile Include="tbAtributoEstatistica.cs">
       <DependentUpon>EFDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tbCampeonato.cs">
@@ -379,6 +380,11 @@
     <Content Include="Views\JogoJogador\Add.cshtml" />
     <Content Include="Views\JogoJogador\Index.cshtml" />
     <Content Include="Views\JogoJogador\Remove.cshtml" />
+    <Content Include="Views\EstatisticaJogoJogadorTime\Add.cshtml" />
+    <Content Include="Views\EstatisticaJogoJogadorTime\Index.cshtml" />
+    <Content Include="Views\EstatisticaJogoJogadorTime\Remove.cshtml" />
+    <Content Include="Views\EstatisticaJogoJogadorTime\ListarEstatisticasTimeCasa.cshtml" />
+    <Content Include="Views\EstatisticaJogoJogadorTime\ListarEstatisticasTimeVisitante.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

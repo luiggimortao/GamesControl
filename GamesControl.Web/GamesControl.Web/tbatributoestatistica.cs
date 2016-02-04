@@ -12,9 +12,9 @@ namespace GamesControl.Web
     using System;
     using System.Collections.Generic;
     
-    public partial class tbAtributoestatistica
+    public partial class tbAtributoEstatistica
     {
-        public tbAtributoestatistica()
+        public tbAtributoEstatistica()
         {
             this.tbEstatisticaJogoJogadorTime = new HashSet<tbEstatisticaJogoJogadorTime>();
         }

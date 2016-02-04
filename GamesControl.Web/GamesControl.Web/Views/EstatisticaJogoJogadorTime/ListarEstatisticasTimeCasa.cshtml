@@ -1,0 +1,55 @@
+﻿@model IEnumerable<GamesControl.Web.tbEstatisticaJogoJogadorTime>
+<table id="tbDadosCasa">
+    <thead>
+        <tr>
+            <th width="20%" style="text-align:center;">Ações</th>
+            <th width="60%">
+                Estatística
+            </th>
+            <th width="20%">
+                Quantidade
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var estatistica in Model)
+        {
+            <tr>
+                <td align="center">
+                    <a onclick="ExcluirEstatistica(@estatistica.jogoId, @estatistica.timeId, @estatistica.jogadorId, @estatistica.atributoEstatisticaId);">Remover</a>
+                </td>
+                <td>
+                    @Html.Label(estatistica.tbAtributoEstatistica.atributoEstatisticaDescricao)
+                </td>
+                <td>
+                    @Html.Label(estatistica.estatisticaJogoQuantidade.ToString())
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#tbDadosCasa').dataTable({
+            "language": {
+                "paginate": { "first ": "Primeira", "previous": "Anterior", "next": "Próxima", "last": "Última" },
+                "emptyTable": "Consulta não retornou registros",
+                "info": "Exibindo de _START_ até _END_ de _TOTAL_ registros",
+                "infoEmpty": "Exibindo 0 registros",
+                "infoFiltered": "(filtrados do total de _MAX_ registros)",
+                "infoPostFix": "", "thousands": ",",
+                "lengthMenu": "Exibir _MENU_ registro(s) por página",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "search": "Filtrar:",
+                "zeroRecords": "Consulta não retornou registros",
+            },
+            "paging": false,
+            "info": false,
+            "bFilter": false
+        });
+
+    });
+
+</script>

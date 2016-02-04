@@ -20,9 +20,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tbAtributoestatistica">
-      <EntityTypeMapping TypeName="dbGameModel.tbAtributoestatistica">
-        <MappingFragment StoreEntitySet="tbAtributoestatistica">
+    <EntitySetMapping Name="tbAtributoEstatistica">
+      <EntityTypeMapping TypeName="dbGameModel.tbAtributoEstatistica">
+        <MappingFragment StoreEntitySet="tbAtributoEstatistica">
           <ScalarProperty Name="atributoEstatisticaId" ColumnName="atributoEstatisticaId" />
           <ScalarProperty Name="atributoEstatisticaDescricao" ColumnName="atributoEstatisticaDescricao" />
         </MappingFragment>

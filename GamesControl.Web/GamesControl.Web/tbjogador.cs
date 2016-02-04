@@ -16,7 +16,6 @@ namespace GamesControl.Web
     {
         public tbJogador()
         {
-            this.tbEstatisticaJogoJogadorTime = new HashSet<tbEstatisticaJogoJogadorTime>();
             this.tbJogoJogadorTime = new HashSet<tbJogoJogadorTime>();
             this.tbTime = new HashSet<tbTime>();
         }
@@ -28,7 +27,6 @@ namespace GamesControl.Web
         public bool jogadorAtivo { get; set; }
     
         public virtual tbCidade tbCidade { get; set; }
-        public virtual ICollection<tbEstatisticaJogoJogadorTime> tbEstatisticaJogoJogadorTime { get; set; }
         public virtual ICollection<tbJogoJogadorTime> tbJogoJogadorTime { get; set; }
         public virtual tbUsuario tbUsuario { get; set; }
         public virtual ICollection<tbTime> tbTime { get; set; }

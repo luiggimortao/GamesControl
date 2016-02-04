@@ -20,8 +20,7 @@ namespace GamesControl.Web
         public int atributoEstatisticaId { get; set; }
         public int estatisticaJogoQuantidade { get; set; }
     
-        public virtual tbAtributoestatistica tbAtributoestatistica { get; set; }
-        public virtual tbJogador tbJogador { get; set; }
+        public virtual tbAtributoEstatistica tbAtributoEstatistica { get; set; }
         public virtual tbJogoJogadorTime tbJogoJogadorTime { get; set; }
     }
 }
