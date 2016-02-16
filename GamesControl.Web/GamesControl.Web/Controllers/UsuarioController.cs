@@ -87,7 +87,7 @@ namespace GamesControl.Web.Controllers
                 tbUsuario usuario = new tbUsuario();
                 usuario.usuarioEmail = usuarioEmail;
                 usuario.usuarioNome = usuarioNome;
-                usuario.usuarioSenha = "123";
+                usuario.usuarioSenha = System.Web.Security.Membership.GeneratePassword(6, 2);
 
                 if (usuarioTelefone == "() -")
                 {

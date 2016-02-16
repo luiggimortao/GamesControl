@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Controle de campeonatos</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -14,6 +14,9 @@
     @Scripts.Render("~/bundles/dataTables")
     @Scripts.Render("~/bundles/site")
 </head>
+
+@{var usuarioLogado = GamesControl.Web.Comum.Autenticacao.GetUsuarioLogado();}
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -25,23 +28,26 @@
                 </button>
                 @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Cidade", "Index", "Cidade")</li>
-                            <li>@Html.ActionLink("Jogo Status", "Index", "JogoStatus")</li>
-                            <li>@Html.ActionLink("Usuário Status", "Index", "UsuarioStatus")</li>
-                            <li>@Html.ActionLink("Usuário", "Index", "Usuario")</li>
-                            <li>@Html.ActionLink("Time", "Index", "Time")</li>
-                            <li>@Html.ActionLink("Campeonato", "Index", "Campeonato")</li>
-                            <li>@Html.ActionLink("Jogo", "Index", "Jogo")</li>
-                        </ul>
-                    </li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+            @if (usuarioLogado != null && usuarioLogado.ListaPerfis.Contains((int)GamesControl.Web.Comum.Enuns.ePerfilUsuario.Administrador))
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Cidade", "Index", "Cidade")</li>
+                                <li>@Html.ActionLink("Jogo Status", "Index", "JogoStatus")</li>
+                                <li>@Html.ActionLink("Usuário Status", "Index", "UsuarioStatus")</li>
+                                <li>@Html.ActionLink("Usuário", "Index", "Usuario")</li>
+                                <li>@Html.ActionLink("Time", "Index", "Time")</li>
+                                <li>@Html.ActionLink("Campeonato", "Index", "Campeonato")</li>
+                                <li>@Html.ActionLink("Jogo", "Index", "Jogo")</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            }
         </div>
     </div>
     <div class="container body-content">
