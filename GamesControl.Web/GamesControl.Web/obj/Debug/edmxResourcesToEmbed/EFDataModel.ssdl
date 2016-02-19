@@ -143,6 +143,7 @@
     <Property Name="usuarioStatusId" Type="int" Nullable="false" />
     <Property Name="perfilId" Type="int" Nullable="false" />
     <Property Name="usuarioFoto" Type="varchar" MaxLength="300" />
+    <Property Name="usuarioDataSolicitacao" Type="datetime" />
   </EntityType>
   <EntityType Name="tbUsuarioStatus">
     <Key>

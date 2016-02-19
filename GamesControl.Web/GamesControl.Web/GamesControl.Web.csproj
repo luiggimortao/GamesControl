@@ -169,6 +169,7 @@
     <Compile Include="Controllers\JogoJogador.cs" />
     <Compile Include="Controllers\TimeJogadorController.cs" />
     <Compile Include="Controllers\TimeController.cs" />
+    <Compile Include="Controllers\AutorizacaoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\JogoController.cs" />
     <Compile Include="Controllers\UsuarioStatusController.cs" />
@@ -375,6 +376,9 @@
     <Content Include="Views\EstatisticaJogoJogadorTime\ListarEstatisticasTimeCasa.cshtml" />
     <Content Include="Views\EstatisticaJogoJogadorTime\ListarEstatisticasTimeVisitante.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Autenticacao\SolicitarAcesso.cshtml" />
+    <Content Include="Views\Autorizacao\ListarUsuariosPendentes.cshtml" />
+    <Content Include="Views\Autorizacao\AutorizarNegarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

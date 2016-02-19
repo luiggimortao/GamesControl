@@ -20,7 +20,8 @@ namespace GamesControl.Web.Comum
             OK = 1,
             PendenteAprovacao = 2,
             Inativo = 3,
-            Banido = 4
+            Banido = 4,
+            Negado = 5
         }
     }
 }

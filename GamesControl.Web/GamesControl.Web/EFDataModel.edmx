@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dbGameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dbGameModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -148,6 +148,7 @@
           <Property Name="usuarioStatusId" Type="int" Nullable="false" />
           <Property Name="perfilId" Type="int" Nullable="false" />
           <Property Name="usuarioFoto" Type="varchar" MaxLength="300" />
+          <Property Name="usuarioDataSolicitacao" Type="datetime" />
         </EntityType>
         <EntityType Name="tbUsuarioStatus">
           <Key>
@@ -499,8 +500,7 @@
             <End Role="tbUsuario" EntitySet="tbUsuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbGameModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -656,6 +656,7 @@
           <NavigationProperty Name="tbJogador" Relationship="Self.jogadorusuario" FromRole="tbUsuario" ToRole="tbJogador" />
           <NavigationProperty Name="tbUsuarioStatus" Relationship="Self.usuariousuariostatus" FromRole="tbUsuario" ToRole="tbUsuarioStatus" />
           <NavigationProperty Name="tbPerfil" Relationship="Self.tbPerfilUsuario" FromRole="tbUsuario" ToRole="tbPerfil" />
+          <Property Name="usuarioDataSolicitacao" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="tbUsuarioStatus">
           <Key>
@@ -1056,6 +1057,7 @@
           <EntitySetMapping Name="tbUsuario">
             <EntityTypeMapping TypeName="dbGameModel.tbUsuario">
               <MappingFragment StoreEntitySet="tbUsuario">
+                <ScalarProperty Name="usuarioDataSolicitacao" ColumnName="usuarioDataSolicitacao" />
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="usuarioEmail" ColumnName="usuarioEmail" />
                 <ScalarProperty Name="usuarioNome" ColumnName="usuarioNome" />

@@ -152,6 +152,7 @@
     <NavigationProperty Name="tbJogador" Relationship="Self.jogadorusuario" FromRole="tbUsuario" ToRole="tbJogador" />
     <NavigationProperty Name="tbUsuarioStatus" Relationship="Self.usuariousuariostatus" FromRole="tbUsuario" ToRole="tbUsuarioStatus" />
     <NavigationProperty Name="tbPerfil" Relationship="Self.tbPerfilUsuario" FromRole="tbUsuario" ToRole="tbPerfil" />
+    <Property Name="usuarioDataSolicitacao" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="tbUsuarioStatus">
     <Key>

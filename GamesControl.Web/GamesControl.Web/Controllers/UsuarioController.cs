@@ -121,7 +121,6 @@ namespace GamesControl.Web.Controllers
                         usuario.tbPerfil.Add(perfil);
                     }
                 }
-
                 db.tbUsuario.Add(usuario);
                 db.SaveChanges();
 
@@ -362,7 +361,7 @@ namespace GamesControl.Web.Controllers
 
         #region - Métodos -
 
-        private tbJogador AdicionarJogador(tbUsuario usuario, DateTime dataNascimento, int idCidade)
+        public tbJogador AdicionarJogador(tbUsuario usuario, DateTime dataNascimento, int idCidade)
         {
             tbJogador jogador = null;
             var jogadores = db.tbJogador.Where(x => x.tbUsuario.usuarioId == usuario.usuarioId);
@@ -394,7 +393,7 @@ namespace GamesControl.Web.Controllers
             return jogador;
         }
 
-        private tbArbitro AdicionarArbitro(tbUsuario usuario)
+        public tbArbitro AdicionarArbitro(tbUsuario usuario)
         {
             tbArbitro arbitro = new tbArbitro();
             arbitro.usuarioId = usuario.usuarioId;
@@ -405,7 +404,7 @@ namespace GamesControl.Web.Controllers
             return arbitro;
         }
 
-        private void ExcluirPerfis(int idUsuario)
+        public void ExcluirPerfis(int idUsuario)
         {
             var usuario = db.tbUsuario.Find(idUsuario);
             if (usuario != null)
@@ -419,7 +418,7 @@ namespace GamesControl.Web.Controllers
             db.SaveChanges();
         }
 
-        private void ExcluirJogadores(int idUsuario)
+        public void ExcluirJogadores(int idUsuario)
         {
             var jogadores = db.tbJogador.Where(x => x.usuarioId == idUsuario);
 
@@ -435,7 +434,7 @@ namespace GamesControl.Web.Controllers
             db.SaveChanges();
         }
 
-        private void ExcluirArbitros(int idUsuario)
+        public void ExcluirArbitros(int idUsuario)
         {
             var arbitros = db.tbArbitro.Where(x => x.usuarioId == idUsuario);
 
@@ -450,7 +449,7 @@ namespace GamesControl.Web.Controllers
             db.SaveChanges();
         }
 
-        private void ApagarArquivosUsuario(int idUsuario)
+        public void ApagarArquivosUsuario(int idUsuario)
         {
             string pattern = string.Format("{0}.*", idUsuario);
             foreach (string file in Directory.GetFiles(Server.MapPath(Constantes.CAMINHO_FOTOS), pattern))
