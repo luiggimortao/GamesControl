@@ -281,6 +281,7 @@
       <DependentUpon>EFDataModel.edmx</DependentUpon>
       <LastGenOutput>EFDataModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\Local 1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -313,8 +314,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Autenticacao\ForgotPassword.cshtml" />
-    <Content Include="Views\Autenticacao\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Autenticacao\Login.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />

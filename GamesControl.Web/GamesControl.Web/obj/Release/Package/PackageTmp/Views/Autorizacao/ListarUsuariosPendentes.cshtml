@@ -1,0 +1,122 @@
+﻿@model IEnumerable<GamesControl.Web.tbUsuario>
+
+@{
+    ViewBag.Title = "Usuários pendentes de acesso";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Usuários pendentes de acesso</h2>
+<br />
+<br />
+<table id="tbDados">
+    <thead>
+        <tr>
+            <th width="13%" style="text-align:center;">Ações</th>
+            <th width="25%">
+                Nome
+            </th>
+            <th width="25%">
+                Email
+            </th>
+            <th width="12%">
+                Data Solicitação
+            </th>
+            <th width="25%">
+                Perfis solicitados
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center">
+                    <a onclick="Autorizar(@item.usuarioId);">Autorizar</a> |
+                    <a onclick="Negar(@item.usuarioId);">Negar</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.usuarioNome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.usuarioEmail)
+                </td>
+                <td>
+                    @Html.ValueFor(modelItem => item.usuarioDataSolicitacao, GamesControl.Web.Comum.Constantes.DATA_PADRAO_RAZOR)
+                </td>
+                <td>
+                    @for (int indice = 0; indice < item.tbPerfil.Count; indice++)
+                    {
+                        var perfil = item.tbPerfil.ToList()[indice];
+                        @(indice == 0 ? perfil.perfilDescricao : (" | " + perfil.perfilDescricao));
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#tbDados').dataTable({
+            "language": {
+                "paginate": { "first ": "Primeira", "previous": "Anterior", "next": "Próxima", "last": "Última" },
+                "emptyTable": "Consulta não retornou registros",
+                "info": "Exibindo de _START_ até _END_ de _TOTAL_ registros",
+                "infoEmpty": "Exibindo 0 registros",
+                "infoFiltered": "(filtrados do total de _MAX_ registros)",
+                "infoPostFix": "", "thousands": ",",
+                "lengthMenu": "Exibir _MENU_ registro(s) por página",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "search": "Filtrar:",
+                "zeroRecords": "Consulta não retornou registros",
+            },
+        });
+
+        @if (!string.IsNullOrWhiteSpace(@ViewBag.Mensagem))
+        {
+            <text>
+        $.AlertDialog("@ViewBag.Mensagem", 'Mensagem', null, null);
+            </text>
+        }
+    });
+
+    function Autorizar(id) {
+        $.post('@Url.Action("AutorizarNegarUsuario", "Autorizacao")',
+        {
+            id: id,
+            autorizar: true
+        }).done(function (data) {
+
+            var url = '@Url.Action("ListarUsuariosPendentes", "Autorizacao", new { mensagem = "Usuário autorizado com sucesso!" })';
+            window.location.href = url;
+
+        }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+            var erro = XMLHttpRequest.responseText.split('|');
+            var erroTratado = erro[1];
+
+            $.ErrorDialog(erroTratado, null, null);
+        });
+    }
+
+    function Negar(id) {
+        $.post('@Url.Action("AutorizarNegarUsuario", "Autorizacao")',
+        {
+            id: id,
+            autorizar: false
+        }).done(function (data) {
+
+            var url = '@Url.Action("ListarUsuariosPendentes", "Autorizacao", new { mensagem = "Autorização NEGADA ao usuário com sucesso!" })';
+            window.location.href = url;
+
+        }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+            var erro = XMLHttpRequest.responseText.split('|');
+            var erroTratado = erro[1];
+
+            $.ErrorDialog(erroTratado, null, null);
+        });
+    }
+
+</script>

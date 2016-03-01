@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <p>
-                    @Html.ActionLink("Esqueceu sua senha?", "ForgotPassword")
+                    <a id="linkEsqueceuSenha">Esqueceu sua senha?</a>
                 </p>
                 <p>
                     @Html.ActionLink("Solicitar acesso", "SolicitarAcesso")
@@ -58,6 +58,11 @@
             if (!Consistir()) {
                 return false;
             }
+        });
+
+        $('#linkEsqueceuSenha').click(function () {
+
+            $.AlertDialog("Funcionalidade em construção! Solicite a um administrador que reinicie sua senha.", 'Mensagem', null, null);
         });
 
         @if (!string.IsNullOrWhiteSpace(@ViewBag.Mensagem))

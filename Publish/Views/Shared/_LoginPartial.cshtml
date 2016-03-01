@@ -1,0 +1,14 @@
+﻿@if (GamesControl.Web.Comum.Autenticacao.IsUsuarioLogado())
+{
+    using (Html.BeginForm("LogOff", "Autenticacao", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Olá, " + GamesControl.Web.Comum.Autenticacao.GetUsuarioLogado().Nome + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    </ul>
+    }
+}

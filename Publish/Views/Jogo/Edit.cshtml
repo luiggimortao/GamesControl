@@ -1,0 +1,188 @@
+﻿@model GamesControl.Web.tbJogo
+
+@{
+    ViewBag.Title = "Editar Jogo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Editar Jogo</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.jogoId)
+
+        <div class="form-group">
+            @Html.Label("Campeonato", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("jogoCampeonato", (SelectList)ViewBag.Campeonato, string.Empty, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Data", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.jogoData, null, "jogoData", new { htmlAttributes = new { @class = "form-control" }, maxLength = 10, @Value = Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO) })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Time Casa", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="timeCasa" class="form-control" id="timeCasa">
+                    <option value="" />
+                    @foreach (var time in (SelectList)ViewBag.TimeCasa)
+                    {
+                        if (time.Selected)
+                        {
+                            <option value="@time.Value" selected="selected">@time.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@time.Value">@time.Text</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Time Visitante", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="timeVisitante" class="form-control" id="timeVisitante">
+                    <option value="" />
+                    @foreach (var time in (SelectList)ViewBag.TimeVisitante)
+                    {
+                        if (time.Selected)
+                        {
+                            <option value="@time.Value" selected="selected">@time.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@time.Value">@time.Text</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("jogoStatus", (SelectList)ViewBag.Status, string.Empty, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="checkbox" id="chkCopiaTimeCasa" name="chkCopiaTimeCasa">&nbsp;Copiar jogadores do time da casa para este jogo?
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="checkbox" id="chkCopiaTimeVisitante" name="chkCopiaTimeVisitante">&nbsp;Copiar jogadores do time visitante para este jogo?
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnSalvar" type="button" value="Salvar" class="btn btn-default" />
+                <input id="btnEditarJogadores" type="button" value="Editar Jogadores" class="btn btn-default" />
+                <input id="btnEditarEstatisticas" type="button" value="Editar Estatísticas" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#jogoData").mask("99/99/9999");
+
+            $('#btnSalvar').click(function () {
+
+                if (!Consistir()) {
+                    return false;
+                }
+
+                $.post('@Url.Action("EditConfirmed", "Jogo")',
+                    {
+                        jogoId: $("#jogoId").val(),
+                        campeonatoId: $("#jogoCampeonato").val(),
+                        timeCasaId: $("#timeCasa").val(),
+                        timeVisitanteId: $("#timeVisitante").val(),
+                        jogoData: $("#jogoData").val(),
+                        statusId: $("#jogoStatus").val(),
+                        copiarJogadorTimeCasa: $("#chkCopiaTimeCasa").prop("checked"),
+                        copiarJogadorTimeVisitante: $("#chkCopiaTimeVisitante").prop("checked")
+                    }).done(function (data) {
+
+                        $.AlertDialog('Jogo alterado com sucesso!', 'Mensagem', null, null);
+
+                    }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                        var erro = XMLHttpRequest.responseText.split('|');
+                        var erroTratado = erro[1];
+
+                        $.ErrorDialog(erroTratado, null, null);
+                    });
+            });
+
+            $('#btnEditarJogadores').click(function () {
+
+                var url = '@Url.Action("Index", "JogoJogador", new { id = Model.jogoId })';
+                window.location.href = url;
+
+            });
+
+            $('#btnEditarEstatisticas').click(function () {
+
+                var url = '@Url.Action("Index", "EstatisticaJogoJogadorTime", new { id = Model.jogoId })';
+                window.location.href = url;
+
+            });
+
+        });
+
+        function Consistir() {
+            if ($.trim($("#jogoCampeonato").val()).length <= 0) {
+                $.AlertDialog("O campo 'Campeonato' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#jogoData").val()).length <= 0) {
+                $.AlertDialog("O campo 'Data' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#timeCasa").val()).length <= 0) {
+                $.AlertDialog("O campo 'Time Casa' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#timeVisitante").val()).length <= 0) {
+                $.AlertDialog("O campo 'Time Visitante' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#jogoStatus").val()).length <= 0) {
+                $.AlertDialog("O campo 'Status' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+}
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>
+
+

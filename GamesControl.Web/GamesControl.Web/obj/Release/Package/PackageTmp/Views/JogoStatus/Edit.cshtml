@@ -1,0 +1,83 @@
+﻿@model GamesControl.Web.tbJogoStatus
+
+@{
+    ViewBag.Title = "Editar Status de Jogos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Editar Status de Jogos</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.jogoStatusId, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" }, maxLength = 200 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Descrição", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.jogoStatusDescricao, new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnSalvar" type="button" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#btnSalvar').click(function () {
+
+                if (!Consistir()) {
+                    return false;
+                }
+
+                $.post('@Url.Action("EditConfirmed", "JogoStatus")',
+                {
+                    id: $("#jogoStatusId").val(),
+                    descricao: $("#jogoStatusDescricao").val()
+                }).done(function (data) {
+
+                    $.AlertDialog('Status de Jogo alterado com sucesso!', 'Mensagem', null, null);
+
+                }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                    var erro = XMLHttpRequest.responseText.split('|');
+                    var erroTratado = erro[1];
+
+                    $.ErrorDialog(erroTratado, null, null);
+                });
+            });
+        });
+
+        function Consistir() {
+            if ($.trim($("#jogoStatusDescricao").val()).length <= 0) {
+
+                $.AlertDialog("O campo 'Descrição' é obrigatório", 'Mensagem', null, null);
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+}
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>
+
+

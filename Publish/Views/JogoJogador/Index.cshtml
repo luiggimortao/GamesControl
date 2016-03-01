@@ -1,0 +1,268 @@
+﻿@model GamesControl.Web.tbJogo
+
+@{
+    ViewBag.Title = "Jogo " + Model.tbTime.timeNome + " x " + Model.tbTime1.timeNome + "(" + Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO) + ") - Edição de jogadores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Jogo @Model.tbTime.timeNome x @Model.tbTime1.timeNome (@Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO)) - Edição de jogadores</h2>
+<p>
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.jogoId, new { @id = "jogoId", @Name = "jogoId" })
+    <div class="form-horizontal row">
+        <div class="form-horizontal col-md-6">
+            @Html.HiddenFor(model => model.tbTime.timeId, new { @id = "timeCasaId", @Name = "timeCasaId" })
+            <div class="form-group">
+                <div class="col-md-8">
+                    @Model.tbTime.timeNome - Jogadores disponíveis
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-8">
+                    @Html.ListBox("jogadoresTimeCasa", (SelectList)ViewBag.JogadoresTimeCasa, new { htmlAttributes = new { @class = "form-control" }, id = "jogadoresTimeCasa", Multiple = "multiple", Size = 10, style = "width: 100%;max-width: 100%;" })
+                </div>
+                <div class="col-md-4">
+                    <a id="lnkAdicionarCasa" href="#">Adicionar</a>
+                </div>
+            </div>
+
+            <table id="tbDadosCasa">
+                <thead>
+                    <tr>
+                        <th width="20%" style="text-align:center;">Ações</th>
+                        <th width="80%">
+                            Nome
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var jogadorCasa in Model.tbJogoJogadorTime.Where(x => x.tbTime.timeId == Model.tbTime.timeId))
+                {
+                    <tr>
+                        <td align="center">
+                            <a onclick="ExcluirJogadorTime(@jogadorCasa.jogoId, @jogadorCasa.tbTime.timeId, @jogadorCasa.tbJogador.jogadorId);">Remover</a>
+                        </td>
+                        <td>
+                            @Html.Label(jogadorCasa.tbJogador.tbUsuario.usuarioNome)
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-horizontal col-md-6">
+            @Html.HiddenFor(model => model.tbTime1.timeId, new { @id = "timeVisitanteId", @Name = "timeVisitanteId" })
+            <div class="form-group">
+                <div class="col-md-8">
+                    @Model.tbTime1.timeNome - Jogadores disponíveis
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-8">
+                    @Html.ListBox("jogadoresTimeVisitante", (SelectList)ViewBag.JogadoresTimeVisitante, new { htmlAttributes = new { @class = "form-control" }, id = "jogadoresTimeVisitante", Multiple = "multiple", Size = 10, style = "width: 100%;max-width: 100%;" })
+                </div>
+                <div class="col-md-4">
+                    <a id="lnkAdicionarVisitante" href="#">Adicionar</a>
+                </div>
+            </div>
+
+            <table id="tbDadosVisitante">
+                <thead>
+                    <tr>
+                        <th width="20%" style="text-align:center;">Ações</th>
+                        <th width="80%">
+                            Nome
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var jogadorVisitante in Model.tbJogoJogadorTime.Where(x => x.tbTime.timeId == Model.tbTime1.timeId))
+                {
+                    <tr>
+                        <td align="center">
+                            <a onclick="ExcluirJogadorTime(@jogadorVisitante.jogoId, @jogadorVisitante.tbTime.timeId, @jogadorVisitante.tbJogador.jogadorId);">Remover</a>
+                        </td>
+                        <td>
+                            @Html.Label(jogadorVisitante.tbJogador.tbUsuario.usuarioNome)
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div class="col-md-12 row">
+        @Html.ActionLink("Voltar", "Index", "Jogo")
+    </div>
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#tbDadosCasa').dataTable({
+            "language": {
+                "paginate": { "first ": "Primeira", "previous": "Anterior", "next": "Próxima", "last": "Última" },
+                "emptyTable": "Consulta não retornou registros",
+                "info": "Exibindo de _START_ até _END_ de _TOTAL_ registros",
+                "infoEmpty": "Exibindo 0 registros",
+                "infoFiltered": "(filtrados do total de _MAX_ registros)",
+                "infoPostFix": "", "thousands": ",",
+                "lengthMenu": "Exibir _MENU_ registro(s) por página",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "search": "Filtrar:",
+                "zeroRecords": "Consulta não retornou registros",
+            },
+            "paging": false,
+            "info": false,
+            "bFilter": false
+        });
+
+        $('#tbDadosVisitante').dataTable({
+            "language": {
+                "paginate": { "first ": "Primeira", "previous": "Anterior", "next": "Próxima", "last": "Última" },
+                "emptyTable": "Consulta não retornou registros",
+                "info": "Exibindo de _START_ até _END_ de _TOTAL_ registros",
+                "infoEmpty": "Exibindo 0 registros",
+                "infoFiltered": "(filtrados do total de _MAX_ registros)",
+                "infoPostFix": "", "thousands": ",",
+                "lengthMenu": "Exibir _MENU_ registro(s) por página",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "search": "Filtrar:",
+                "zeroRecords": "Consulta não retornou registros",
+            },
+            "paging": false,
+            "info": false,
+            "bFilter": false
+        });
+
+        $('#lnkAdicionarCasa').click(function () {
+
+            if (!ConsistirAdicionarCasa()) {
+                return false;
+            }
+
+            var codigosSelecionados = "";
+            var selecionados = $('#jogadoresTimeCasa :selected');
+            selecionados.each(function () {
+
+                if (codigosSelecionados == "") {
+                    codigosSelecionados = $(this).val();
+                }
+                else {
+                    codigosSelecionados += "|" + $(this).val();
+                }
+            });
+
+            $.post('@Url.Action("Add", "JogoJogador")',
+            {
+                idJogo: $("#jogoId").val(),
+                idTime: $("#timeCasaId").val(),
+                listaJogadores: codigosSelecionados
+            }).done(function (data) {
+
+                var url = '@Url.Action("Index", "JogoJogador", new { id = Model.jogoId })';
+                window.location.href = url;
+
+            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                var erro = XMLHttpRequest.responseText.split('|');
+                var erroTratado = erro[1];
+
+                $.ErrorDialog(erroTratado, null, null);
+            });
+        });
+
+        $('#lnkAdicionarVisitante').click(function () {
+
+            if (!ConsistirAdicionarVisitante()) {
+                return false;
+            }
+
+            var codigosSelecionados = "";
+            var selecionados = $('#jogadoresTimeVisitante :selected');
+            selecionados.each(function () {
+
+                if (codigosSelecionados == "") {
+                    codigosSelecionados = $(this).val();
+                }
+                else {
+                    codigosSelecionados += "|" + $(this).val();
+                }
+            });
+
+            $.post('@Url.Action("Add", "JogoJogador")',
+            {
+                idJogo: $("#jogoId").val(),
+                idTime: $("#timeVisitanteId").val(),
+                listaJogadores: codigosSelecionados
+            }).done(function (data) {
+
+                var url = '@Url.Action("Index", "JogoJogador", new { id = Model.jogoId })';
+                window.location.href = url;
+
+            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                var erro = XMLHttpRequest.responseText.split('|');
+                var erroTratado = erro[1];
+
+                $.ErrorDialog(erroTratado, null, null);
+            });
+        });
+
+    });
+
+    function ConsistirAdicionarCasa() {
+
+        if ($('#jogadoresTimeCasa :selected').length <= 0) {
+            $.AlertDialog("Selecione o(os) jogador(es) que deseja adicionar para o time da casa.", 'Mensagem', null, null);
+            return false;
+        }
+
+        return true;
+    }
+
+    function ConsistirAdicionarVisitante() {
+
+        if ($('#jogadoresTimeVisitante :selected').length <= 0) {
+            $.AlertDialog("Selecione o(os) jogador(es) que deseja adicionar para o time visitante.", 'Mensagem', null, null);
+            return false;
+        }
+
+        return true;
+    }
+
+    function ExcluirJogadorTime(idJogo, idTime, idJogador) {
+
+        $.post('@Url.Action("Remove", "JogoJogador")',
+        {
+            idJogo: idJogo,
+            idTime: idTime,
+            listaJogadores: idJogador
+        }).done(function (data) {
+
+            var url = '@Url.Action("Index", "JogoJogador", new { id = Model.jogoId })';
+            window.location.href = url;
+
+        }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+            var erro = XMLHttpRequest.responseText.split('|');
+            var erroTratado = erro[1];
+
+            $.ErrorDialog(erroTratado, null, null);
+        });
+    }
+
+</script>

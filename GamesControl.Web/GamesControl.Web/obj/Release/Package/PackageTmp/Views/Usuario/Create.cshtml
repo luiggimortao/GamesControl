@@ -1,0 +1,240 @@
+﻿@model GamesControl.Web.Models.UsuarioViewModel
+
+@{
+    ViewBag.Title = "Incluir Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Incluir Usuário</h2>
+
+@using (Html.BeginForm("Create", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md-offset-1 col-md-5">
+                <div class="form-group">
+                    @Html.Label("Nome", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Usuario.usuarioNome, null, "usuarioNome", new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Usuario.usuarioEmail, null, "usuarioEmail", new { htmlAttributes = new { @class = "form-control" }, maxLength = 200 })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Celular", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Usuario.usuarioTelefone, null, "usuarioTelefone", new { htmlAttributes = new { @class = "form-control" }, maxLength = 15 })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Status", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownList("usuarioStatus", (SelectList)ViewBag.Status, string.Empty, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Perfil", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        <table>
+                            @foreach (var perfil in (SelectList)ViewBag.Perfil)
+                            {
+                                <tr>
+                                    <td><input type="checkbox" name="usuarioPerfil" value="@perfil.Value"></td>
+                                    <td>@perfil.Text</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+                <div id="divDataNascimento" class="form-group" style="display:none;">
+                    @Html.Label("Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Jogador.jogadorDataNascimento, null, "jogadorDataNascimento", new { htmlAttributes = new { @class = "form-control" }, maxLength = 10 })
+                    </div>
+                </div>
+
+                <div id="divCidade" class="form-group" style="display:none;">
+                    @Html.Label("Cidade", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownList("usuarioCidade", (SelectList)ViewBag.Cidade, string.Empty, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input id="btnSalvar" type="submit" value="Salvar" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <span>Selecione uma foto para o usuário.</span>
+                <br />
+                <br />
+                <div><img id="imgUpload" src="~/Content/Images/fotoVazia.png" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" style="cursor:pointer; width:220px; height:230px;" /></div>
+                <br />
+                Utilizar imagens de no máximo 2MB.
+                <input type='file' id="fileUpload" name="fileUpload" style="display:none;" />
+            </div>
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Voltar", "Index")
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            Limpar();
+
+            //Máscaras
+            $("#usuarioTelefone").mask("(99) 99999-9999");
+            $("#jogadorDataNascimento").mask("99/99/9999");
+
+            $('#imgUpload').click(function () {
+                $('#fileUpload').click();
+            });
+
+            $("#fileUpload").change(function () {
+                readURL(this);
+            });
+
+            $("[name=usuarioPerfil]").change(function () {
+
+                if ($(this).val() == @( (int) GamesControl.Web.Comum.Enuns.ePerfilUsuario.Jogador ))
+                {
+                    if (this.checked)
+                {
+                    $("#divDataNascimento").show();
+                    $("#divCidade").show();
+                }
+                else
+                {
+                    $("#divDataNascimento").hide();
+                    $("#divCidade").hide();
+                }
+            }
+            });
+
+        $('#btnSalvar').click(function () {
+
+            if (!Consistir()) {
+                return false;
+            }
+        });
+
+         @if (ViewBag.Incluido != null && ViewBag.Incluido == "S")
+        {
+            <text>
+        $.AlertDialog("Usuário incluído com sucesso!", "Mensagem", null, null);
+            </text>
+        }
+
+        });
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgUpload').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function Consistir() {
+
+            if ($.trim($("#usuarioTelefone").val()) == "() -") {
+                $("#usuarioTelefone").val("");
+            }
+
+            if ($.trim($("#jogadorDataNascimento").val()) == "//") {
+                $("#jogadorDataNascimento").val("");
+            }
+
+            if ($.trim($("#usuarioNome").val()).length <= 0) {
+                $.AlertDialog("O campo 'Nome' é obrigatório.", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#usuarioEmail").val()).length <= 0) {
+                $.AlertDialog("O campo 'Email' é obrigatório.", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($.trim($("#usuarioStatus").val()).length <= 0) {
+                $.AlertDialog("O campo 'Status' é obrigatório.", 'Mensagem', null, null);
+                return false;
+            }
+
+            if ($("[name=usuarioPerfil]:checked").length <= 0) {
+                $.AlertDialog("Selecionar pelo menos 1 'Perfil'.", 'Mensagem', null, null);
+                return false;
+            }
+
+            var retornaFalse = false;
+            $("[name=usuarioPerfil]:checked").each(function (index, value) {
+
+                if ($(this).val() == @( (int)GamesControl.Web.Comum.Enuns.ePerfilUsuario.Jogador)) {
+                    if ($.trim($("#jogadorDataNascimento").val()).length <= 0) {
+                    $.AlertDialog("Para o perfil 'Jogador' o campo 'Data de Nascimento' é obrigatório.", 'Mensagem', null, null);
+                    retornaFalse = true;
+                    return false;
+                }
+
+                if ($.trim($("#usuarioCidade").val()).length <= 0) {
+                    $.AlertDialog("Para o perfil 'Jogador' o campo 'Cidade' é obrigatório.", 'Mensagem', null, null);
+                    retornaFalse = true;
+                    return false;
+                }
+            }
+            });
+
+        if (retornaFalse)
+        {
+            return false;
+        }
+
+        if ($("#fileUpload").val().length > 0) {
+            var file_size = $('#fileUpload')[0].files[0].size
+            if (file_size > 2097152) {
+                $.AlertDialog("A foto para o usuário é maior que 2MB. Favor selecionar uma imagem menor.", 'Mensagem', null, null);
+                return false;
+            }
+        }
+
+        return true;
+        }
+
+        function Limpar() {
+
+            $('#imgUpload').attr('src', "/Content/Images/fotoVazia.png");
+            $("#usuarioEmail").val(''),
+            $("#usuarioNome").val(''),
+            $("#usuarioTelefone").val(''),
+            $("#usuarioStatus").val(''),
+            $("#usuarioPerfil").val('')
+            $("#fileUpload").val('');
+            $("#jogadorDataNascimento").val('');
+            $("#usuarioCidade").val('');
+        }
+
+    </script>
+}

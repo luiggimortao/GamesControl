@@ -1,0 +1,89 @@
+﻿@model IEnumerable<GamesControl.Web.tbUsuarioStatus>
+
+@{
+    ViewBag.Title = "Status dos Usuários";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Status dos Usuários</h2>
+
+<p>
+    @Html.ActionLink("Incluir", "Create")
+</p>
+<table id="tbDados">
+    <thead>
+        <tr>
+            <th width="15%" style="text-align:center;">Ações</th>
+            <th width="20%">
+                Id
+            </th>
+            <th width="65%">
+                Descrição
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center">
+                    @Html.ActionLink("Editar", "Edit", new { id = item.usuarioStatusId }) |
+                    <a onclick="Excluir(@item.usuarioStatusId, '@item.usuarioStatusDescricao');">Excluir</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.usuarioStatusId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.usuarioStatusDescricao)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#tbDados').dataTable({
+            "language": {
+                "paginate": { "first ": "Primeira", "previous": "Anterior", "next": "Próxima", "last": "Última" },
+                "emptyTable": "Consulta não retornou registros",
+                "info": "Exibindo de _START_ até _END_ de _TOTAL_ registros",
+                "infoEmpty": "Exibindo 0 registros",
+                "infoFiltered": "(filtrados do total de _MAX_ registros)",
+                "infoPostFix": "", "thousands": ",",
+                "lengthMenu": "Exibir _MENU_ registro(s) por página",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "search": "Filtrar:",
+                "zeroRecords": "Consulta não retornou registros",
+            },
+
+        });
+
+    });
+
+    function Excluir(id, descricao) {
+        $.ConfirmDialog('Confirma a exclusão do status\'' + descricao + '\' ?',
+                        'Confirmação',
+                        function () {
+
+                            $.post('@Url.Action("DeleteConfirmed", "UsuarioStatus")',
+                            {
+                                id: id
+                            }).done(function (data) {
+                                var url = '@Url.Action("Index", "UsuarioStatus")';
+                                window.location.href = url;
+                            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                                var erro = XMLHttpRequest.responseText.split('|');
+                                var erroTratado = erro[1];
+
+                                $.ErrorDialog(erroTratado, null, null);
+                            });
+                        },
+                        function () { return false; },
+                        null);
+    }
+
+</script>

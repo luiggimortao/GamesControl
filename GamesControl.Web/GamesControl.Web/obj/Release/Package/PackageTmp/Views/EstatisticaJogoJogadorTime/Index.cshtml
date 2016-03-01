@@ -1,0 +1,284 @@
+﻿@model GamesControl.Web.tbJogo
+
+@{
+    ViewBag.Title = Model.tbTime.timeNome + " x " + Model.tbTime1.timeNome + "(" + Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO) + ") - Edição de jogadores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Jogo @Model.jogoData.ToString(GamesControl.Web.Comum.Constantes.DATA_PADRAO) - Edição de Estatísticas</h2>
+<p>
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.jogoId, new { @id = "jogoId", @Name = "jogoId" })
+    <div class="form-horizontal row">
+        <div class="form-horizontal col-md-5">
+            @Html.HiddenFor(model => model.tbTime.timeId, new { @id = "timeCasaId", @Name = "timeCasaId" })
+
+            <div class="form-group col-md-12 text-center">
+                <h2>@Model.tbTime.timeNome</h2>
+            </div>
+            <div class="form-group">
+                @Html.Label(Model.tbTime.timeNome + "/Jogador", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.DropDownList("jogadoresTimeCasa", (SelectList)ViewBag.JogadoresTimeCasa, string.Empty, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Estatística", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.DropDownList("estatisticasTimeCasa", (SelectList)ViewBag.Estatisticas, string.Empty, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Quantidade", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox("estatisticaTimeCasaQuantidade", "", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="col-md-offset-4  col-md-8">
+                <a id="lnkAdicionarCasa" href="#">Adicionar</a>
+            </div>
+
+            <div id="divEstatisticasCasa" class="col-md-12">
+
+            </div>
+        </div>
+
+        <div class="form-horizontal col-md-1 text-right">
+            <h2>x</h2>
+        </div>
+
+        <div class="form-horizontal col-md-5">
+            @Html.HiddenFor(model => model.tbTime1.timeId, new { @id = "timeVisitanteId", @Name = "timeVisitanteId" })
+
+            <div class="form-group col-md-12 text-center">
+                <h2>@Model.tbTime1.timeNome</h2>
+            </div>
+            <div class="form-group">
+                @Html.Label(Model.tbTime1.timeNome + "/Jogador", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.DropDownList("jogadoresTimeVisitante", (SelectList)ViewBag.JogadoresTimeVisitante, string.Empty, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Estatística", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.DropDownList("estatisticasTimeVisitante", (SelectList)ViewBag.Estatisticas, string.Empty, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Quantidade", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox("estatisticaTimeVisitanteQuantidade", "", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="col-md-offset-4  col-md-8">
+                <a id="lnkAdicionarVisitante" href="#">Adicionar</a>
+            </div>
+
+            <div id="divEstatisticasVisitante" class="col-md-12">
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="col-md-12 row">
+        @Html.ActionLink("Voltar", "Index", "Jogo")
+    </div>
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        CarregarListaTimeCasa();
+
+        $("#jogadoresTimeCasa").change(function () {
+
+            CarregarListaTimeCasa();
+        });
+
+        $("#jogadoresTimeVisitante").change(function () {
+
+            CarregarListaTimeVisitante();
+        });
+
+        $('#lnkAdicionarCasa').click(function () {
+
+            if (!ConsistirAdicionarCasa()) {
+                return false;
+            }
+
+            $.post('@Url.Action("Add", "EstatisticaJogoJogadorTime")',
+            {
+                idJogo: $("#jogoId").val(),
+                idTime: $("#timeCasaId").val(),
+                idJogador: $("#jogadoresTimeCasa").val(),
+                idAtributoEstatistica: $("#estatisticasTimeCasa").val(),
+                quantidade: $("#estatisticaTimeCasaQuantidade").val(),
+            }).done(function (data) {
+
+                CarregarListaTimeCasa();
+
+            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                var erro = XMLHttpRequest.responseText.split('|');
+                var erroTratado = erro[1];
+
+                $.ErrorDialog(erroTratado, null, null);
+            });
+        });
+
+        $('#lnkAdicionarVisitante').click(function () {
+
+            if (!ConsistirAdicionarVisitante()) {
+                return false;
+            }
+
+            $.post('@Url.Action("Add", "EstatisticaJogoJogadorTime")',
+            {
+                idJogo: $("#jogoId").val(),
+                idTime: $("#timeVisitanteId").val(),
+                idJogador: $("#jogadoresTimeVisitante").val(),
+                idAtributoEstatistica: $("#estatisticasTimeVisitante").val(),
+                quantidade: $("#estatisticaTimeVisitanteQuantidade").val(),
+            }).done(function (data) {
+
+                CarregarListaTimeVisitante();
+
+            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                var erro = XMLHttpRequest.responseText.split('|');
+                var erroTratado = erro[1];
+
+                $.ErrorDialog(erroTratado, null, null);
+            });
+        });
+    });
+
+    function CarregarListaTimeCasa() {
+
+        $("#divEstatisticasCasa").html('');
+
+        if ($("#jogadoresTimeCasa").val()) {
+
+            $.post('@Url.Action("ListarEstatisticasTimeCasa", "EstatisticaJogoJogadorTime")',
+            {
+                idJogo: $("#jogoId").val(),
+                idTime: $("#timeCasaId").val(),
+                idJogador: $("#jogadoresTimeCasa").val()
+            }).done(function (data) {
+
+                $("#divEstatisticasCasa").html(data);
+
+            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                var erro = XMLHttpRequest.responseText.split('|');
+                var erroTratado = erro[1];
+
+                $.ErrorDialog(erroTratado, null, null);
+            });
+        }
+    }
+
+    function CarregarListaTimeVisitante() {
+
+        $("#divEstatisticasVisitante").html('');
+
+        if ($("#jogadoresTimeVisitante").val()) {
+
+            $.post('@Url.Action("ListarEstatisticasTimeVisitante", "EstatisticaJogoJogadorTime")',
+            {
+                idJogo: $("#jogoId").val(),
+                idTime: $("#timeVisitanteId").val(),
+                idJogador: $("#jogadoresTimeVisitante").val()
+            }).done(function (data) {
+
+                $("#divEstatisticasVisitante").html(data);
+
+            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                var erro = XMLHttpRequest.responseText.split('|');
+                var erroTratado = erro[1];
+
+                $.ErrorDialog(erroTratado, null, null);
+            });
+        }
+    }
+
+    function ConsistirAdicionarCasa() {
+
+        if ($.trim($("#jogadoresTimeCasa").val()).length <= 0) {
+
+            $.AlertDialog("Selecione o jogador para incluir a estatística.", 'Mensagem', null, null);
+            return false;
+        }
+
+        if ($.trim($("#estatisticasTimeCasa").val()).length <= 0) {
+
+            $.AlertDialog("Selecione a estatística que deseja incluir.", 'Mensagem', null, null);
+            return false;
+        }
+
+        if ($.trim($("#estatisticaTimeCasaQuantidade").val()).length <= 0) {
+
+            $.AlertDialog("Selecione a quantidade para a estatística que deseja incluir.", 'Mensagem', null, null);
+            return false;
+        }
+
+        return true;
+    }
+
+    function ConsistirAdicionarVisitante() {
+
+        if ($.trim($("#jogadoresTimeVisitante").val()).length <= 0) {
+
+            $.AlertDialog("Selecione o jogador para incluir a estatística.", 'Mensagem', null, null);
+            return false;
+        }
+
+        if ($.trim($("#estatisticasTimeVisitante").val()).length <= 0) {
+
+            $.AlertDialog("Selecione a estatística que deseja incluir.", 'Mensagem', null, null);
+            return false;
+        }
+
+        if ($.trim($("#estatisticaTimeVisitanteQuantidade").val()).length <= 0) {
+
+            $.AlertDialog("Selecione a quantidade para a estatística que deseja incluir.", 'Mensagem', null, null);
+            return false;
+        }
+
+        return true;
+    }
+
+    function ExcluirEstatistica(idJogo, idTime, idJogador, idAtributoEstatistica) {
+
+        $.post('@Url.Action("Remove", "EstatisticaJogoJogadorTime")',
+        {
+            idJogo: idJogo,
+            idTime: idTime,
+            idJogador: idJogador,
+            idAtributoEstatistica: idAtributoEstatistica
+        }).done(function (data) {
+
+            CarregarListaTimeCasa();
+            CarregarListaTimeVisitante();
+
+        }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+            var erro = XMLHttpRequest.responseText.split('|');
+            var erroTratado = erro[1];
+
+            $.ErrorDialog(erroTratado, null, null);
+        });
+    }
+
+</script>

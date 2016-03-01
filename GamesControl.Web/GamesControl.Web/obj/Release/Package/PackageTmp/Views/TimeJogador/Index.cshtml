@@ -1,0 +1,154 @@
+﻿@model GamesControl.Web.tbTime
+
+@{
+    ViewBag.Title = Model.timeNome + " - Edição de jogadores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Html.DisplayFor(model => model.timeNome) - Edição de jogadores</h2>
+
+<p>
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.timeId, new { @id = "timeId", @Name = "timeId" })
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-4">
+                Jogadores disponíveis
+            </div>
+            <div class="col-md-8">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.ListBox("jogadoresTime", (SelectList)ViewBag.Jogadores, new { htmlAttributes = new { @class = "form-control" }, id = "jogadoresTime", Multiple = "multiple", Size = 10, style = "width: 100%;max-width: 100%;" })
+            </div>
+            <div class="col-md-8">
+                <a id="lnkAdicionar" href="#">Adicionar</a>
+            </div>
+        </div>
+    </div>
+
+    <table id="tbDados">
+        <thead>
+            <tr>
+                <th width="20%" style="text-align:center;">Ações</th>
+                <th width="80%">
+                    Nome
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var jogador in Model.tbJogador)
+            {
+                <tr>
+                    <td align="center">
+                        <a onclick="Excluir(@jogador.jogadorId);">Remover</a>
+                    </td>
+                    <td>
+                        @Html.Label(jogador.tbUsuario.usuarioNome)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <div>
+        @Html.ActionLink("Voltar", "Index","Time")
+    </div>
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#tbDados').dataTable({
+            "language": {
+                "paginate": { "first ": "Primeira", "previous": "Anterior", "next": "Próxima", "last": "Última" },
+                "emptyTable": "Consulta não retornou registros",
+                "info": "Exibindo de _START_ até _END_ de _TOTAL_ registros",
+                "infoEmpty": "Exibindo 0 registros",
+                "infoFiltered": "(filtrados do total de _MAX_ registros)",
+                "infoPostFix": "", "thousands": ",",
+                "lengthMenu": "Exibir _MENU_ registro(s) por página",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "search": "Filtrar:",
+                "zeroRecords": "Consulta não retornou registros",
+            },
+            "paging": false,
+            "info": false,
+            "bFilter": false
+        });
+
+        $('#lnkAdicionar').click(function () {
+
+            if (!ConsistirAdicionar()) {
+                return false;
+            }
+
+            var codigosSelecionados = "";
+            var selecionados = $('#jogadoresTime :selected');
+            selecionados.each(function () {
+
+                if (codigosSelecionados == "") {
+                    codigosSelecionados = $(this).val();
+                }
+                else {
+                    codigosSelecionados += "|" + $(this).val();
+                }
+            });
+
+            $.post('@Url.Action("Add", "TimeJogador")',
+            {
+                idTime: $("#timeId").val(),
+                listaJogadores: codigosSelecionados
+            }).done(function (data) {
+
+                var url = '@Url.Action("Index", "TimeJogador", new { id = Model.timeId })';
+                window.location.href = url;
+
+            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                var erro = XMLHttpRequest.responseText.split('|');
+                var erroTratado = erro[1];
+
+                $.ErrorDialog(erroTratado, null, null);
+            });
+        });
+
+    });
+
+    function ConsistirAdicionar() {
+
+        if ($('#jogadoresTime :selected').length <= 0) {
+            $.AlertDialog("Selecione o(os) usuário(s) que deseja adicionar.", 'Mensagem', null, null);
+            return false;
+        }
+
+        return true;
+    }
+
+    function Excluir(idJogador) {
+
+        $.post('@Url.Action("Remove", "TimeJogador")',
+        {
+            idTime: $("#timeId").val(),
+            listaJogadores: idJogador
+        }).done(function (data) {
+
+            var url = '@Url.Action("Index", "TimeJogador", new { id = Model.timeId })';
+            window.location.href = url;
+
+        }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+            var erro = XMLHttpRequest.responseText.split('|');
+            var erroTratado = erro[1];
+
+            $.ErrorDialog(erroTratado, null, null);
+        });
+    }
+
+</script>

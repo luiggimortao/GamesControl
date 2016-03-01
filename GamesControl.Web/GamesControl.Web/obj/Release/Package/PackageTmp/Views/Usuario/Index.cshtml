@@ -1,0 +1,95 @@
+﻿@model IEnumerable<GamesControl.Web.tbUsuario>
+
+@{
+    ViewBag.Title = "Usuários";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Usuários</h2>
+
+<p>
+    @Html.ActionLink("Incluir", "Create")
+</p>
+<table id="tbDados">
+    <thead>
+        <tr>
+            <th width="20%" style="text-align:center;">Ações</th>
+            <th width="35%">
+                Nome
+            </th>
+            <th width="35%">
+                Email
+            </th>
+            <th width="10%">
+                Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center">
+                    @Html.ActionLink("Detalhar", "Detail", new { id = item.usuarioId }) |
+                    @Html.ActionLink("Editar", "Edit", new { id = item.usuarioId }) |
+                    <a onclick="Excluir(@item.usuarioId, '@item.usuarioNome');">Excluir</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.usuarioNome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.usuarioEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tbUsuarioStatus.usuarioStatusDescricao)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#tbDados').dataTable({
+            "language": {
+                "paginate": { "first ": "Primeira", "previous": "Anterior", "next": "Próxima", "last": "Última" },
+                "emptyTable": "Consulta não retornou registros",
+                "info": "Exibindo de _START_ até _END_ de _TOTAL_ registros",
+                "infoEmpty": "Exibindo 0 registros",
+                "infoFiltered": "(filtrados do total de _MAX_ registros)",
+                "infoPostFix": "", "thousands": ",",
+                "lengthMenu": "Exibir _MENU_ registro(s) por página",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "search": "Filtrar:",
+                "zeroRecords": "Consulta não retornou registros",
+            },
+
+        });
+
+    });
+
+    function Excluir(id, nome) {
+        $.ConfirmDialog('Confirma a exclusão do usuário \'' + nome + '\' ?',
+                        'Confirmação',
+                        function () {
+
+                            $.post('@Url.Action("DeleteConfirmed", "Usuario")',
+                            {
+                                id: id
+                            }).done(function (data) {
+                                var url = '@Url.Action("Index", "Usuario")';
+                                window.location.href = url;
+                            }).error(function (XMLHttpRequest, textStatus, errorThrow) {
+
+                                var erro = XMLHttpRequest.responseText.split('|');
+                                var erroTratado = erro[1];
+
+                                $.ErrorDialog(erroTratado, null, null);
+                            });
+                        },
+                        function () { return false; },
+                        null);
+    }
+
+</script>

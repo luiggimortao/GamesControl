@@ -1,0 +1,90 @@
+﻿@model GamesControl.Web.Models.UsuarioLogadoViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+        <br />
+        <br />
+        <br />
+        <h2>@ViewBag.Title.</h2>
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Autenticacao", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Informe seu email e senha para logar.</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("Email", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Senha", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Senha, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Senha, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnLogin" type="submit" value="Log in" class="btn btn-default" />
+                    </div>
+                </div>
+                <p>
+                    <a id="linkEsqueceuSenha">Esqueceu sua senha?</a>
+                </p>
+                <p>
+                    @Html.ActionLink("Solicitar acesso", "SolicitarAcesso")
+                </p>
+            }
+        </section>
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#btnLogin').click(function () {
+
+            if (!Consistir()) {
+                return false;
+            }
+        });
+
+        $('#linkEsqueceuSenha').click(function () {
+
+            $.AlertDialog("Funcionalidade em construção! Solicite a um administrador que reinicie sua senha.", 'Mensagem', null, null);
+        });
+
+        @if (!string.IsNullOrWhiteSpace(@ViewBag.Mensagem))
+        {
+            <text>
+        $.AlertDialog("@ViewBag.Mensagem", 'Mensagem', null, null);
+        </text>
+        }
+    });
+
+    function Consistir() {
+        if ($.trim($("#Email").val()).length <= 0) {
+            $.AlertDialog("O campo 'Email' é obrigatório", 'Mensagem', null, null);
+            return false;
+        }
+
+        if ($.trim($("#Senha").val()).length <= 0) {
+            $.AlertDialog("O campo 'Senha' é obrigatório", 'Mensagem', null, null);
+            return false;
+        }
+
+        return true;
+    }
+
+</script>
